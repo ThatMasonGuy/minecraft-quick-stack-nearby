@@ -60,6 +60,10 @@
 - Slot rules currently apply to the same main-inventory source slots that quick
   stack unloads today. Locked slots are skipped, and keep counts leave the
   configured number of items in that slot while still allowing the rest to move.
+- The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
+  client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
+  override so TempestStudios config creation was exercised without touching the
+  real user app-data folder.
 
 ## Research Conclusions
 
@@ -82,17 +86,16 @@
    sync the project page/icon metadata, tag `v0.1.0`, and create the GitHub
    release.
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Exercise the slot-rule request path and op range commands in focused
-   dedicated-server/client smoke checks before packaging `0.2.0`.
-4. Decide whether `0.2.0` should add a server world-identity profile handshake
+3. Decide whether `0.2.0` should add a server world-identity profile handshake
    for multiplayer servers that rotate worlds behind one address, matching the
    optional InventorySort profile refinement.
-5. Package `0.2.0` after final local smoke evidence is captured.
-6. Decide whether a later release should include hotbar stacks, carried
+4. Do a manual in-game visual pass on the right-click rules screen before any
+   public `0.2.0` publish.
+5. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-7. Implement the smallest compat wrapper set from
+6. Implement the smallest compat wrapper set from
    `docs/compatibility-research.md`, starting with `1.21.9-1.21.10`.
-8. Promote only future smoke-passed profile groups into
+7. Promote only future smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
 
 ## Verification Log
@@ -137,3 +140,9 @@
   `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
   workspace-local Gradle cache/temp paths for sandbox compatibility; built and
   verified `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.
+- Passed after final `0.2.0` packaging:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=1.21.11" --no-daemon --console=plain`
+  with workspace-local Gradle cache/temp paths and `APPDATA` redirected to
+  `.smoke-appdata`; emitted both `QUICKSTACKNEARBY_SMOKE_TEST_PASS` and
+  `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`, with
+  `selfTestItemsMoved=48`.

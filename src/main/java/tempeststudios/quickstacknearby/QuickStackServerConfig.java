@@ -88,7 +88,6 @@ public final class QuickStackServerConfig {
             if (loaded != null) {
                 config = loaded;
                 normalize();
-                save();
                 return;
             }
         } catch (Exception e) {
@@ -100,7 +99,6 @@ public final class QuickStackServerConfig {
                     if (loaded != null) {
                         config = loaded;
                         normalize();
-                        save();
                         return;
                     }
                 } catch (Exception backupError) {

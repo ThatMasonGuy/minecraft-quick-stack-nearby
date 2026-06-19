@@ -13,6 +13,8 @@
   scoped TempestStudios storage, slot locks, and per-slot keep counts.
 - Quick-stack requests now send the active scoped slot rules so the server-side
   movement engine leaves locked or keep-counted source slots alone.
+- Avoided rewriting the server config file during normal startup loads; it now
+  writes on first creation, recovery, or command-driven changes.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the
   InventorySort checkpoint, CI, Modrinth, profile, and documentation workflow.
 - Copied `AGENTS.md` word-for-word from InventorySort as requested.
