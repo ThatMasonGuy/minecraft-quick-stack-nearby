@@ -48,6 +48,10 @@
 - The working tree is now on `0.2.0` development. The first client UI slice
   replaces the tiny quick-stack glyph with a chest-and-arrow icon and adds the
   InventorySort-style recipe-book render bridge for button repositioning.
+- The server config slice now creates
+  `TempestStudios/QuickStackNearby/server_config.json` and exposes op-only
+  `/quickstacknearby range`, `/quickstacknearby range <horizontal> <vertical>`,
+  and `/quickstacknearby reload` commands, with `/qsn` aliases.
 
 ## Research Conclusions
 
@@ -72,9 +76,11 @@
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
 3. Build the `0.2.0` slot-lock UI: copy InventorySort's rule screen pattern,
    change the accent color, and add per-slot keep counts.
-4. Copy InventorySort's shared TempestStudios data namespace/storage approach
-   for client slot rules and server/player config.
-5. Add op commands for configurable quick-stack range.
+4. Build the remaining client slot-rule storage on top of the shared
+   TempestStudios namespace helper so world/server/account-scoped keep counts
+   do not collide.
+5. Exercise the new op range commands in a dedicated-server smoke test once the
+   v0.2.0 UI slice is complete.
 6. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
 7. Implement the smallest compat wrapper set from
@@ -110,6 +116,10 @@
   reported `selfTestItemsMoved=48`, and wrote
   `build/modrinth/upload-plan.json`.
 - Passed after starting `0.2.0`:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain` with workspace-local
+  Gradle cache/temp paths for sandbox compatibility; built and verified
+  `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.
+- Passed after adding server range config and commands:
   `.\gradlew.bat buildAllMods --no-daemon --console=plain` with workspace-local
   Gradle cache/temp paths for sandbox compatibility; built and verified
   `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.

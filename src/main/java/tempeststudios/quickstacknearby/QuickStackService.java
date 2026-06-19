@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 public final class QuickStackService {
-    private static final int HORIZONTAL_RADIUS = 8;
-    private static final int VERTICAL_RADIUS = 4;
-
     private QuickStackService() {
     }
 
@@ -41,9 +38,12 @@ public final class QuickStackService {
         ServerLevel level = player.level();
         BlockPos center = player.blockPosition();
         List<ScannedContainer> scannedContainers = new ArrayList<>();
+        QuickStackServerConfig config = QuickStackServerConfig.getInstance();
+        int horizontalRadius = config.horizontalRadius();
+        int verticalRadius = config.verticalRadius();
 
-        BlockPos min = center.offset(-HORIZONTAL_RADIUS, -VERTICAL_RADIUS, -HORIZONTAL_RADIUS);
-        BlockPos max = center.offset(HORIZONTAL_RADIUS, VERTICAL_RADIUS, HORIZONTAL_RADIUS);
+        BlockPos min = center.offset(-horizontalRadius, -verticalRadius, -horizontalRadius);
+        BlockPos max = center.offset(horizontalRadius, verticalRadius, horizontalRadius);
         for (BlockPos candidate : BlockPos.betweenClosed(min, max)) {
             BlockPos position = candidate.immutable();
             if (!level.isLoaded(position)) {

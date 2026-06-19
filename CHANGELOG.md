@@ -7,6 +7,8 @@
   icon.
 - Added an InventorySort-style recipe-book render bridge so the quick-stack
   button refreshes position when vanilla shifts the inventory screen.
+- Added shared TempestStudios app-data storage for server config and op-only
+  commands to inspect, update, and reload the quick-stack scan range.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the
   InventorySort checkpoint, CI, Modrinth, profile, and documentation workflow.
 - Copied `AGENTS.md` word-for-word from InventorySort as requested.

@@ -28,6 +28,19 @@ types.
 Hotbar, armor, offhand, and carried shulker contents are intentionally left
 alone for the first public review build.
 
+## Commands
+
+Ops can inspect or change the nearby-container scan range:
+
+```text
+/quickstacknearby range
+/quickstacknearby range <horizontal> <vertical>
+/quickstacknearby reload
+```
+
+`/qsn` is available as a shorter alias. Range settings are persisted in the
+shared TempestStudios app-data folder.
+
 Other Minecraft version profiles remain candidates in `COMPATIBILITY.md` and
 `gradle/version-profiles/README.md` until compatibility work and smoke evidence
 prove their release targets.
