@@ -1,0 +1,95 @@
+name: compatibility validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      minecraft_version_profile:
+        description: 'Minecraft version profile to validate'
+        required: true
+        type: string
+        default: '26.x'
+      validation_task:
+        description: 'Gradle task to run for the selected profile'
+        required: true
+        type: choice
+        default: buildAllMods
+        options:
+          - printVersionProfile
+          - buildAllMods
+      gradle_java_version:
+        description: 'Java version used to run Gradle'
+        required: true
+        type: choice
+        default: '25'
+        options:
+          - '25'
+          - '21'
+          - '17'
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: setup jdk 21 toolchain
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+      - name: setup jdk 17 toolchain
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: setup jdk 25 toolchain
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+      - name: select gradle jdk 17
+        if: ${{ inputs.gradle_java_version == '17' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: select gradle jdk 21
+        if: ${{ inputs.gradle_java_version == '21' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+      - name: select gradle jdk 25
+        if: ${{ inputs.gradle_java_version == '25' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: print java runtime
+        run: java -version
+      - name: print selected profile
+        run: >
+          ./gradlew printVersionProfile
+          -Pminecraft_version_profile=${{ inputs.minecraft_version_profile }}
+          --no-daemon
+          --console=plain
+      - name: validate selected profile
+        run: >
+          ./gradlew ${{ inputs.validation_task }}
+          -Pminecraft_version_profile=${{ inputs.minecraft_version_profile }}
+          --no-daemon
+          --console=plain
+      - name: capture validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Compatibility Validation
+          path: |
+            build/release/
+            build/reports/
+            modules/*/build/reports/

@@ -1,0 +1,1061 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' apply false
+	id 'net.fabricmc.fabric-loom' apply false
+	id 'maven-publish'
+}
+
+def versionProfileName = providers.gradleProperty('minecraft_version_profile')
+		.orElse(providers.gradleProperty('target_minecraft_version'))
+		.orElse('1.21.11')
+		.get()
+def versionProfileFile = file("gradle/version-profiles/${versionProfileName}.properties")
+if (!versionProfileFile.isFile()) {
+	throw new GradleException("Unknown Minecraft version profile '${versionProfileName}'. Add ${versionProfileFile}.")
+}
+def versionProfile = new Properties()
+versionProfileFile.withInputStream { versionProfile.load(it) }
+
+[
+		'minecraft_version',
+		'loader_version',
+		'loom_version',
+		'fabric_api_version',
+		'java_version'
+].each { key ->
+	if (!versionProfile.getProperty(key)) {
+		throw new GradleException("Minecraft version profile '${versionProfileName}' is missing ${key}.")
+	}
+}
+
+def profileProperty = { String key, String defaultValue ->
+	def value = versionProfile.getProperty(key)
+	return value != null && !value.isBlank() ? value.trim() : defaultValue
+}
+def listProperty = { String key, String defaultValue ->
+	def value = findProperty(key)
+	(value != null ? value : defaultValue)
+			.toString()
+			.split(',')
+			.collect { it.trim() }
+			.findAll { !it.isEmpty() }
+}
+def selectedMinecraftVersion = versionProfile.getProperty('minecraft_version').trim()
+
+ext.minecraft_version_profile = versionProfileName
+ext.minecraft_version_profile_id = profileProperty('profile_id', versionProfileName)
+ext.minecraft_version = selectedMinecraftVersion
+ext.loader_version = versionProfile.getProperty('loader_version').trim()
+ext.loom_version = versionProfile.getProperty('loom_version').trim()
+ext.fabric_api_version = versionProfile.getProperty('fabric_api_version').trim()
+ext.target_java_version = versionProfile.getProperty('java_version') as int
+ext.minecraft_dependency = profileProperty('minecraft_dependency', "~${selectedMinecraftVersion}")
+ext.compat_group = profileProperty('compat_group', minecraft_version_profile_id)
+ext.modrinth_game_versions = profileProperty('modrinth_game_versions', selectedMinecraftVersion)
+		.split(',')
+		.collect { it.trim() }
+		.findAll { !it.isEmpty() }
+ext.unobfuscated_minecraft = profileProperty('unobfuscated_minecraft', 'false').toBoolean()
+ext.loom_plugin_id = unobfuscated_minecraft ? 'net.fabricmc.fabric-loom' : 'net.fabricmc.fabric-loom-remap'
+ext.fabric_dependency_configuration = unobfuscated_minecraft ? 'implementation' : 'modImplementation'
+ext.release_jar_task_name = unobfuscated_minecraft ? 'jar' : 'remapJar'
+
+apply plugin: loom_plugin_id
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// Loom adds the essential Fabric/Minecraft repositories automatically.
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"quick-stack-nearby" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir "src/compat/${compat_group}/main/java"
+		}
+		resources {
+			srcDir "src/compat/${compat_group}/main/resources"
+		}
+	}
+	client {
+		java {
+			srcDir "src/compat/${compat_group}/client/java"
+		}
+		resources {
+			srcDir "src/compat/${compat_group}/client/resources"
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	if (!unobfuscated_minecraft) {
+		mappings loom.officialMojangMappings()
+	}
+	add(fabric_dependency_configuration, "net.fabricmc:fabric-loader:${loader_version}")
+	add(fabric_dependency_configuration, "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+}
+
+processResources {
+	def resourceProperties = [
+			version: project.version,
+			minecraft_version: minecraft_version,
+			loader_version: loader_version,
+			fabric_api_version: fabric_api_version,
+			java_version: target_java_version,
+			mixin_compatibility_level: "JAVA_${target_java_version}",
+			minecraft_dependency: minecraft_dependency,
+			minecraft_version_profile_id: minecraft_version_profile_id,
+			compat_group: compat_group,
+			modrinth_game_versions: modrinth_game_versions.join(',')
+	]
+
+	inputs.properties(resourceProperties)
+
+	filesMatching("fabric.mod.json") {
+		expand(resourceProperties)
+	}
+	filesMatching("*.mixins.json") {
+		expand(resourceProperties)
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = target_java_version
+}
+
+tasks.withType(JavaExec).configureEach {
+	javaLauncher = javaToolchains.launcherFor {
+		languageVersion = JavaLanguageVersion.of(target_java_version)
+	}
+	jvmArgs('-Xmx2G')
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(target_java_version)
+	}
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.toVersion(target_java_version)
+	targetCompatibility = JavaVersion.toVersion(target_java_version)
+}
+
+jar {
+	inputs.property "archivesName", project.base.archivesName
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}" }
+	}
+	from("LICENSE-GPL-3.0") {
+		rename { "${it}_${inputs.properties.archivesName}" }
+	}
+}
+
+def supportedMinecraftVersionProfiles = listProperty(
+		'supported_minecraft_version_profiles',
+		minecraft_version_profile
+)
+def candidateMinecraftVersionProfiles = listProperty(
+		'candidate_minecraft_version_profiles',
+		''
+)
+def validationMinecraftVersionProfiles = (supportedMinecraftVersionProfiles + candidateMinecraftVersionProfiles).unique()
+def smokeTestRequiredMinecraftVersionProfiles = listProperty(
+		'smoke_test_required_minecraft_version_profiles',
+		supportedMinecraftVersionProfiles.join(',')
+)
+def releaseOutputDirectory = layout.buildDirectory.dir("release/${minecraft_version_profile_id}")
+def releaseJarTaskProvider = tasks.named(release_jar_task_name)
+def releaseJarFile = releaseJarTaskProvider.flatMap { it.archiveFile }
+def gradleWrapperExecutable = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
+		? 'gradlew.bat'
+		: './gradlew'
+def useSmokeTestXvfb = (findProperty('quickstacknearby_smoke_xvfb') ?: 'false').toString().toBoolean()
+def useSmokeTestNestedNoDaemon = (findProperty('quickstacknearby_smoke_nested_no_daemon') ?: 'true').toString().toBoolean()
+def selectedSmokeProfileFilters = listProperty('quickstacknearby_smoke_profiles', '') as Set
+def selectedSmokeGameVersionFilters = listProperty('quickstacknearby_smoke_game_versions', '') as Set
+def selectedSmokeInstallSetFilters = listProperty('quickstacknearby_smoke_install_sets', '') as Set
+
+def loadVersionProfile = { String profileName ->
+	def profileFile = file("gradle/version-profiles/${profileName}.properties")
+	if (!profileFile.isFile()) {
+		throw new GradleException("Unknown Minecraft version profile '${profileName}'. Add ${profileFile}.")
+	}
+	def profile = new Properties()
+	profileFile.withInputStream { profile.load(it) }
+	return profile
+}
+
+def profileIdFor = { String profileName, Properties profile ->
+	def value = profile.getProperty('profile_id')
+	return value != null && !value.isBlank() ? value.trim() : profileName
+}
+
+def profileGameVersionsFor = { Properties profile ->
+	def selectedVersion = profile.getProperty('minecraft_version')
+	def value = profile.getProperty('modrinth_game_versions') ?: selectedVersion
+	return value.toString()
+			.split(',')
+			.collect { it.trim() }
+			.findAll { !it.isEmpty() }
+}
+
+def safeTaskSuffix = { String value ->
+	value.replaceAll(/[^A-Za-z0-9]/, '_')
+}
+
+def profileBuildTaskName = { String taskPrefix, String profile ->
+	"${taskPrefix}${safeTaskSuffix(profile)}"
+}
+
+def registerProfileBuildTasks = { List<String> profiles, String taskPrefix, String taskGroup, String descriptionPrefix ->
+	def previousTask = null
+	profiles.collect { profile ->
+		def taskName = profileBuildTaskName(taskPrefix, profile)
+		def taskProvider = tasks.register(taskName, Exec) {
+			group = taskGroup
+			description = "${descriptionPrefix} ${profile}."
+			commandLine gradleWrapperExecutable,
+					'buildRelease',
+					"-Pminecraft_version_profile=${profile}",
+					'--no-daemon',
+					'--console=plain'
+		}
+		if (previousTask != null) {
+			def predecessor = previousTask
+			taskProvider.configure {
+				mustRunAfter predecessor
+			}
+		}
+		previousTask = taskProvider
+		return taskProvider
+	}
+}
+
+def supportedProfileBuildTasks = registerProfileBuildTasks(
+		supportedMinecraftVersionProfiles,
+		'buildMinecraft',
+		'build',
+		'Builds and verifies the release jar for supported Minecraft version profile'
+)
+
+def validationProfileBuildTasks = registerProfileBuildTasks(
+		validationMinecraftVersionProfiles,
+		'validateMinecraft',
+		'verification',
+		'Builds and verifies the release jar for validation Minecraft version profile'
+)
+
+tasks.register('collectReleaseJar', Copy) {
+	group = 'build'
+	description = 'Collects the active profile release jar into build/release/<profile_id>.'
+	dependsOn releaseJarTaskProvider
+
+	from(releaseJarFile)
+	into releaseOutputDirectory
+
+	doFirst {
+		delete releaseOutputDirectory
+	}
+}
+
+tasks.register('verifyReleaseMetadata') {
+	group = 'verification'
+	description = 'Verifies the active profile release jar metadata and required assets.'
+	dependsOn tasks.named('collectReleaseJar')
+
+	doLast {
+		def releaseJarName = releaseJarFile.get().asFile.name
+		def releaseJar = releaseOutputDirectory.get().file(releaseJarName).asFile
+		if (!releaseJar.isFile()) {
+			throw new GradleException("Missing release jar: ${releaseJar}")
+		}
+		if (modrinth_game_versions.isEmpty()) {
+			throw new GradleException("Profile ${minecraft_version_profile} has no modrinth_game_versions.")
+		}
+
+		def entries = [] as Set
+		def readEntryText = { java.util.zip.ZipFile zip, String entryName ->
+			def entry = zip.getEntry(entryName)
+			if (entry == null) {
+				throw new GradleException("${releaseJar.name} is missing ${entryName}")
+			}
+			zip.getInputStream(entry).withCloseable { stream ->
+				return stream.getText('UTF-8')
+			}
+		}
+
+		def fabricJsonText
+		new java.util.zip.ZipFile(releaseJar).withCloseable { zip ->
+			def entryEnumeration = zip.entries()
+			while (entryEnumeration.hasMoreElements()) {
+				entries.add(entryEnumeration.nextElement().name)
+			}
+			fabricJsonText = readEntryText(zip, 'fabric.mod.json')
+		}
+
+		if (fabricJsonText.contains('${')) {
+			throw new GradleException("${releaseJar.name} contains unexpanded resource placeholders.")
+		}
+
+		def fabricMetadata = new groovy.json.JsonSlurper().parseText(fabricJsonText)
+		def expectedJavaDependency = ">=${target_java_version}"
+		def expectedLicense = 'LGPL-3.0-or-later'
+		def expectedBundledLicenses = [
+				"LICENSE_${project.base.archivesName.get()}".toString(),
+				"LICENSE-GPL-3.0_${project.base.archivesName.get()}".toString()
+		]
+
+		if (fabricMetadata.id != 'quick-stack-nearby') {
+			throw new GradleException("${releaseJar.name} declares mod id ${fabricMetadata.id}, expected quick-stack-nearby.")
+		}
+		if (fabricMetadata.version != project.version.toString()) {
+			throw new GradleException("${releaseJar.name} declares version ${fabricMetadata.version}, expected ${project.version}.")
+		}
+		if (fabricMetadata.license != expectedLicense) {
+			throw new GradleException("${releaseJar.name} declares license ${fabricMetadata.license}, expected ${expectedLicense}.")
+		}
+		if (fabricMetadata.environment != '*') {
+			throw new GradleException("${releaseJar.name} declares environment ${fabricMetadata.environment}, expected *.")
+		}
+		if (!(fabricMetadata.entrypoints?.main ?: []).contains('tempeststudios.quickstacknearby.QuickStackNearby')) {
+			throw new GradleException("${releaseJar.name} is missing the common Quick Stack Nearby entrypoint.")
+		}
+		if (!(fabricMetadata.entrypoints?.client ?: []).contains('tempeststudios.quickstacknearby.QuickStackNearbyClient')) {
+			throw new GradleException("${releaseJar.name} is missing the client Quick Stack Nearby entrypoint.")
+		}
+		if (fabricMetadata.depends.fabricloader != ">=${loader_version}") {
+			throw new GradleException("${releaseJar.name} declares Fabric Loader dependency ${fabricMetadata.depends.fabricloader}, expected >=${loader_version}.")
+		}
+		if (fabricMetadata.depends.minecraft != minecraft_dependency) {
+			throw new GradleException("${releaseJar.name} declares Minecraft dependency ${fabricMetadata.depends.minecraft}, expected ${minecraft_dependency}.")
+		}
+		if (fabricMetadata.depends.java != expectedJavaDependency) {
+			throw new GradleException("${releaseJar.name} declares Java dependency ${fabricMetadata.depends.java}, expected ${expectedJavaDependency}.")
+		}
+		if (fabricMetadata.depends['fabric-api'] != '*') {
+			throw new GradleException("${releaseJar.name} declares Fabric API dependency ${fabricMetadata.depends['fabric-api']}, expected *.")
+		}
+		if (!fabricMetadata.icon || !entries.contains(fabricMetadata.icon.toString())) {
+			throw new GradleException("${releaseJar.name} declares missing icon ${fabricMetadata.icon}.")
+		}
+		expectedBundledLicenses.each { licenseEntry ->
+			if (!entries.contains(licenseEntry)) {
+				throw new GradleException("${releaseJar.name} is missing bundled license ${licenseEntry}.")
+			}
+		}
+
+		println "Verified release metadata: ${releaseJar}"
+		println "  License: ${expectedLicense}"
+		println "  Minecraft dependency: ${minecraft_dependency}"
+		println "  Java dependency: ${expectedJavaDependency}"
+		println "  Modrinth game versions: ${modrinth_game_versions.join(', ')}"
+	}
+}
+
+tasks.register('buildRelease') {
+	group = 'build'
+	description = 'Builds, collects, and verifies the active Minecraft version profile release jar.'
+	dependsOn tasks.named('build')
+	dependsOn tasks.named('verifyReleaseMetadata')
+}
+
+tasks.register('buildAllMods') {
+	group = 'build'
+	description = 'Builds the active Quick Stack Nearby release jar. Kept for InventorySort-compatible workflow commands.'
+	dependsOn tasks.named('buildRelease')
+}
+
+tasks.register('printVersionProfile') {
+	group = 'help'
+	description = 'Prints the active Minecraft/Fabric build profile.'
+
+	doLast {
+		println "Minecraft version profile: ${minecraft_version_profile}"
+		println "Profile id: ${minecraft_version_profile_id}"
+		println "Minecraft: ${minecraft_version}"
+		println "Minecraft dependency: ${minecraft_dependency}"
+		println "Modrinth game versions: ${modrinth_game_versions.join(', ')}"
+		println "Fabric Loader: ${loader_version}"
+		println "Fabric API: ${fabric_api_version}"
+		println "Loom: ${loom_version}"
+		println "Loom plugin: ${loom_plugin_id}"
+		println "Unobfuscated Minecraft: ${unobfuscated_minecraft}"
+		println "Java release: ${target_java_version}"
+		println "Gradle JVM: ${System.getProperty('java.version')} (${System.getProperty('java.home')})"
+		println "Compat group: ${compat_group}"
+		println "Release jar task: ${release_jar_task_name}"
+		println "Release output: ${releaseOutputDirectory.get().asFile}"
+	}
+}
+
+tasks.register('buildAllVersions') {
+	group = 'build'
+	description = 'Builds every supported Minecraft version profile.'
+	dependsOn supportedProfileBuildTasks
+}
+
+tasks.register('buildValidationVersions') {
+	group = 'verification'
+	description = 'Builds every supported and candidate Minecraft version profile.'
+	dependsOn validationProfileBuildTasks
+
+	doFirst {
+		println "Validation profiles: ${validationMinecraftVersionProfiles.join(', ')}"
+	}
+}
+
+tasks.register('listVersionProfiles') {
+	group = 'help'
+	description = 'Lists supported and candidate Minecraft version profiles.'
+
+	doLast {
+		println "Active profile: ${minecraft_version_profile}"
+		println "Supported profiles: ${supportedMinecraftVersionProfiles.join(', ')}"
+		println "Candidate profiles: ${candidateMinecraftVersionProfiles.join(', ')}"
+		candidateMinecraftVersionProfiles.each { profileName ->
+			def profile = loadVersionProfile(profileName)
+			println "  - ${profileName}: profile_id=${profile.getProperty('profile_id', profileName)}, compat_group=${profile.getProperty('compat_group', profileName)}, minecraft=${profile.getProperty('minecraft_version')}"
+		}
+	}
+}
+
+tasks.register('verifySmokeTestMatrix') {
+	group = 'verification'
+	description = 'Verifies supported profiles have passing smoke-test records and candidate profiles are tracked.'
+
+	doLast {
+		def smokeFile = file('gradle/smoke-tests.json')
+		if (!smokeFile.isFile()) {
+			throw new GradleException("Missing smoke-test matrix: ${smokeFile}")
+		}
+
+		def smokeMatrix = new groovy.json.JsonSlurper().parse(smokeFile)
+		if (smokeMatrix.schema_version != 1) {
+			throw new GradleException("Unsupported smoke-test matrix schema: ${smokeMatrix.schema_version}")
+		}
+		def profilesNode = smokeMatrix.profiles ?: [:]
+		def validStatuses = ['pass', 'pending', 'fail'] as Set
+
+		smokeTestRequiredMinecraftVersionProfiles.each { profileName ->
+			def profile = loadVersionProfile(profileName)
+			def profileId = profileIdFor(profileName, profile)
+			def smokeProfile = profilesNode[profileId]
+			if (!smokeProfile) {
+				throw new GradleException("Smoke-test matrix is missing required profile '${profileId}'.")
+			}
+
+			profileGameVersionsFor(profile).each { gameVersion ->
+				def result = smokeProfile.game_versions ? smokeProfile.game_versions[gameVersion] : null
+				if (!result) {
+					throw new GradleException("Smoke-test matrix is missing required ${profileId} / ${gameVersion}.")
+				}
+				if (!validStatuses.contains(result.status)) {
+					throw new GradleException("Smoke-test matrix has invalid status '${result.status}' for ${profileId} / ${gameVersion}.")
+				}
+				if (result.status != 'pass') {
+					throw new GradleException("Supported profile '${profileId}' cannot publish ${gameVersion}; smoke status is '${result.status}'.")
+				}
+				if (!result.tested_at || !result.method) {
+					throw new GradleException("Passing smoke record for ${profileId} / ${gameVersion} must include tested_at and method.")
+				}
+			}
+		}
+
+		candidateMinecraftVersionProfiles.each { profileName ->
+			def profile = loadVersionProfile(profileName)
+			def profileId = profileIdFor(profileName, profile)
+			def smokeProfile = profilesNode[profileId]
+			if (!smokeProfile) {
+				throw new GradleException("Smoke-test matrix is missing candidate profile '${profileId}'. Add pending records before CI validation.")
+			}
+
+			profileGameVersionsFor(profile).each { gameVersion ->
+				def result = smokeProfile.game_versions ? smokeProfile.game_versions[gameVersion] : null
+				if (!result) {
+					throw new GradleException("Smoke-test matrix is missing candidate ${profileId} / ${gameVersion}. Add a pending/pass/fail record.")
+				}
+				if (!validStatuses.contains(result.status)) {
+					throw new GradleException("Smoke-test matrix has invalid status '${result.status}' for ${profileId} / ${gameVersion}.")
+				}
+				if (result.status == 'pass' && (!result.tested_at || !result.method)) {
+					throw new GradleException("Passing smoke record for ${profileId} / ${gameVersion} must include tested_at and method.")
+				}
+				if (result.status != 'pass') {
+					println "Candidate profile '${profileId}' for Minecraft ${gameVersion} is tracked as '${result.status}' and remains non-publishable."
+				}
+			}
+		}
+	}
+}
+
+def smokeInstallSets = [
+		[
+				id         : 'quick-stack-nearby-client-only',
+				taskSuffix : 'ClientOnly',
+				kind       : 'client',
+				launchTask : ':smokelaunch:runClient',
+				requiresXvfb: true,
+				passMarker : 'QUICKSTACKNEARBY_SMOKE_TEST_PASS',
+				description: 'Quick Stack Nearby client jar only'
+		],
+		[
+				id         : 'quick-stack-nearby-server-only',
+				taskSuffix : 'ServerOnly',
+				kind       : 'server',
+				launchTask : ':smokelaunch:runServer',
+				requiresXvfb: false,
+				passMarker : 'QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS',
+				description: 'Quick Stack Nearby jar on a dedicated Fabric server'
+		]
+]
+def clientSmokeInstallSets = smokeInstallSets.findAll { it.kind == 'client' }
+def serverSmokeInstallSets = smokeInstallSets.findAll { it.kind == 'server' }
+
+def selectedSmokeFiltersConfigured = !selectedSmokeProfileFilters.isEmpty()
+		|| !selectedSmokeGameVersionFilters.isEmpty()
+		|| !selectedSmokeInstallSetFilters.isEmpty()
+
+def filteredSmokeProfiles = { List<String> profiles ->
+	if (selectedSmokeProfileFilters.isEmpty()) {
+		return profiles
+	}
+	return profiles.findAll { profileName ->
+		def profile = loadVersionProfile(profileName)
+		def profileId = profileIdFor(profileName, profile)
+		selectedSmokeProfileFilters.contains(profileName) || selectedSmokeProfileFilters.contains(profileId)
+	}
+}
+
+def filteredSmokeGameVersions = { Properties profile ->
+	def gameVersions = profileGameVersionsFor(profile)
+	if (selectedSmokeGameVersionFilters.isEmpty()) {
+		return gameVersions
+	}
+	return gameVersions.findAll { selectedSmokeGameVersionFilters.contains(it) }
+}
+
+def filteredSmokeInstallSets = { List<Map> installSets ->
+	if (selectedSmokeInstallSetFilters.isEmpty()) {
+		return installSets
+	}
+	return installSets.findAll {
+		selectedSmokeInstallSetFilters.contains(it.id) || selectedSmokeInstallSetFilters.contains(it.taskSuffix)
+	}
+}
+
+def registerSmokeTasks = { List<String> profiles, String taskPrefix, String buildTaskPrefix, boolean applySelectionFilters, List<Map> installSets ->
+	def smokeTasks = []
+	def previousSmokeTask = null
+	def profilesForSmoke = applySelectionFilters ? filteredSmokeProfiles(profiles) : profiles
+	def installSetsForSmoke = applySelectionFilters ? filteredSmokeInstallSets(installSets) : installSets
+
+	profilesForSmoke.each { profileName ->
+		def profile = loadVersionProfile(profileName)
+		def profileId = profileIdFor(profileName, profile)
+		def releaseJarDirectory = layout.buildDirectory.dir("release/${profileId}")
+		def buildTaskName = profileBuildTaskName(buildTaskPrefix, profileName)
+		def gameVersionsForSmoke = applySelectionFilters ? filteredSmokeGameVersions(profile) : profileGameVersionsFor(profile)
+
+		gameVersionsForSmoke.each { gameVersion ->
+			installSetsForSmoke.each { installSet ->
+				def taskName = "${taskPrefix}${safeTaskSuffix(profileName)}On${safeTaskSuffix(gameVersion)}${installSet.taskSuffix}"
+				def modListFile = layout.buildDirectory.file("smoke-mod-lists/${profileId}/${gameVersion}/${installSet.id}.txt")
+				def smokeLogFile = layout.buildDirectory.file("smoke-logs/${profileId}/${gameVersion}/${installSet.id}.log")
+				def smokeOutput = new ByteArrayOutputStream()
+				def runArguments = [
+						gradleWrapperExecutable,
+						installSet.launchTask,
+						"-Pminecraft_version_profile=${gameVersion}",
+						'-Pquickstacknearby_smoke_test=true',
+						"-Pquickstacknearby_smoke_release_profile=${profileId}",
+						"-Pquickstacknearby_smoke_install_set=${installSet.id}",
+						"-Pquickstacknearby_smoke_mods=@${modListFile.get().asFile.absolutePath}"
+				]
+				if (useSmokeTestNestedNoDaemon) {
+					runArguments.add('--no-daemon')
+				}
+				runArguments.add('--console=plain')
+
+				def smokeTask = tasks.register(taskName, Exec) {
+					group = 'verification'
+					description = "Launches Minecraft ${gameVersion} with ${installSet.description} from profile ${profileId}."
+					dependsOn tasks.named(buildTaskName)
+
+					if (useSmokeTestXvfb && installSet.requiresXvfb) {
+						commandLine((['xvfb-run', '-a'] + runArguments) as String[])
+					} else {
+						commandLine(runArguments as String[])
+					}
+					standardOutput = smokeOutput
+					errorOutput = smokeOutput
+					ignoreExitValue = true
+
+					doFirst {
+						def releaseDir = releaseJarDirectory.get().asFile
+						def releaseJar = new File(releaseDir, "${project.base.archivesName.get()}-${version}.jar")
+						if (!releaseJar.isFile()) {
+							throw new GradleException("Smoke test ${taskName} is missing release jar: ${releaseJar}")
+						}
+
+						def modList = modListFile.get().asFile
+						modList.parentFile.mkdirs()
+						modList.text = releaseJar.absolutePath + System.lineSeparator()
+					}
+
+					doLast {
+						def outputText = smokeOutput.toString('UTF-8')
+						def logFile = smokeLogFile.get().asFile
+						logFile.parentFile.mkdirs()
+						logFile.text = outputText
+						print outputText
+
+						def exitValue = executionResult.get().exitValue
+						if (exitValue != 0) {
+							throw new GradleException("Smoke test ${taskName} failed with exit code ${exitValue}. Log: ${logFile}")
+						}
+						if (!outputText.contains(installSet.passMarker)) {
+							throw new GradleException("Smoke test ${taskName} did not print ${installSet.passMarker}. Log: ${logFile}")
+						}
+					}
+				}
+
+				if (previousSmokeTask != null) {
+					def predecessor = previousSmokeTask
+					smokeTask.configure {
+						mustRunAfter predecessor
+					}
+				}
+				previousSmokeTask = smokeTask
+				smokeTasks.add(smokeTask)
+			}
+		}
+	}
+
+	return smokeTasks
+}
+
+def supportedSmokeTasks = registerSmokeTasks(
+		supportedMinecraftVersionProfiles,
+		'smokeSupportedMinecraft',
+		'buildMinecraft',
+		false,
+		smokeInstallSets
+)
+
+def supportedClientSmokeTasks = registerSmokeTasks(
+		supportedMinecraftVersionProfiles,
+		'smokeSupportedClientMinecraft',
+		'buildMinecraft',
+		false,
+		clientSmokeInstallSets
+)
+
+def supportedServerSmokeTasks = registerSmokeTasks(
+		supportedMinecraftVersionProfiles,
+		'smokeSupportedServerMinecraft',
+		'buildMinecraft',
+		false,
+		serverSmokeInstallSets
+)
+
+def validationSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeValidationMinecraft',
+		'validateMinecraft',
+		false,
+		smokeInstallSets
+)
+
+def validationClientSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeValidationClientMinecraft',
+		'validateMinecraft',
+		false,
+		clientSmokeInstallSets
+)
+
+def validationServerSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeValidationServerMinecraft',
+		'validateMinecraft',
+		false,
+		serverSmokeInstallSets
+)
+
+def selectedSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeSelectedMinecraft',
+		'validateMinecraft',
+		true,
+		smokeInstallSets
+)
+
+def selectedClientSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeSelectedClientMinecraft',
+		'validateMinecraft',
+		true,
+		clientSmokeInstallSets
+)
+
+def selectedServerSmokeTasks = registerSmokeTasks(
+		validationMinecraftVersionProfiles,
+		'smokeSelectedServerMinecraft',
+		'validateMinecraft',
+		true,
+		serverSmokeInstallSets
+)
+
+tasks.register('smokeTestValidationClients') {
+	group = 'verification'
+	description = 'Launches exact Minecraft clients with the packaged release jar for each validation profile/game version.'
+	dependsOn validationClientSmokeTasks
+}
+
+tasks.register('smokeTestValidationServers') {
+	group = 'verification'
+	description = 'Launches exact dedicated Minecraft servers with the packaged release jar for each validation profile/game version.'
+	dependsOn validationServerSmokeTasks
+}
+
+tasks.register('smokeTestValidation') {
+	group = 'verification'
+	description = 'Launches exact Minecraft clients and dedicated servers with the packaged release jar for each validation profile/game version.'
+	dependsOn validationSmokeTasks
+}
+
+tasks.register('smokeTestSupportedClients') {
+	group = 'verification'
+	description = 'Launches exact Minecraft clients with the packaged release jar for supported profiles only.'
+	dependsOn supportedClientSmokeTasks
+}
+
+tasks.register('smokeTestSupportedServers') {
+	group = 'verification'
+	description = 'Launches exact dedicated Minecraft servers with the packaged release jar for supported profiles only.'
+	dependsOn supportedServerSmokeTasks
+}
+
+tasks.register('smokeTestSupported') {
+	group = 'verification'
+	description = 'Launches exact Minecraft clients and dedicated servers with the packaged release jar for supported profiles only.'
+	dependsOn supportedSmokeTasks
+}
+
+def validateSelectedSmokeTasks = { List smokeTasks, String scope ->
+	if (!selectedSmokeFiltersConfigured) {
+		throw new GradleException("Set at least one of -Pquickstacknearby_smoke_profiles, -Pquickstacknearby_smoke_game_versions, or -Pquickstacknearby_smoke_install_sets before running ${scope}.")
+	}
+	if (smokeTasks.isEmpty()) {
+		throw new GradleException("Selected smoke filters did not match any ${scope} task.")
+	}
+}
+
+tasks.register('smokeTestSelectedClients') {
+	group = 'verification'
+	description = 'Launches a filtered subset of client smoke tests selected by quickstacknearby_smoke_* properties.'
+	dependsOn selectedClientSmokeTasks
+
+	doFirst {
+		validateSelectedSmokeTasks(selectedClientSmokeTasks, 'smokeTestSelectedClients')
+	}
+}
+
+tasks.register('smokeTestSelectedServers') {
+	group = 'verification'
+	description = 'Launches a filtered subset of server smoke tests selected by quickstacknearby_smoke_* properties.'
+	dependsOn selectedServerSmokeTasks
+
+	doFirst {
+		validateSelectedSmokeTasks(selectedServerSmokeTasks, 'smokeTestSelectedServers')
+	}
+}
+
+tasks.register('smokeTestSelected') {
+	group = 'verification'
+	description = 'Launches a filtered subset of client and server smoke tests selected by quickstacknearby_smoke_* properties.'
+	dependsOn selectedSmokeTasks
+
+	doFirst {
+		validateSelectedSmokeTasks(selectedSmokeTasks, 'smokeTestSelected')
+	}
+}
+
+tasks.register('ciValidation') {
+	group = 'verification'
+	description = 'Runs CI validation across supported and candidate version profiles.'
+	dependsOn tasks.named('buildValidationVersions')
+	dependsOn tasks.named('smokeTestValidation')
+	dependsOn tasks.named('verifySmokeTestMatrix')
+}
+
+tasks.register('publishValidation') {
+	group = 'verification'
+	description = 'Builds and smoke-tests supported profiles only before Modrinth publishing.'
+	dependsOn tasks.named('buildAllVersions')
+	dependsOn tasks.named('smokeTestSupported')
+	dependsOn tasks.named('verifySmokeTestMatrix')
+}
+
+def modrinthProperty = { String key, String defaultValue ->
+	def value = findProperty(key)
+	return value != null && !value.toString().isBlank() ? value.toString().trim() : defaultValue
+}
+
+def modrinthToken = {
+	def propertyToken = findProperty('modrinth_token')
+	if (propertyToken != null && !propertyToken.toString().isBlank()) {
+		return propertyToken.toString().trim()
+	}
+	def envToken = System.getenv('MODRINTH_TOKEN')
+	return envToken != null && !envToken.isBlank() ? envToken.trim() : null
+}
+
+def modrinthReleaseNotesFile = {
+	def defaultNotesFile = "gradle/release-notes/${mod_version}.md"
+	file(modrinthProperty('modrinth_changelog_file', defaultNotesFile))
+}
+
+def modrinthChangelogText = {
+	def notesFile = modrinthReleaseNotesFile()
+	if (!notesFile.isFile()) {
+		throw new GradleException("Missing Modrinth release notes: ${notesFile}. Add gradle/release-notes/${mod_version}.md or pass -Pmodrinth_changelog_file=<path>.")
+	}
+
+	def notes = notesFile.getText('UTF-8').trim()
+	if (notes.isBlank()) {
+		throw new GradleException("Modrinth release notes file is blank: ${notesFile}")
+	}
+	return notes
+}
+
+def modrinthVersionNumberFor = { String profileId ->
+	def suffixMode = modrinthProperty('modrinth_profile_version_suffix', 'auto')
+	if (!['auto', 'always', 'never'].contains(suffixMode)) {
+		throw new GradleException("modrinth_profile_version_suffix must be auto, always, or never.")
+	}
+	if (suffixMode == 'always' || (suffixMode == 'auto' && supportedMinecraftVersionProfiles.size() > 1)) {
+		return "${mod_version}+mc${profileId}"
+	}
+	return mod_version.toString()
+}
+
+def modrinthUploadPlans = {
+	def projectId = modrinthProperty('modrinth_project_id', '')
+	if (projectId.isBlank()) {
+		throw new GradleException('Missing modrinth_project_id; cannot prepare Modrinth upload.')
+	}
+
+	def versionType = modrinthProperty('modrinth_version_type', 'release')
+	if (!['release', 'beta', 'alpha'].contains(versionType)) {
+		throw new GradleException("modrinth_version_type must be release, beta, or alpha.")
+	}
+
+	def requestedStatus = modrinthProperty('modrinth_requested_status', 'listed')
+	if (!['listed', 'archived', 'draft', 'unlisted', ''].contains(requestedStatus)) {
+		throw new GradleException("modrinth_requested_status must be listed, archived, draft, unlisted, or blank.")
+	}
+
+	def fabricApiProjectId = modrinthProperty('modrinth_fabric_api_project_id', '')
+	def includeFabricApiDependency = (findProperty('modrinth_include_fabric_api_dependency') ?: 'true').toString().toBoolean()
+	def featured = (findProperty('modrinth_featured') ?: 'false').toString().toBoolean()
+	def changelog = modrinthChangelogText()
+	def plans = []
+
+	supportedMinecraftVersionProfiles.each { profileName ->
+		def profile = loadVersionProfile(profileName)
+		def profileId = profileIdFor(profileName, profile)
+		def gameVersions = profileGameVersionsFor(profile)
+		def releaseJar = layout.buildDirectory
+				.file("release/${profileId}/${project.base.archivesName.get()}-${version}.jar")
+				.get()
+				.asFile
+		if (!releaseJar.isFile()) {
+			throw new GradleException("Missing Modrinth upload jar: ${releaseJar}")
+		}
+
+		def dependencies = []
+		if (includeFabricApiDependency && !fabricApiProjectId.isBlank()) {
+			dependencies.add([
+					project_id     : fabricApiProjectId,
+					dependency_type: 'required'
+			])
+		}
+
+		def versionNumber = modrinthVersionNumberFor(profileId)
+		def data = [
+				name          : "Quick Stack Nearby ${mod_version} for Minecraft ${profileId}",
+				version_number: versionNumber,
+				changelog     : changelog,
+				dependencies  : dependencies,
+				game_versions : gameVersions,
+				version_type  : versionType,
+				loaders       : ['fabric'],
+				featured      : featured,
+				project_id    : projectId,
+				file_parts    : ['file'],
+				primary_file  : 'file'
+		]
+		if (!requestedStatus.isBlank()) {
+			data.requested_status = requestedStatus
+		}
+
+		plans.add([
+				displayName : 'Quick Stack Nearby',
+				profileId   : profileId,
+				gameVersions: gameVersions,
+				jar         : releaseJar,
+				data        : data
+		])
+	}
+
+	return plans
+}
+
+def writeModrinthUploadPlan = { List<Map> plans ->
+	def planFile = layout.buildDirectory.file('modrinth/upload-plan.json').get().asFile
+	planFile.parentFile.mkdirs()
+	def notesFile = modrinthReleaseNotesFile()
+	def printablePlans = plans.collect { plan ->
+		[
+				mod              : plan.displayName,
+				profile_id       : plan.profileId,
+				project_id       : plan.data.project_id,
+				version_number   : plan.data.version_number,
+				version_type     : plan.data.version_type,
+				requested_status : plan.data.requested_status,
+				release_notes    : notesFile.path,
+				game_versions    : plan.gameVersions,
+				loaders          : plan.data.loaders,
+				jar              : plan.jar.absolutePath,
+				dependency_count : plan.data.dependencies.size()
+		]
+	}
+	planFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(printablePlans))
+	println "Wrote Modrinth upload plan: ${planFile}"
+}
+
+def printModrinthUploadPlan = { List<Map> plans ->
+	plans.each { plan ->
+		println "Modrinth plan: ${plan.displayName} ${plan.data.version_number} profile=${plan.profileId} project=${plan.data.project_id} games=${plan.gameVersions.join(',')} jar=${plan.jar.name}"
+	}
+}
+
+def uploadModrinthPlan = { Map plan, String token ->
+	def apiBaseUrl = modrinthProperty('modrinth_api_base_url', 'https://api.modrinth.com/v2').replaceAll('/+$', '')
+	def userAgent = modrinthProperty('modrinth_user_agent', "TempestStudios/quick-stack-nearby/${mod_version}")
+	def boundary = "----QuickStackNearbyModrinth${System.currentTimeMillis()}${Math.abs(new Random().nextInt())}"
+	def connection = (java.net.HttpURLConnection) new URL("${apiBaseUrl}/version").openConnection()
+	connection.setRequestMethod('POST')
+	connection.setConnectTimeout(30000)
+	connection.setReadTimeout(120000)
+	connection.setDoOutput(true)
+	connection.setRequestProperty('Authorization', token)
+	connection.setRequestProperty('User-Agent', userAgent)
+	connection.setRequestProperty('Content-Type', "multipart/form-data; boundary=${boundary}")
+
+	connection.outputStream.withCloseable { output ->
+		def writeText = { String text -> output.write(text.getBytes('UTF-8')) }
+		writeText("--${boundary}\r\n")
+		writeText('Content-Disposition: form-data; name="data"\r\n')
+		writeText('Content-Type: application/json\r\n\r\n')
+		writeText(groovy.json.JsonOutput.toJson(plan.data))
+		writeText("\r\n")
+
+		writeText("--${boundary}\r\n")
+		writeText("Content-Disposition: form-data; name=\"file\"; filename=\"${plan.jar.name}\"\r\n")
+		writeText('Content-Type: application/java-archive\r\n\r\n')
+		plan.jar.withInputStream { input -> input.transferTo(output) }
+		writeText("\r\n")
+		writeText("--${boundary}--\r\n")
+	}
+
+	def statusCode = connection.responseCode
+	def responseText = statusCode >= 200 && statusCode < 300
+			? connection.inputStream.getText('UTF-8')
+			: (connection.errorStream != null ? connection.errorStream.getText('UTF-8') : '')
+
+	if (statusCode < 200 || statusCode >= 300) {
+		throw new GradleException("Modrinth upload failed for ${plan.displayName} ${plan.data.version_number} (${statusCode}): ${responseText}")
+	}
+
+	def response = new groovy.json.JsonSlurper().parseText(responseText)
+	println "Uploaded ${plan.displayName} ${plan.data.version_number} to Modrinth version ${response.id}"
+}
+
+tasks.register('prepareModrinthUploads') {
+	group = 'publishing'
+	description = 'Builds, smoke-tests, validates, and writes the Modrinth upload plan for supported profiles.'
+	dependsOn tasks.named('publishValidation')
+
+	doLast {
+		def plans = modrinthUploadPlans()
+		if (plans.isEmpty()) {
+			throw new GradleException('No Modrinth uploads were prepared.')
+		}
+		writeModrinthUploadPlan(plans)
+		printModrinthUploadPlan(plans)
+	}
+}
+
+tasks.register('publishModrinthDryRun') {
+	group = 'publishing'
+	description = 'Runs the supported-profile publish gate and prints the Modrinth uploads without calling the API.'
+	dependsOn tasks.named('prepareModrinthUploads')
+
+	doLast {
+		println 'Modrinth dry run complete. No API upload was performed.'
+	}
+}
+
+tasks.register('publishModrinth') {
+	group = 'publishing'
+	description = 'Runs the supported-profile publish gate and uploads supported release jars to Modrinth.'
+	dependsOn tasks.named('prepareModrinthUploads')
+
+	doLast {
+		if (!(findProperty('modrinth_confirm_publish') ?: 'false').toString().toBoolean()) {
+			throw new GradleException('Real Modrinth publishing requires -Pmodrinth_confirm_publish=true. Use publishModrinthDryRun for a safe test.')
+		}
+
+		def token = modrinthToken()
+		if (token == null) {
+			throw new GradleException('Missing Modrinth token. Set MODRINTH_TOKEN or -Pmodrinth_token=... outside the repo.')
+		}
+
+		modrinthUploadPlans().each { uploadModrinthPlan(it, token) }
+	}
+}
+
+tasks.named('check') {
+	dependsOn tasks.named('verifySmokeTestMatrix')
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	repositories {
+		// Add publishing repositories here when needed.
+	}
+}

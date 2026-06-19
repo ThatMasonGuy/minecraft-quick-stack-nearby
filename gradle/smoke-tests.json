@@ -1,0 +1,162 @@
+﻿{
+    "schema_version":  1,
+    "profiles":  {
+                     "1.20-1.20.4":  {
+                                         "profile_id":  "1.20-1.20.4",
+                                         "source_profile":  "1.20-1.20.4",
+                                         "game_versions":  {
+                                                               "1.20":  {
+                                                                            "status":  "pending",
+                                                                            "method":  "not-run",
+                                                                            "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                        },
+                                                               "1.20.1":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.20.2":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.20.3":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.20.4":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          }
+                                                           }
+                                     },
+                     "1.20.5-1.20.6":  {
+                                           "profile_id":  "1.20.5-1.20.6",
+                                           "source_profile":  "1.20.5-1.20.6",
+                                           "game_versions":  {
+                                                                 "1.20.5":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            },
+                                                                 "1.20.6":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            }
+                                                             }
+                                       },
+                     "1.21-1.21.5":  {
+                                         "profile_id":  "1.21-1.21.5",
+                                         "source_profile":  "1.21-1.21.5",
+                                         "game_versions":  {
+                                                               "1.21":  {
+                                                                            "status":  "pending",
+                                                                            "method":  "not-run",
+                                                                            "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                        },
+                                                               "1.21.1":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.21.2":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.21.3":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.21.4":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          },
+                                                               "1.21.5":  {
+                                                                              "status":  "pending",
+                                                                              "method":  "not-run",
+                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                          }
+                                                           }
+                                     },
+                     "1.21.6-1.21.8":  {
+                                           "profile_id":  "1.21.6-1.21.8",
+                                           "source_profile":  "1.21.6-1.21.8",
+                                           "game_versions":  {
+                                                                 "1.21.6":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            },
+                                                                 "1.21.7":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            },
+                                                                 "1.21.8":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            }
+                                                             }
+                                       },
+                     "1.21.9-1.21.10":  {
+                                            "profile_id":  "1.21.9-1.21.10",
+                                            "source_profile":  "1.21.9-1.21.10",
+                                            "game_versions":  {
+                                                                  "1.21.9":  {
+                                                                                 "status":  "pending",
+                                                                                 "method":  "not-run",
+                                                                                 "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                             },
+                                                                  "1.21.10":  {
+                                                                                  "status":  "pending",
+                                                                                  "method":  "not-run",
+                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              }
+                                                              }
+                                        },
+                     "1.21.11":  {
+                                     "profile_id":  "1.21.11",
+                                     "source_profile":  "1.21.11",
+                                     "game_versions":  {
+                                                           "1.21.11":  {
+                                                                           "status":  "pending",
+                                                                           "method":  "not-run",
+                                                                           "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                       }
+                                                       }
+                                 },
+                     "26.1-26.2-pre-3":  {
+                                             "profile_id":  "26.1-26.2-pre-3",
+                                             "source_profile":  "26.x",
+                                             "game_versions":  {
+                                                                   "26.1":  {
+                                                                                "status":  "pending",
+                                                                                "method":  "not-run",
+                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            },
+                                                                   "26.1.1":  {
+                                                                                  "status":  "pending",
+                                                                                  "method":  "not-run",
+                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              },
+                                                                   "26.1.2":  {
+                                                                                  "status":  "pending",
+                                                                                  "method":  "not-run",
+                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              },
+                                                                   "26.2-pre-3":  {
+                                                                                      "status":  "pending",
+                                                                                      "method":  "not-run",
+                                                                                      "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                  }
+                                                               }
+                                         }
+                 }
+}
