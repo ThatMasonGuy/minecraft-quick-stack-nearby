@@ -56,3 +56,11 @@ Dry-run the page sync before any live write:
 
 Use the live mode only after the copy, license, side metadata, and icon are
 ready to be written to Modrinth.
+
+## GitHub Workflow Shape
+
+The guarded `modrinth publish` workflow follows the Bigger Boats single-mod
+pipeline: it installs Java 17, Java 21, and Java 25, runs Gradle on Java 21,
+executes the supported-profile client/server smoke gate under `xvfb`, checks
+for `MODRINTH_TOKEN` before any live upload, and captures upload plans, release
+jars, smoke logs, smoke mod lists, and smoke run directories.

@@ -34,6 +34,7 @@ research and smoke evidence prove the real release targets.
 
 ```powershell
 .\gradlew.bat buildAllMods --no-daemon --console=plain
+.\gradlew.bat buildAllVersions --no-daemon --console=plain
 .\gradlew.bat printVersionProfile --no-daemon --console=plain
 ```
 
@@ -45,3 +46,7 @@ Candidate profile build example:
 
 Publishing stays disabled until `supported_minecraft_version_profiles` is
 populated with smoke-tested profiles.
+
+While no supported profiles are configured, `buildAllVersions` intentionally
+falls back to the active profile build so the Bigger Boats-style push workflow
+continues to compile a real jar instead of no-oping.

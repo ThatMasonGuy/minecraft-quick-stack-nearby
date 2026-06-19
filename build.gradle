@@ -407,7 +407,14 @@ tasks.register('printVersionProfile') {
 tasks.register('buildAllVersions') {
 	group = 'build'
 	description = 'Builds every supported Minecraft version profile.'
-	dependsOn supportedProfileBuildTasks
+	if (supportedProfileBuildTasks.isEmpty()) {
+		dependsOn tasks.named('buildAllMods')
+		doFirst {
+			println 'No supported Minecraft version profiles are configured; building the active profile only.'
+		}
+	} else {
+		dependsOn supportedProfileBuildTasks
+	}
 }
 
 tasks.register('buildValidationVersions') {

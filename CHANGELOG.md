@@ -18,6 +18,9 @@
   preserving the source image.
 - Verified the scaffold with `git diff --check`, Modrinth page dry-run, and
   default-profile `buildAllMods`.
+- Corrected the GitHub testing pipeline toward the Bigger Boats single-mod
+  shape: push builds use `buildAllVersions`, candidate smoke validation runs
+  client/server launch matrices, and Modrinth publish captures smoke artifacts.
 
 ## Research Notes
 

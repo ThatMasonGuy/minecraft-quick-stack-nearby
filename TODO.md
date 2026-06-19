@@ -8,6 +8,9 @@
 - The Gradle skeleton is adapted from the single-mod profile-driven pattern
   used by Bigger Boats, with InventorySort's button-oriented profile groups as
   candidates.
+- The testing workflow now follows Bigger Boats more closely: push/PR runs
+  `buildAllVersions`, manual candidate smoke runs client and dedicated-server
+  launches, and the Modrinth workflow captures smoke artifacts.
 - Modrinth project id `5Hu4HCfZ` is recorded in `gradle.properties`.
 - Authenticated Modrinth readback on 2026-06-19 confirmed the project is
   `quick-stack-nearby`, titled `Quick Stack Nearby`, and currently draft with
@@ -20,6 +23,8 @@
   `build/release/1.21.11/quick-stack-nearby-0.1.0.jar` at `48342` bytes.
 - Modrinth project page dry-run passed on 2026-06-19 with one gallery image and
   one description image selector.
+- `buildAllVersions` falls back to the active profile while no supported
+  profiles exist, preventing the push build from silently passing without a jar.
 
 ## Research Conclusions
 
@@ -50,3 +55,5 @@
 - Passed: `git diff --check`.
 - Passed: `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`.
 - Passed: `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
+- Passed after pipeline correction:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`.

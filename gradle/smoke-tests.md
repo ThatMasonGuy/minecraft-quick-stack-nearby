@@ -11,9 +11,18 @@ launches.
 ## Focused Commands
 
 ```powershell
+.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
 .\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
 .\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
 ```
+
+## GitHub Workflow
+
+The manual `candidate smoke validation` workflow mirrors the Bigger Boats
+testing shape. With no filters it runs `smokeTestValidation` across supported
+and candidate profiles. With filters it runs `smokeTestSelected`, preserving
+both client and dedicated-server install sets unless `smoke_install_sets` narrows
+the run.
 
 ## Matrix Policy
 

@@ -33,10 +33,16 @@ to a copied InventorySort-style button implementation.
 ```powershell
 .\gradlew.bat printVersionProfile --no-daemon --console=plain
 .\gradlew.bat buildAllMods --no-daemon --console=plain
+.\gradlew.bat buildAllVersions --no-daemon --console=plain
 .\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
 .\gradlew.bat buildValidationVersions --no-daemon --console=plain
 .\gradlew.bat listVersionProfiles --no-daemon --console=plain
 ```
+
+Until at least one supported profile is promoted, `buildAllVersions` builds the
+active profile only. This keeps the Bigger Boats-style push workflow honest
+during scaffolding; after supported profiles exist, the same task builds every
+supported profile.
 
 Focused smoke commands:
 
