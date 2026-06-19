@@ -14,9 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tempeststudios.quickstacknearby.QuickStackButtonSlotBridge;
 import tempeststudios.quickstacknearby.QuickStackClientNetworking;
 import tempeststudios.quickstacknearby.QuickStackIconButton;
+import tempeststudios.quickstacknearby.RecipeBookAwareButtonScreen;
 
 @Mixin(AbstractContainerScreen.class)
-public abstract class QuickStackInventoryScreenMixin {
+public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareButtonScreen {
     @Unique private static final String quickStackNearby$OWNER = "quick-stack-nearby";
     @Unique private static final String quickStackNearby$SLOT = "quick_stack_nearby";
 
@@ -58,6 +59,11 @@ public abstract class QuickStackInventoryScreenMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void quickStackNearby$onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+        quickStackNearby$updateButtonPosition();
+    }
+
+    @Override
+    public void quickstacknearby$updateButtonPositionsFromRecipeBookRender() {
         quickStackNearby$updateButtonPosition();
     }
 

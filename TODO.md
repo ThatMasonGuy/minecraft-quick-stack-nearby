@@ -42,6 +42,12 @@
 - The `0.1.0` publish dry run writes one listed Fabric upload plan for Modrinth
   project `5Hu4HCfZ`, profile `1.21.11`, game version `1.21.11`, and release
   jar `quick-stack-nearby-0.1.0.jar`.
+- Live v0.1.0 publishing remains prepared at commit
+  `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, but this Codex environment still
+  cannot reach GitHub or Modrinth over outbound HTTPS.
+- The working tree is now on `0.2.0` development. The first client UI slice
+  replaces the tiny quick-stack glyph with a chest-and-arrow icon and adds the
+  InventorySort-style recipe-book render bridge for button repositioning.
 
 ## Research Conclusions
 
@@ -59,19 +65,22 @@
 
 ## Next Implementation Tasks
 
-1. Push the `0.1.0` release commit, publish the `1.21.11` Modrinth version,
+1. From a network-enabled shell, push the prepared `0.1.0` release commit,
+   publish the `1.21.11` Modrinth version,
    sync the project page/icon metadata, tag `v0.1.0`, and create the GitHub
    release.
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Decide whether a later release should include hotbar stacks, carried
+3. Build the `0.2.0` slot-lock UI: copy InventorySort's rule screen pattern,
+   change the accent color, and add per-slot keep counts.
+4. Copy InventorySort's shared TempestStudios data namespace/storage approach
+   for client slot rules and server/player config.
+5. Add op commands for configurable quick-stack range.
+6. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-4. Implement the smallest compat wrapper set from
+7. Implement the smallest compat wrapper set from
    `docs/compatibility-research.md`, starting with `1.21.9-1.21.10`.
-5. Promote only future smoke-passed profile groups into
+8. Promote only future smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
-6. Start the `0.2.0` patch set: clearer icon button, recipe-book offset
-   handling, InventorySort-style slot locks with keep counts, shared
-   TempestStudios storage, and op-configurable unload range.
 
 ## Verification Log
 
@@ -100,3 +109,7 @@
   `1.21.11` release jar, ran supported client and dedicated-server smoke,
   reported `selfTestItemsMoved=48`, and wrote
   `build/modrinth/upload-plan.json`.
+- Passed after starting `0.2.0`:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain` with workspace-local
+  Gradle cache/temp paths for sandbox compatibility; built and verified
+  `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.

@@ -4,6 +4,7 @@
   "compatibilityLevel": "${mixin_compatibility_level}",
   "client": [
     "AbstractContainerScreenAccessor",
+    "AbstractRecipeBookScreenMixin",
     "QuickStackInventoryScreenMixin",
     "ScreenAccessor"
   ],
