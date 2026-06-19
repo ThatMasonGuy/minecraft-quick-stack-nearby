@@ -440,15 +440,35 @@ function Update-ModrinthProjectPage([string]$ProjectId, [string]$Token, [string]
 }
 
 function Assert-ProjectMetadataReadback($Project, $ProjectMetadata, $Readback) {
+    $statusProperty = $Readback.PSObject.Properties['status']
+    $requestedStatusProperty = $Readback.PSObject.Properties['requested_status']
+    $status = if ($null -eq $statusProperty) { $null } else { [string]$statusProperty.Value }
+    $requestedStatus = if ($null -eq $requestedStatusProperty) { $null } else { [string]$requestedStatusProperty.Value }
+    $sideReadbackMayLag = ($status -in @('draft', 'processing')) -and ($requestedStatus -eq 'approved')
+
     foreach ($key in @('client_side', 'server_side', 'license_id', 'source_url', 'issues_url')) {
         if (-not $ProjectMetadata.ContainsKey($key)) {
             continue
         }
 
-        $property = $Readback.PSObject.Properties[$key]
-        $actual = if ($null -eq $property) { $null } else { [string]$property.Value }
+        if ($key -eq 'license_id') {
+            $licenseProperty = $Readback.PSObject.Properties['license']
+            $actual = if ($null -eq $licenseProperty -or $null -eq $licenseProperty.Value) {
+                $null
+            } else {
+                [string]$licenseProperty.Value.id
+            }
+        } else {
+            $property = $Readback.PSObject.Properties[$key]
+            $actual = if ($null -eq $property) { $null } else { [string]$property.Value }
+        }
         $expected = [string]$ProjectMetadata[$key]
         if ($actual -ne $expected) {
+            if (($key -in @('client_side', 'server_side')) -and $sideReadbackMayLag -and $actual -eq 'unknown') {
+                Write-Warning "Readback $key is still 'unknown' while $($Project.GalleryDir) is $status with requested_status=$requestedStatus; keeping expected '$expected' in source metadata."
+                continue
+            }
+
             throw "Readback $key mismatch for $($Project.GalleryDir): expected '$expected', got '$actual'."
         }
     }

@@ -45,6 +45,13 @@
   remaining compatibility groups as candidates.
 - Updated Modrinth project-page copy, metadata, and gallery text for the
   playable `0.1.0` review release.
+- Published `0.1.0` through the guarded GitHub Actions Modrinth workflow,
+  uploaded listed Modrinth version `tO7OxI85`, tagged `v0.1.0` on the exact
+  release source commit, and created the asset-free GitHub Release.
+- Hardened the Modrinth project-page sync readback for current API behavior:
+  license verification now reads `license.id`, and draft review projects can
+  tolerate a temporary side-support readback lag while still keeping required
+  client/server metadata in source.
 
 ## Research Notes
 

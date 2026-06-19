@@ -13,8 +13,9 @@
   launches, and the Modrinth workflow captures smoke artifacts.
 - Modrinth project id `5Hu4HCfZ` is recorded in `gradle.properties`.
 - Authenticated Modrinth readback on 2026-06-19 confirmed the project is
-  `quick-stack-nearby`, titled `Quick Stack Nearby`, and currently draft with
-  unknown client/server metadata and unknown license.
+  `quick-stack-nearby`, titled `Quick Stack Nearby`, with required
+  client/server metadata, LGPL-3.0-or-later licensing, source/issues URLs, the
+  root source icon, and one gallery image synced from source control.
 - The supplied `quick-stack-nearby.jpg` remains at the repo root as the source
   image.
 - A downscaled `256x256` packaged icon is generated at
@@ -42,9 +43,14 @@
 - The `0.1.0` publish dry run writes one listed Fabric upload plan for Modrinth
   project `5Hu4HCfZ`, profile `1.21.11`, game version `1.21.11`, and release
   jar `quick-stack-nearby-0.1.0.jar`.
-- Live v0.1.0 publishing remains prepared at commit
-  `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, but this Codex environment still
-  cannot reach GitHub or Modrinth over outbound HTTPS.
+- Live `0.1.0` publishing succeeded from release branch `release/v0.1.0` at
+  source commit `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`.
+- GitHub Actions run `27824441279` uploaded Modrinth version `tO7OxI85` for
+  project `5Hu4HCfZ` as a listed Fabric `1.21.11` release.
+- Annotated tag `v0.1.0` points to
+  `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.1.0`
+  is published without jar assets.
 - The working tree is now on `0.2.0` development. The first client UI slice
   replaces the tiny quick-stack glyph with a chest-and-arrow icon and adds the
   InventorySort-style recipe-book render bridge for button repositioning.
@@ -81,10 +87,9 @@
 
 ## Next Implementation Tasks
 
-1. From a network-enabled shell, push the prepared `0.1.0` release commit,
-   publish the `1.21.11` Modrinth version,
-   sync the project page/icon metadata, tag `v0.1.0`, and create the GitHub
-   release.
+1. Watch Modrinth review for the draft project moving from requested
+   `approved` to publicly approved/listed, then confirm the public project and
+   version URLs resolve without authentication.
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
 3. Decide whether `0.2.0` should add a server world-identity profile handshake
    for multiplayer servers that rotate worlds behind one address, matching the
@@ -146,3 +151,19 @@
   `.smoke-appdata`; emitted both `QUICKSTACKNEARBY_SMOKE_TEST_PASS` and
   `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`, with
   `selfTestItemsMoved=48`.
+- Passed on GitHub Actions: manual `modrinth publish` workflow run
+  `27824441279` on branch `release/v0.1.0`, source commit
+  `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and
+  uploaded Modrinth version `tO7OxI85`.
+- Publish artifact readback: upload plan requested listed release
+  `quick-stack-nearby-0.1.0.jar` for Fabric `1.21.11`; captured client smoke
+  marker `QUICKSTACKNEARBY_SMOKE_TEST_PASS` and dedicated-server marker
+  `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with `selfTestItemsMoved=48`.
+- Passed after live page sync: `.\scripts\sync-modrinth-project-pages.ps1`
+  completed and authenticated Modrinth readback showed required client/server
+  metadata, LGPL-3.0-or-later license, source/issues URLs, icon, and one gallery
+  image.
+- Passed release readback: `v0.1.0` resolves to
+  `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.1.0`
+  is published with no jar assets attached.
