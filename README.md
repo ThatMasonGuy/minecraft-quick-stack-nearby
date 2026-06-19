@@ -1,7 +1,6 @@
 # Quick Stack Nearby
 
-A Fabric mod scaffold for Terraria-style "quick stack to nearby chests" in
-Minecraft.
+A Fabric mod for Terraria-style "quick stack to nearby chests" in Minecraft.
 
 The intended final shape is client and server together for multiplayer, and a
 single client install for offline singleplayer where the integrated server runs
@@ -21,10 +20,13 @@ the server-side logic in the same process.
 
 ## Current State
 
-This repository is scaffolding only. It contains the Fabric/Gradle build,
-candidate compatibility profiles, CI and publishing workflows, smoke-test hooks,
-project-page source copy, and the supplied icon assets. It does not yet
-implement quick-stack gameplay.
+The active 1.21.11 build has a first playable quick-stack path. The survival
+inventory button sends a server-authoritative request that scans nearby
+containers and moves matching main-inventory stacks into containers that already
+hold those item types.
+
+Hotbar, armor, offhand, and carried shulker contents are intentionally left
+alone until playtesting confirms the safest first-release behavior.
 
 No Minecraft version profile is supported for publishing yet. Candidate profiles
 are tracked in `COMPATIBILITY.md` and `gradle/version-profiles/README.md` until

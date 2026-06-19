@@ -2,7 +2,7 @@
 
 ## Current Checkpoint
 
-- Project scaffold is being built from the InventorySort workflow philosophy.
+- Project scaffold follows the InventorySort workflow philosophy.
 - `AGENTS.md` is copied word-for-word from
   `D:\Cloud\Development\MinecraftMods\InventorySort\inventory-sort`.
 - The Gradle skeleton is adapted from the single-mod profile-driven pattern
@@ -25,6 +25,12 @@
   one description image selector.
 - `buildAllVersions` falls back to the active profile while no supported
   profiles exist, preventing the push build from silently passing without a jar.
+- The first playable 1.21.11 implementation now has a survival-inventory quick
+  stack button, an empty C2S request packet, server-side nearby-container item
+  movement, optional Inv+ slot API reflection, and a local slot-placement
+  fallback copied from the InventorySort pattern.
+- The first implementation moves matching main-inventory stacks only; hotbar,
+  armor, offhand, and carried shulker contents are intentionally untouched.
 
 ## Research Conclusions
 
@@ -42,12 +48,16 @@
 
 ## Next Implementation Tasks
 
-1. Research and prototype the server-side quick-stack scan/move algorithm.
-2. Define the client/server packet contract for an unload request and result.
-3. Add optional Inv+ slot API detection and the fallback button placement layer.
-4. Promote only the smoke-passed profile groups into
+1. Manually smoke the 1.21.11 button in a real singleplayer world with nearby
+   chests/barrels before promoting any supported profile.
+2. Add richer result feedback or sounds if the first playtest feels too quiet.
+3. Decide whether the first release should include hotbar stacks, carried
+   shulker-box contents, or a config toggle for those behaviors.
+4. Research shims and bridges for 1.20.x through 26.x only after the 1.21.11
+   behavior is accepted.
+5. Promote only the smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
-5. Update Modrinth project page metadata, license, and icon after page copy is
+6. Update Modrinth project page metadata, license, and icon after page copy is
    reviewed.
 
 ## Verification Log
@@ -57,3 +67,9 @@
 - Passed: `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
 - Passed after pipeline correction:
   `.\gradlew.bat buildAllVersions --no-daemon --console=plain`.
+- Passed: `.\gradlew.bat buildRelease --no-daemon --console=plain`.
+- Passed: `.\gradlew.bat smokeTestSelectedServers '-Pquickstacknearby_smoke_profiles=1.21.11' '-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-server-only' --no-daemon --console=plain`
+  with `selfTestItemsMoved=48`.
+- Passed: `.\gradlew.bat smokeTestSelectedClients '-Pquickstacknearby_smoke_profiles=1.21.11' '-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-client-only' --no-daemon --console=plain`.
+- Passed after final bridge hardening:
+  `.\gradlew.bat smokeTestSelected '-Pquickstacknearby_smoke_profiles=1.21.11' --no-daemon --console=plain`.

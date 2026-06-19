@@ -126,9 +126,10 @@
                                      "source_profile":  "1.21.11",
                                      "game_versions":  {
                                                            "1.21.11":  {
-                                                                           "status":  "pending",
-                                                                           "method":  "not-run",
-                                                                           "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                           "status":  "pass",
+                                                                           "method":  "buildRelease plus selected client and dedicated-server smoke tests",
+                                                                           "tested_at":  "2026-06-19T16:07:59.8409396+10:00",
+                                                                           "notes":  "Candidate profile passed packaged 1.21.11 client launch and dedicated-server launch; server smoke self-test moved 48 matching items."
                                                                        }
                                                        }
                                  },

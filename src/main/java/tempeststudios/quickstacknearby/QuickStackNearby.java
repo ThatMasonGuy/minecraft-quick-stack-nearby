@@ -10,7 +10,8 @@ public final class QuickStackNearby implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        QuickStackNetworking.register();
         QuickStackNearbyServerSmokeTest.registerIfEnabled();
-        LOGGER.info("Quick Stack Nearby scaffold initialized.");
+        LOGGER.info("Quick Stack Nearby initialized.");
     }
 }

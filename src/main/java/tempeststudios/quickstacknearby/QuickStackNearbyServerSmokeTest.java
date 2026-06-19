@@ -34,6 +34,11 @@ public final class QuickStackNearbyServerSmokeTest {
             return;
         }
 
+        QuickStackMoveEngine.SelfTestResult selfTestResult = QuickStackMoveEngine.runSelfTest();
+        if (!selfTestResult.passed()) {
+            throw new IllegalStateException("Quick stack move self-test failed: " + selfTestResult.result());
+        }
+
         complete = true;
         System.out.println(
                 "QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS minecraftProfile="
@@ -46,6 +51,8 @@ public final class QuickStackNearbyServerSmokeTest {
                         + System.getProperty("quickstacknearby.smokeInstallSet", "unknown")
                         + " injectedMods="
                         + System.getProperty("fabric.addMods", "unknown")
+                        + " selfTestItemsMoved="
+                        + selfTestResult.result().itemsMoved()
         );
         stopServer(server);
     }

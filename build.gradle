@@ -339,6 +339,12 @@ tasks.register('verifyReleaseMetadata') {
 		if (!(fabricMetadata.entrypoints?.client ?: []).contains('tempeststudios.quickstacknearby.QuickStackNearbyClient')) {
 			throw new GradleException("${releaseJar.name} is missing the client Quick Stack Nearby entrypoint.")
 		}
+		if (!(fabricMetadata.mixins ?: []).contains('quick-stack-nearby.mixins.json')) {
+			throw new GradleException("${releaseJar.name} is missing the Quick Stack Nearby mixin config.")
+		}
+		if (!entries.contains('quick-stack-nearby.mixins.json')) {
+			throw new GradleException("${releaseJar.name} is missing packaged quick-stack-nearby.mixins.json.")
+		}
 		if (fabricMetadata.depends.fabricloader != ">=${loader_version}") {
 			throw new GradleException("${releaseJar.name} declares Fabric Loader dependency ${fabricMetadata.depends.fabricloader}, expected >=${loader_version}.")
 		}

@@ -12,8 +12,13 @@
   promoting any supported publish target yet.
 - Added Modrinth project id `5Hu4HCfZ`, source-controlled project-page copy,
   gallery metadata, and the page-sync workflow/script.
-- Added scaffold-only Fabric main and client entrypoints; no quick-stack
-  gameplay behavior has been implemented.
+- Added a first playable 1.21.11 quick-stack implementation: a survival
+  inventory button, C2S request payload, server-side nearby container scan, and
+  matching-stack movement from main inventory slots.
+- Added optional Inv+ slot API reflection for button placement with a local
+  InventorySort-style fallback when the API is unavailable.
+- Added a packaged dedicated-server smoke self-test that exercises matching
+  item movement.
 - Downscaled the supplied root icon source into the packaged mod icon while
   preserving the source image.
 - Verified the scaffold with `git diff --check`, Modrinth page dry-run, and
@@ -21,6 +26,8 @@
 - Corrected the GitHub testing pipeline toward the Bigger Boats single-mod
   shape: push builds use `buildAllVersions`, candidate smoke validation runs
   client/server launch matrices, and Modrinth publish captures smoke artifacts.
+- Verified the 1.21.11 implementation with `buildRelease`,
+  `smokeTestSelectedServers`, and `smokeTestSelectedClients`.
 
 ## Research Notes
 

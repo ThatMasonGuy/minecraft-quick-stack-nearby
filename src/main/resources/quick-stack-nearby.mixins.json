@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "tempeststudios.quickstacknearby.mixin",
+  "compatibilityLevel": "${mixin_compatibility_level}",
+  "client": [
+    "AbstractContainerScreenAccessor",
+    "QuickStackInventoryScreenMixin",
+    "ScreenAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
