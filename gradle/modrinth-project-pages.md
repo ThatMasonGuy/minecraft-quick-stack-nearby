@@ -17,25 +17,42 @@ Quick Stack Nearby brings Terraria-style quick stacking to Minecraft. The goal
 is simple: press one inventory button and send matching items from your
 inventory into nearby containers that already hold those items.
 
-## Planned Features
+## What 0.1.0 Does
 
-- Quick-stack button in the player inventory
-- Server-authoritative item movement for multiplayer
-- Offline singleplayer support from a client install
-- Inv+ button-slot integration when Inventory Mods are installed
-- Local fallback button placement when Inv+ is not installed
-- Candidate support research across the same UI-focused profile groups used by
-  InventorySort
+- Adds a quick-stack button to the player inventory.
+- Moves matching main-inventory stacks into nearby containers that already hold
+  those item types.
+- Keeps item movement server-authoritative for multiplayer.
+- Uses the Inv+ button-slot API when an Inventory Mods companion is installed.
+- Falls back to a local InventorySort-style button placement when Inv+ is not
+  installed.
 
 ## Install Note
 
-This project is currently scaffold-only. Multiplayer quick stacking will require
-the mod on the server and client once gameplay is implemented. Offline
-singleplayer is planned to work from a client install because the integrated
-server runs the common mod logic.
+Multiplayer quick stacking requires Quick Stack Nearby on both the server and
+client. If the client is installed without the server mod, the button shows a
+clear unavailable message instead of moving items.
+
+Offline singleplayer works from a client install because the integrated server
+runs the common mod logic in the same process.
+
+Version 0.1.0 supports Minecraft 1.21.11 only. Hotbar, armor, offhand, and
+carried shulker contents are intentionally left alone in this first review
+build. The nearby-container range is currently fixed at 8 blocks horizontally
+and 4 blocks vertically; configurable range is planned for the next feature
+pass.
 
 Fabric API is required.
 ```
+
+### Project Metadata
+
+- Client side: `required`
+- Server side: `required`
+- License ID: `LGPL-3.0-or-later`
+- Source URL: `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby`
+- Issues URL: `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/issues`
+- Icon: `quick-stack-nearby.jpg`
 
 ## Live Update Record
 

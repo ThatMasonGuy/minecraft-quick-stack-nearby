@@ -53,6 +53,50 @@ function Read-GradleProperties {
     return $properties
 }
 
+function Get-SectionField([string]$Section, [string]$Label) {
+    $pattern = '(?m)^\s*-\s*' + [regex]::Escape($Label) + ':\s*(?:`(?<tick>[^`\r\n]+)`|(?<plain>[^\r\n]+))\s*$'
+    $match = [regex]::Match($Section, $pattern)
+    if (-not $match.Success) {
+        return $null
+    }
+
+    $value = if ($match.Groups['tick'].Success) {
+        $match.Groups['tick'].Value
+    } else {
+        $match.Groups['plain'].Value
+    }
+
+    return $value.Trim()
+}
+
+function Read-ProjectMetadata([string]$Section) {
+    $metadata = @{}
+    $fields = @(
+        @{ Label = 'Client side'; Key = 'client_side' },
+        @{ Label = 'Server side'; Key = 'server_side' },
+        @{ Label = 'License ID'; Key = 'license_id' },
+        @{ Label = 'Source URL'; Key = 'source_url' },
+        @{ Label = 'Issues URL'; Key = 'issues_url' },
+        @{ Label = 'Icon'; Key = 'Icon' }
+    )
+
+    foreach ($field in $fields) {
+        $value = Get-SectionField -Section $Section -Label $field.Label
+        if (-not [string]::IsNullOrWhiteSpace($value)) {
+            $metadata[$field.Key] = $value
+        }
+    }
+
+    $validSideValues = @('required', 'optional', 'unsupported', 'unknown')
+    foreach ($sideKey in @('client_side', 'server_side')) {
+        if ($metadata.ContainsKey($sideKey) -and ($validSideValues -notcontains $metadata[$sideKey])) {
+            throw "$sideKey must be one of: $($validSideValues -join ', ')."
+        }
+    }
+
+    return $metadata
+}
+
 function Read-PageSections {
     $path = Join-Path $repoRoot 'gradle/modrinth-project-pages.md'
     $markdown = Get-Content -LiteralPath $path -Raw
@@ -86,6 +130,7 @@ function Read-PageSections {
         $sections[$project.GalleryDir] = @{
             Summary = $summaryMatch.Groups['summary'].Value.Trim()
             Body = $bodyMatch.Groups['body'].Value.Trim()
+            Metadata = Read-ProjectMetadata -Section $section
         }
     }
 
@@ -95,6 +140,24 @@ function Read-PageSections {
 function Read-GalleryMetadata {
     $path = Join-Path $repoRoot 'gallery/metadata.json'
     return Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+}
+
+function Resolve-RepoPath([string]$Path) {
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return $null
+    }
+
+    $resolved = if ([System.IO.Path]::IsPathRooted($Path)) {
+        [System.IO.Path]::GetFullPath($Path)
+    } else {
+        [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
+    }
+
+    if (-not (Test-Path -LiteralPath $resolved -PathType Leaf)) {
+        throw "Could not find file '$Path'."
+    }
+
+    return $resolved
 }
 
 function Get-OrderFromFileName([string]$FileName) {
@@ -275,6 +338,59 @@ function Update-GalleryImageMetadata([string]$ProjectId, [string]$Token, [string
     Invoke-ModrinthWrite -Method 'PATCH' -Uri "$apiBase/project/$ProjectId/gallery?$query" -Token $Token
 }
 
+function Get-IconContentType([string]$Extension) {
+    switch ($Extension) {
+        'png' { return 'image/png' }
+        'jpg' { return 'image/jpeg' }
+        'jpeg' { return 'image/jpeg' }
+        'webp' { return 'image/webp' }
+        default { throw "Unsupported Modrinth project icon extension '$Extension'." }
+    }
+}
+
+function Send-ModrinthProjectIcon([string]$ProjectId, [string]$Token, [string]$IconPath) {
+    $file = Get-Item -LiteralPath $IconPath
+    if ($file.Length -gt (256 * 1024)) {
+        throw "Modrinth project icon '$IconPath' is $($file.Length) bytes; the maximum is 262144 bytes."
+    }
+
+    $extension = [System.IO.Path]::GetExtension($IconPath).TrimStart('.').ToLowerInvariant()
+    if ($extension -eq 'jpeg') {
+        $extension = 'jpg'
+    }
+
+    $contentType = Get-IconContentType -Extension $extension
+    $client = [System.Net.Http.HttpClient]::new()
+    $request = $null
+    $content = $null
+    try {
+        $client.DefaultRequestHeaders.UserAgent.ParseAdd($userAgent)
+        $client.DefaultRequestHeaders.Accept.ParseAdd('application/json')
+        $client.DefaultRequestHeaders.TryAddWithoutValidation('Authorization', $Token) | Out-Null
+
+        $bytes = [System.IO.File]::ReadAllBytes($IconPath)
+        $content = [System.Net.Http.ByteArrayContent]::new($bytes)
+        $content.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse($contentType)
+
+        $request = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::new('PATCH'), "$apiBase/project/$ProjectId/icon?ext=$extension")
+        $request.Content = $content
+
+        $response = $client.SendAsync($request).GetAwaiter().GetResult()
+        if (-not $response.IsSuccessStatusCode) {
+            $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+            throw "Project icon upload failed with HTTP $([int]$response.StatusCode): $body"
+        }
+    } finally {
+        if ($null -ne $content) {
+            $content.Dispose()
+        }
+        if ($null -ne $request) {
+            $request.Dispose()
+        }
+        $client.Dispose()
+    }
+}
+
 function Resolve-BodyGalleryUrls([string]$GalleryDir, [string]$Body, $Items, $LiveProject) {
     $galleryByTitle = @{}
     foreach ($galleryImage in $LiveProject.gallery) {
@@ -306,13 +422,43 @@ function Resolve-BodyGalleryUrls([string]$GalleryDir, [string]$Body, $Items, $Li
     return $rendered
 }
 
-function Update-ModrinthProjectPage([string]$ProjectId, [string]$Token, [string]$Summary, [string]$Body) {
-    $payload = @{
+function Update-ModrinthProjectPage([string]$ProjectId, [string]$Token, [string]$Summary, [string]$Body, $ProjectMetadata) {
+    $payloadObject = @{
         description = $Summary
         body = $Body
-    } | ConvertTo-Json -Depth 4
+    }
+
+    foreach ($key in @('client_side', 'server_side', 'license_id', 'source_url', 'issues_url')) {
+        if ($ProjectMetadata.ContainsKey($key)) {
+            $payloadObject[$key] = $ProjectMetadata[$key]
+        }
+    }
+
+    $payload = $payloadObject | ConvertTo-Json -Depth 4
 
     Invoke-ModrinthWrite -Method 'PATCH' -Uri "$apiBase/project/$ProjectId" -Token $Token -Body $payload
+}
+
+function Assert-ProjectMetadataReadback($Project, $ProjectMetadata, $Readback) {
+    foreach ($key in @('client_side', 'server_side', 'license_id', 'source_url', 'issues_url')) {
+        if (-not $ProjectMetadata.ContainsKey($key)) {
+            continue
+        }
+
+        $property = $Readback.PSObject.Properties[$key]
+        $actual = if ($null -eq $property) { $null } else { [string]$property.Value }
+        $expected = [string]$ProjectMetadata[$key]
+        if ($actual -ne $expected) {
+            throw "Readback $key mismatch for $($Project.GalleryDir): expected '$expected', got '$actual'."
+        }
+    }
+
+    if ($ProjectMetadata.ContainsKey('Icon')) {
+        $iconUrlProperty = $Readback.PSObject.Properties['icon_url']
+        if ($null -eq $iconUrlProperty -or [string]::IsNullOrWhiteSpace([string]$iconUrlProperty.Value)) {
+            throw "Readback icon_url is empty for $($Project.GalleryDir)."
+        }
+    }
 }
 
 $gradleProperties = Read-GradleProperties
@@ -332,12 +478,23 @@ foreach ($project in $projects) {
 
     $items = @(Get-LocalGalleryPlan -Project $project -Metadata $metadata)
     $page = $pageSections[$project.GalleryDir]
+    $iconPath = if ($page.Metadata.ContainsKey('Icon')) { Resolve-RepoPath -Path $page.Metadata['Icon'] } else { $null }
 
     Write-Host "Project $($project.GalleryDir): $($items.Count) gallery image(s), $(@($items | Where-Object InDescription).Count) description image(s)."
 
     foreach ($item in $items) {
         $featured = if ($item.Featured) { 'featured' } else { 'gallery' }
         Write-Host "  [$($item.Order)] $($item.Title) ($featured)"
+    }
+
+    foreach ($key in @('client_side', 'server_side', 'license_id', 'source_url', 'issues_url')) {
+        if ($page.Metadata.ContainsKey($key)) {
+            Write-Host "  $key=$($page.Metadata[$key])"
+        }
+    }
+    if ($null -ne $iconPath) {
+        $iconFile = Get-Item -LiteralPath $iconPath
+        Write-Host "  icon=$($page.Metadata['Icon']) ($($iconFile.Length) bytes)"
     }
 
     foreach ($item in @($items | Where-Object InDescription)) {
@@ -377,7 +534,11 @@ foreach ($project in $projects) {
 
     $liveProject = Get-ModrinthProject -ProjectId $projectId -Token $token
     $renderedBody = Resolve-BodyGalleryUrls -GalleryDir $project.GalleryDir -Body $page.Body -Items $items -LiveProject $liveProject
-    Update-ModrinthProjectPage -ProjectId $projectId -Token $token -Summary $page.Summary -Body $renderedBody
+    Update-ModrinthProjectPage -ProjectId $projectId -Token $token -Summary $page.Summary -Body $renderedBody -ProjectMetadata $page.Metadata
+
+    if ($null -ne $iconPath) {
+        Send-ModrinthProjectIcon -ProjectId $projectId -Token $token -IconPath $iconPath
+    }
 
     $readback = Get-ModrinthProject -ProjectId $projectId -Token $token
     if ($readback.description -ne $page.Summary) {
@@ -389,6 +550,7 @@ foreach ($project in $projects) {
     if (@($readback.gallery).Count -lt $items.Count) {
         throw "Readback gallery count for $($project.GalleryDir) is lower than expected."
     }
+    Assert-ProjectMetadataReadback -Project $project -ProjectMetadata $page.Metadata -Readback $readback
 
     Write-Host "  Synced $($readback.title) ($($readback.slug)): $(@($readback.gallery).Count) gallery image(s)."
 }

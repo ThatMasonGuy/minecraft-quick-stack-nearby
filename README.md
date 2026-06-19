@@ -20,17 +20,17 @@ the server-side logic in the same process.
 
 ## Current State
 
-The active 1.21.11 build has a first playable quick-stack path. The survival
-inventory button sends a server-authoritative request that scans nearby
-containers and moves matching main-inventory stacks into containers that already
-hold those item types.
+The `0.1.0` release supports Minecraft `1.21.11`. The survival inventory button
+sends a server-authoritative request that scans nearby containers and moves
+matching main-inventory stacks into containers that already hold those item
+types.
 
 Hotbar, armor, offhand, and carried shulker contents are intentionally left
-alone until playtesting confirms the safest first-release behavior.
+alone for the first public review build.
 
-No Minecraft version profile is supported for publishing yet. Candidate profiles
-are tracked in `COMPATIBILITY.md` and `gradle/version-profiles/README.md` until
-research and smoke evidence prove the real release targets.
+Other Minecraft version profiles remain candidates in `COMPATIBILITY.md` and
+`gradle/version-profiles/README.md` until compatibility work and smoke evidence
+prove their release targets.
 
 ## Build
 
@@ -40,15 +40,10 @@ research and smoke evidence prove the real release targets.
 .\gradlew.bat printVersionProfile --no-daemon --console=plain
 ```
 
-Candidate profile build example:
+Supported profile build example:
 
 ```powershell
 .\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
 ```
 
-Publishing stays disabled until `supported_minecraft_version_profiles` is
-populated with smoke-tested profiles.
-
-While no supported profiles are configured, `buildAllVersions` intentionally
-falls back to the active profile build so the Bigger Boats-style push workflow
-continues to compile a real jar instead of no-oping.
+Publishing currently targets only the smoke-tested `1.21.11` profile.

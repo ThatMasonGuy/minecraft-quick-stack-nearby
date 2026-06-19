@@ -1,7 +1,7 @@
 # Compatibility
 
 Scope: Quick Stack Nearby source compatibility after the first playable
-`1.21.11` implementation. No Minecraft version is supported for publishing yet.
+`1.21.11` implementation. Version `0.1.0` supports Minecraft `1.21.11` only.
 
 ## Candidate Profiles
 
@@ -12,14 +12,13 @@ Scope: Quick Stack Nearby source compatibility after the first playable
 | `1.21-1.21.5` | `1.21.5` | `1.21` through `1.21.5` | Stable early 1.21 group for container UI work. |
 | `1.21.6-1.21.8` | `1.21.8` | `1.21.6` through `1.21.8` | Separate InventorySort button compatibility group. |
 | `1.21.9-1.21.10` | `1.21.10` | `1.21.9` through `1.21.10` | Late 1.21 group before the 1.21.11 profile split. |
-| `1.21.11` | `1.21.11` | `1.21.11` | Current default development anchor. |
 | `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | Experimental non-remap lane inherited from InventorySort. |
 
 ## Supported Profiles
 
-None yet. `supported_minecraft_version_profiles` is intentionally blank until
-manual gameplay smoke and exact-version launch smoke pass for every runtime
-claimed on Modrinth.
+| Profile | Compile anchor | Runtime versions | Release status |
+| --- | --- | --- | --- |
+| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.1.0`. |
 
 ## Current Evidence
 
@@ -40,8 +39,8 @@ claimed on Modrinth.
 - Container detection and item movement must run on the server and must not load
   client-only classes.
 - Multiplayer requires a server-side mod for authoritative inventory changes.
-  A client-only install is expected to be useful only for offline singleplayer
-  or for UI-only detection before a server handshake disables the action.
+  Client-only remote installs show an unavailable message when the server does
+  not have Quick Stack Nearby.
 - Shulker-box support needs separate validation because it touches nested item
   container data rather than only player inventory slots.
 - Common API splits now proven by compile probes include resource identifiers,

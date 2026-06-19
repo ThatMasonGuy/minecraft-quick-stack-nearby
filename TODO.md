@@ -34,6 +34,14 @@
 - Compatibility compile probes have been run for every candidate group from
   `1.20-1.20.4` through `26.x`; breakpoints and the shim plan are documented in
   `docs/compatibility-research.md`.
+- The `1.21.11` profile is promoted as the only supported profile for the
+  public `0.1.0` review release.
+- Modrinth page copy now describes the implemented `0.1.0` behavior instead of
+  scaffold-only plans, and project metadata includes required client/server
+  sides, LGPL license id, source/issues URLs, and the root source icon.
+- The `0.1.0` publish dry run writes one listed Fabric upload plan for Modrinth
+  project `5Hu4HCfZ`, profile `1.21.11`, game version `1.21.11`, and release
+  jar `quick-stack-nearby-0.1.0.jar`.
 
 ## Research Conclusions
 
@@ -46,22 +54,24 @@
   server runs the common entrypoint in the client process.
 - UI/container button drift should follow InventorySort's candidate profile
   groups until proven otherwise.
-- No profile is publishable yet; every candidate in `gradle/smoke-tests.json`
-  is intentionally pending.
+- Only `1.21.11` is publishable for `0.1.0`; every remaining candidate in
+  `gradle/smoke-tests.json` stays pending.
 
 ## Next Implementation Tasks
 
-1. Manually smoke the 1.21.11 button in a real singleplayer world with nearby
-   chests/barrels before promoting any supported profile.
+1. Push the `0.1.0` release commit, publish the `1.21.11` Modrinth version,
+   sync the project page/icon metadata, tag `v0.1.0`, and create the GitHub
+   release.
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Decide whether the first release should include hotbar stacks, carried
+3. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
 4. Implement the smallest compat wrapper set from
    `docs/compatibility-research.md`, starting with `1.21.9-1.21.10`.
-5. Promote only the smoke-passed profile groups into
+5. Promote only future smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
-6. Update Modrinth project page metadata, license, and icon after page copy is
-   reviewed.
+6. Start the `0.2.0` patch set: clearer icon button, recipe-book offset
+   handling, InventorySort-style slot locks with keep counts, shared
+   TempestStudios storage, and op-configurable unload range.
 
 ## Verification Log
 
@@ -80,3 +90,13 @@
   `.\gradlew.bat compileJava compileClientJava "-Pminecraft_version_profile=<profile>" --no-daemon --console=plain`;
   all non-1.21.11 candidate failures are documented in
   `docs/compatibility-research.md`.
+- Passed after release-profile promotion:
+  `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-modrinth-project-pages.ps1 -DryRun`;
+  parsed required client/server metadata, LGPL license id, source/issues URLs,
+  and root icon `quick-stack-nearby.jpg` at `140258` bytes.
+- Passed after release-profile promotion:
+  `.\gradlew.bat publishModrinthDryRun --no-daemon --console=plain` with a
+  workspace-local Gradle cache/temp path for sandbox compatibility; built the
+  `1.21.11` release jar, ran supported client and dedicated-server smoke,
+  reported `selfTestItemsMoved=48`, and wrote
+  `build/modrinth/upload-plan.json`.

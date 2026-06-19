@@ -28,6 +28,10 @@
   client/server launch matrices, and Modrinth publish captures smoke artifacts.
 - Verified the 1.21.11 implementation with `buildRelease`,
   `smokeTestSelectedServers`, and `smokeTestSelectedClients`.
+- Promoted `1.21.11` as the only supported `0.1.0` publish profile and kept the
+  remaining compatibility groups as candidates.
+- Updated Modrinth project-page copy, metadata, and gallery text for the
+  playable `0.1.0` review release.
 
 ## Research Notes
 

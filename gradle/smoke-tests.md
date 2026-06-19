@@ -26,9 +26,10 @@ the run.
 
 ## Matrix Policy
 
-`gradle/smoke-tests.json` records candidate profiles as `pending`. A profile can
-only move to `supported_minecraft_version_profiles` after every listed exact
-game version has a `pass` record with a date, method, and evidence.
+`gradle/smoke-tests.json` records `1.21.11` as `pass` for the first release and
+keeps the remaining candidate profiles as `pending`. A profile can only move to
+`supported_minecraft_version_profiles` after every listed exact game version has
+a `pass` record with a date, method, and evidence.
 
 The publish workflow should be treated as the authoritative full-matrix gate
 once the real implementation is ready.
