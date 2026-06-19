@@ -52,6 +52,14 @@
   `TempestStudios/QuickStackNearby/server_config.json` and exposes op-only
   `/quickstacknearby range`, `/quickstacknearby range <horizontal> <vertical>`,
   and `/quickstacknearby reload` commands, with `/qsn` aliases.
+- The client rule slice now creates
+  `TempestStudios/QuickStackNearby/quick_stack_rules.json`, scoped by
+  singleplayer instance/world or multiplayer server/account, and opens an
+  InventorySort-style slot rules screen from right-clicking the quick-stack
+  button.
+- Slot rules currently apply to the same main-inventory source slots that quick
+  stack unloads today. Locked slots are skipped, and keep counts leave the
+  configured number of items in that slot while still allowing the rest to move.
 
 ## Research Conclusions
 
@@ -74,13 +82,12 @@
    sync the project page/icon metadata, tag `v0.1.0`, and create the GitHub
    release.
 2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Build the `0.2.0` slot-lock UI: copy InventorySort's rule screen pattern,
-   change the accent color, and add per-slot keep counts.
-4. Build the remaining client slot-rule storage on top of the shared
-   TempestStudios namespace helper so world/server/account-scoped keep counts
-   do not collide.
-5. Exercise the new op range commands in a dedicated-server smoke test once the
-   v0.2.0 UI slice is complete.
+3. Exercise the slot-rule request path and op range commands in focused
+   dedicated-server/client smoke checks before packaging `0.2.0`.
+4. Decide whether `0.2.0` should add a server world-identity profile handshake
+   for multiplayer servers that rotate worlds behind one address, matching the
+   optional InventorySort profile refinement.
+5. Package `0.2.0` after final local smoke evidence is captured.
 6. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
 7. Implement the smallest compat wrapper set from
@@ -123,3 +130,10 @@
   `.\gradlew.bat buildAllMods --no-daemon --console=plain` with workspace-local
   Gradle cache/temp paths for sandbox compatibility; built and verified
   `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.
+- Passed after adding the slot-rule UI and keep-count packet path:
+  `.\gradlew.bat compileJava compileClientJava --no-daemon --console=plain`
+  with workspace-local Gradle cache/temp paths for sandbox compatibility.
+- Passed after adding the slot-rule UI and keep-count packet path:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
+  workspace-local Gradle cache/temp paths for sandbox compatibility; built and
+  verified `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.

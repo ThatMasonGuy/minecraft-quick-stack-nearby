@@ -11,7 +11,10 @@ public final class QuickStackNetworking {
         PayloadTypeRegistry.playC2S().register(QuickStackRequestPayload.TYPE, QuickStackRequestPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(
                 QuickStackRequestPayload.TYPE,
-                (payload, context) -> QuickStackService.quickStack(context.player())
+                (payload, context) -> QuickStackService.quickStack(
+                        context.player(),
+                        QuickStackMoveEngine.SourceRules.fromPayloadRules(payload.slotRules())
+                )
         );
     }
 }

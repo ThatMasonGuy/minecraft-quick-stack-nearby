@@ -25,6 +25,12 @@ sends a server-authoritative request that scans nearby containers and moves
 matching main-inventory stacks into containers that already hold those item
 types.
 
+On the `0.2.0` development line, right-clicking the quick-stack button opens a
+player-inventory rule screen. Main-inventory slots can be locked from unloading
+or assigned a keep count that leaves that many items behind when quick stacking.
+Rules are saved under the shared TempestStudios app-data folder and scoped by
+singleplayer instance/world or multiplayer server/account.
+
 Hotbar, armor, offhand, and carried shulker contents are intentionally left
 alone for the first public review build.
 

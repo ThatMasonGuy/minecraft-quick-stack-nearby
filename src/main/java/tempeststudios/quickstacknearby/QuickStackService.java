@@ -19,12 +19,20 @@ public final class QuickStackService {
     }
 
     public static QuickStackMoveEngine.Result quickStack(ServerPlayer player) {
+        return quickStack(player, QuickStackMoveEngine.SourceRules.EMPTY);
+    }
+
+    public static QuickStackMoveEngine.Result quickStack(
+            ServerPlayer player,
+            QuickStackMoveEngine.SourceRules sourceRules
+    ) {
         List<QuickStackMoveEngine.Target> targets = nearbyTargets(player);
         QuickStackMoveEngine.Result result = QuickStackMoveEngine.moveMatchingItems(
                 player.getInventory(),
                 Inventory.getSelectionSize(),
                 Inventory.INVENTORY_SIZE,
-                targets
+                targets,
+                sourceRules
         );
 
         if (result.itemsMoved() > 0) {

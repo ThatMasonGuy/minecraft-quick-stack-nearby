@@ -9,6 +9,10 @@
   button refreshes position when vanilla shifts the inventory screen.
 - Added shared TempestStudios app-data storage for server config and op-only
   commands to inspect, update, and reload the quick-stack scan range.
+- Added an InventorySort-style quick-stack rules screen on right-click with
+  scoped TempestStudios storage, slot locks, and per-slot keep counts.
+- Quick-stack requests now send the active scoped slot rules so the server-side
+  movement engine leaves locked or keep-counted source slots alone.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the
   InventorySort checkpoint, CI, Modrinth, profile, and documentation workflow.
 - Copied `AGENTS.md` word-for-word from InventorySort as requested.

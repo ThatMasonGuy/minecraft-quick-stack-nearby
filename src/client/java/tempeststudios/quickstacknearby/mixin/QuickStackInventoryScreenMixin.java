@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tempeststudios.quickstacknearby.QuickStackButtonSlotBridge;
 import tempeststudios.quickstacknearby.QuickStackClientNetworking;
 import tempeststudios.quickstacknearby.QuickStackIconButton;
+import tempeststudios.quickstacknearby.QuickStackRulesScreen;
 import tempeststudios.quickstacknearby.RecipeBookAwareButtonScreen;
 
 @Mixin(AbstractContainerScreen.class)
@@ -47,9 +48,13 @@ public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareB
         Button button = new QuickStackIconButton(
                 placement.x(),
                 placement.y(),
-                Component.literal("Quick stack to nearby containers"),
+                Component.literal("Quick stack to nearby containers. Right-click for slot rules."),
                 pressed -> {
                     QuickStackClientNetworking.sendQuickStackRequest();
+                    quickStackNearby$clearFocus(client, screen, pressed);
+                },
+                pressed -> {
+                    client.setScreen(new QuickStackRulesScreen(screen, client.player));
                     quickStackNearby$clearFocus(client, screen, pressed);
                 }
         );

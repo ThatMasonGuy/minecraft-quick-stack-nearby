@@ -22,6 +22,8 @@ public final class QuickStackClientNetworking {
             return;
         }
 
-        ClientPlayNetworking.send(QuickStackRequestPayload.INSTANCE);
+        ClientPlayNetworking.send(new QuickStackRequestPayload(
+                QuickStackRuleStore.getInstance().payloadRules()
+        ));
     }
 }
