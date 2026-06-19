@@ -12,6 +12,17 @@ and use a local fallback when it is not.
 - Keep the feature installable without requiring InventorySort, Inventory
   Search, or Inventory Catalogue.
 
+## Current Implementation
+
+- `QuickStackButtonSlotBridge` reflects
+  `tempeststudios.inventorysort.api.InventoryScreenButtonSlots` when an Inv+
+  suite mod exposes it.
+- If reflection fails, `QuickStackScreenButtonSlots` provides the local
+  InventorySort-style player-inventory slot fallback.
+- The current fallback is intentionally narrow: it only reserves the one
+  QuickStack survival-inventory button. Broader InventorySort widget classes can
+  be transplanted later if older profile UI ports prove they need them.
+
 ## Slot API Plan
 
 Use a stable owner and slot id:
@@ -29,7 +40,9 @@ hidden for a screen state, release the reservation.
 
 ## Fallback Plan
 
-The fallback should be transplanted from InventorySort instead of rewritten:
+The current fallback is copied from InventorySort's slot-placement shape. Older
+client profiles may still need version-specific button overlays from
+InventorySort:
 
 - `InventorySortHitboxButton`
 - `InventorySortIconButton`
@@ -38,8 +51,7 @@ The fallback should be transplanted from InventorySort instead of rewritten:
 - shared renderer utilities
 - the version-specific compat overlays that make those widgets compile
 
-The fallback can be renamed into the QuickStack package after the candidate
-profile matrix proves which overlays are still needed.
+Only transplant the overlays that compile-probe evidence proves are needed.
 
 ## Build Target Implication
 

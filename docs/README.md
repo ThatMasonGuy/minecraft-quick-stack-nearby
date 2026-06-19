@@ -11,6 +11,8 @@ copy or Gradle release playbooks.
   API detection, reservation plan, and fallback button implementation plan.
 - [`button-slot-api.md`](button-slot-api.md): copied InventorySort reference for
   the Inv+ right-side button reservation API.
+- [`compatibility-research.md`](compatibility-research.md): compile-probe
+  results and the shim plan for 1.20.x through 26.x.
 
 Release and publishing docs live under `gradle/`. Public project-page source
 copy and gallery metadata live in `gradle/modrinth-project-pages.md` and

@@ -1,7 +1,7 @@
 # Compatibility
 
-Scope: Quick Stack Nearby source compatibility before any gameplay
-implementation. No Minecraft version is supported for publishing yet.
+Scope: Quick Stack Nearby source compatibility after the first playable
+`1.21.11` implementation. No Minecraft version is supported for publishing yet.
 
 ## Candidate Profiles
 
@@ -18,8 +18,19 @@ implementation. No Minecraft version is supported for publishing yet.
 ## Supported Profiles
 
 None yet. `supported_minecraft_version_profiles` is intentionally blank until
-the real quick-stack behavior, UI placement, and smoke tests pass for each exact
-runtime claimed on Modrinth.
+manual gameplay smoke and exact-version launch smoke pass for every runtime
+claimed on Modrinth.
+
+## Current Evidence
+
+- `1.21.11` compiles and passes selected packaged client and dedicated-server
+  smoke tests. The dedicated-server smoke exercises the quick-stack move engine
+  and reports `selfTestItemsMoved=48`.
+- Candidate compile probes for `1.21.9-1.21.10`, `1.21.6-1.21.8`,
+  `1.21-1.21.5`, `1.20.5-1.20.6`, `1.20-1.20.4`, and `26.x` were run on
+  2026-06-19 from baseline commit `4bedcd1`.
+- Detailed breakpoints and bridge recommendations are recorded in
+  `docs/compatibility-research.md`.
 
 ## Drift Surfaces
 
@@ -33,6 +44,9 @@ runtime claimed on Modrinth.
   or for UI-only detection before a server handshake disables the action.
 - Shulker-box support needs separate validation because it touches nested item
   container data rather than only player inventory slots.
+- Common API splits now proven by compile probes include resource identifiers,
+  server-level access, item component/tag identity, Fabric networking payload
+  APIs, action-bar feedback, and 26.x extractor-based client rendering.
 
 ## Research Evidence
 

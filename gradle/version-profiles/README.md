@@ -16,6 +16,9 @@ The candidate groups mirror InventorySort's UI/button compatibility surfaces
 because QuickStack will either reserve a slot through the Inv+ API or fall back
 to a copied InventorySort-style button implementation.
 
+The first compile-probe pass for the implemented 1.21.11 feature is documented
+in `docs/compatibility-research.md`.
+
 ## Candidate Profiles
 
 | Profile | Compile anchor | Runtime versions | Compat group |
