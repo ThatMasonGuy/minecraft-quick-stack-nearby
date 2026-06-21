@@ -40,6 +40,13 @@ abstract class QuickStackCustomButtonBase extends Button {
 
     protected abstract void paintButton(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick);
 
+    protected final void setButtonBounds(int x, int y, int width, int height) {
+        setX(x);
+        setY(y);
+        setWidth(width);
+        setHeight(height);
+    }
+
     private boolean handleSecondaryClick(double mouseX, double mouseY, int button) {
         if (secondaryOnPress != null && button == 1 && active && visible && isMouseOver(mouseX, mouseY)) {
             secondaryOnPress.onPress(this);

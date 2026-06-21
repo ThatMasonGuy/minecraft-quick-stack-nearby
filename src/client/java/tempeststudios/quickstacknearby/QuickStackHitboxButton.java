@@ -18,10 +18,7 @@ public class QuickStackHitboxButton extends QuickStackCustomButtonBase {
     }
 
     public void setBounds(int x, int y, int width, int height) {
-        setX(x);
-        setY(y);
-        setWidth(width);
-        setHeight(height);
+        setButtonBounds(x, y, width, height);
     }
 
     @Override

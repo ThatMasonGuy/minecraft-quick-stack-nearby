@@ -21,6 +21,9 @@
   adapters for identifiers, C2S payload registration/sending, player feedback,
   server-level access, item-stack identity, custom button rendering/click
   handling, window handles, and singleplayer server directory paths.
+- Added legacy `1.20-1.20.4` adapters for Fabric's old
+  `FabricPacket`/`PacketType` networking, NBT stack identity, container
+  max-stack limits, and public widget rendering/bounds APIs.
 - Verified candidate compilation from `1.20.5-1.20.6` through `1.21.11` while
   keeping new profile promotion blocked on exact-runtime smoke coverage.
 - Avoided rewriting the server config file during normal startup loads; it now

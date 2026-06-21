@@ -78,6 +78,9 @@
   `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, and the supported
   `1.21.11` profile. No additional profile has been promoted yet because
   exact-runtime smoke coverage is still pending.
+- The legacy `1.20-1.20.4` compatibility slice now compiles with Fabric's old
+  `FabricPacket`/`PacketType` networking API, NBT-era item-stack identity, the
+  no-argument container max-stack limit, and old widget bounds/render hooks.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -110,10 +113,9 @@
    right-click rules screen before any public `0.2.0` publish.
 5. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-6. Add the legacy `1.20-1.20.4` networking and NBT-era stack identity adapters.
-7. Add the `26.x` networking, action-bar feedback, and extractor-era client
+6. Add the `26.x` networking, action-bar feedback, and extractor-era client
    rendering adapters.
-8. Promote only future smoke-passed profile groups into
+7. Promote only future smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
 
 ## Verification Log
@@ -187,6 +189,12 @@
   `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
   workspace-local Gradle cache path; rebuilt and verified the supported
   `1.21.11` release jar while leaving candidate profiles non-publishable.
+- Passed after adding legacy 1.20 compatibility adapters:
+  `.\gradlew.bat compileJava compileClientJava "-Pminecraft_version_profile=1.20-1.20.4" --no-daemon --console=plain`.
+- Passed after adding legacy 1.20 compatibility adapters:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
+  workspace-local Gradle cache path; rebuilt and verified the supported
+  `1.21.11` release jar while candidate profiles remained non-publishable.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

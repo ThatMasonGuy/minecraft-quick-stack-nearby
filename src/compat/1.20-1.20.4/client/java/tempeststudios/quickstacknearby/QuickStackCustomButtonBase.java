@@ -3,7 +3,6 @@ package tempeststudios.quickstacknearby;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
 abstract class QuickStackCustomButtonBase extends Button {
@@ -27,15 +26,15 @@ abstract class QuickStackCustomButtonBase extends Button {
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (handleSecondaryClick(event.x(), event.y(), event.button())) {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (handleSecondaryClick(mouseX, mouseY, button)) {
             return true;
         }
-        return super.mouseClicked(event, doubleClick);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         paintButton(guiGraphics, mouseX, mouseY, partialTick);
     }
 
@@ -45,7 +44,7 @@ abstract class QuickStackCustomButtonBase extends Button {
         setX(x);
         setY(y);
         setWidth(width);
-        setHeight(height);
+        this.height = height;
     }
 
     private boolean handleSecondaryClick(double mouseX, double mouseY, int button) {
