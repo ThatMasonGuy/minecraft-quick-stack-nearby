@@ -6,10 +6,10 @@ import net.minecraft.client.gui.GuiGraphics;
 public final class QuickStackUi {
     public static final int ACCENT = 0xFFFF7A59;
 
-    public static final int STANDARD_MODAL_W = 430;
-    public static final int STANDARD_MODAL_H = 248;
-    public static final int MIN_MODAL_W = 348;
-    public static final int MIN_MODAL_H = 226;
+    public static final int STANDARD_MODAL_W = 448;
+    public static final int STANDARD_MODAL_H = 262;
+    public static final int MIN_MODAL_W = 360;
+    public static final int MIN_MODAL_H = 236;
 
     public static final int SCRIM = 0xC4000000;
     public static final int SHADOW = 0x55000000;

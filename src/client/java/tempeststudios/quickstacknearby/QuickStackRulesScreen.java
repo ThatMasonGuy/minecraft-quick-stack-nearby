@@ -44,6 +44,7 @@ public class QuickStackRulesScreen extends Screen {
     private int infoY;
     private int infoW;
     private int infoH;
+    private int keepControlsY;
     private int anchorSlot = -1;
 
     public QuickStackRulesScreen(AbstractContainerScreen<?> parent, Player player) {
@@ -79,7 +80,7 @@ public class QuickStackRulesScreen extends Screen {
         this.addRenderableWidget(lock);
 
         QuickStackTextButton unlock = new QuickStackTextButton(gridX + bw + 4, actionsY, bw, 18,
-                Component.literal("Unlock"), button -> unlockSelectedSlots());
+                Component.literal("Allow"), button -> unlockSelectedSlots());
         unlock.setTooltip(Tooltip.create(Component.literal("Allow the selected slots to unload.")));
         this.addRenderableWidget(unlock);
 
@@ -88,26 +89,27 @@ public class QuickStackRulesScreen extends Screen {
         clear.setTooltip(Tooltip.create(Component.literal("Remove rules from the selected slots.")));
         this.addRenderableWidget(clear);
 
-        int keepY = infoY + infoH - 27;
-        int small = 28;
-        QuickStackTextButton minus = new QuickStackTextButton(infoX + 9, keepY, small, 18,
+        int controlW = Math.max(1, infoW - 18);
+        int small = Math.min(28, Math.max(22, (controlW - 54 - 8) / 2));
+        int clearKeepW = Math.max(1, controlW - small * 2 - 8);
+        QuickStackTextButton minus = new QuickStackTextButton(infoX + 9, keepControlsY, small, 18,
                 Component.literal("-"), button -> adjustKeepCount(-1));
         minus.setTooltip(Tooltip.create(Component.literal("Keep one fewer item in selected slots.")));
         this.addRenderableWidget(minus);
 
-        QuickStackTextButton plus = new QuickStackTextButton(infoX + 9 + small + 4, keepY, small, 18,
+        QuickStackTextButton plus = new QuickStackTextButton(infoX + 9 + small + 4, keepControlsY, small, 18,
                 Component.literal("+"), button -> adjustKeepCount(1), true);
         plus.setTooltip(Tooltip.create(Component.literal("Keep one more item in selected slots.")));
         this.addRenderableWidget(plus);
 
-        QuickStackTextButton clearKeep = new QuickStackTextButton(infoX + 9 + (small + 4) * 2, keepY,
-                Math.max(54, infoW - 18 - (small + 4) * 2), 18,
+        QuickStackTextButton clearKeep = new QuickStackTextButton(infoX + 9 + (small + 4) * 2, keepControlsY,
+                clearKeepW, 18,
                 Component.literal("Keep 0"), button -> clearKeepCount());
         clearKeep.setTooltip(Tooltip.create(Component.literal("Clear the keep count on selected slots.")));
         this.addRenderableWidget(clearKeep);
 
-        QuickStackTextButton clearAll = new QuickStackTextButton(panelX + panelW - PAD - 78, panelY + 28, 78, 18,
-                Component.literal("Reset Scope"), button -> clearCurrentRules());
+        QuickStackTextButton clearAll = new QuickStackTextButton(panelX + panelW - PAD - 58, panelY + 28, 58, 18,
+                Component.literal("Reset"), button -> clearCurrentRules());
         clearAll.setTooltip(Tooltip.create(Component.literal("Clear every quick-stack rule in this world/server scope.")));
         this.addRenderableWidget(clearAll);
     }
@@ -118,7 +120,7 @@ public class QuickStackRulesScreen extends Screen {
         QuickStackUi.window(g, panelX, panelY, panelW, panelH);
 
         text(g, "Quick Stack Rules", panelX + PAD, panelY + 9, QuickStackUi.TEXT);
-        text(g, "World player inventory", panelX + PAD, panelY + 31, QuickStackUi.TEXT_MUTED);
+        text(g, "Player inventory", panelX + PAD, panelY + 31, QuickStackUi.TEXT_MUTED);
         QuickStackUi.divider(g, panelX + PAD, panelY + 52, panelW - PAD * 2);
 
         renderSlots(g, mouseX, mouseY);
@@ -168,29 +170,30 @@ public class QuickStackRulesScreen extends Screen {
         int count = selectedSlots.size();
 
         if (count == 0) {
-            text(g, "No slots selected", tx, ty, QuickStackUi.TEXT);
-            wrapText(g, "Click a slot to begin. Hold Ctrl to add slots, Shift to pick a range.",
+            text(g, "Select slots", tx, ty, QuickStackUi.TEXT);
+            wrapText(g, "Ctrl adds slots. Shift selects a range.",
                     tx, ty + 14, maxW, QuickStackUi.TEXT_MUTED, 3);
         } else if (count == 1) {
             int slotIndex = primarySelectedSlot();
             QuickStackRuleStore.SlotRule rule = currentRules().ruleFor(slotIndex);
             ItemStack stack = stackForInventorySlot(slotIndex);
             text(g, "Slot " + slotIndex, tx, ty, QuickStackUi.TEXT);
-            text(g, truncate("Holds: " + stackLabel(stack), maxW), tx, ty + 13, QuickStackUi.TEXT_MUTED);
+            text(g, truncate("Item: " + stackLabel(stack), maxW), tx, ty + 13, QuickStackUi.TEXT_MUTED);
             int stateColor = rule.locked ? MARK_LOCKED : rule.hasKeepCount() ? MARK_KEEP : QuickStackUi.TEXT_DIM;
             text(g, truncate(slotStateText(rule), maxW), tx, ty + 26, stateColor);
         } else {
             text(g, count + " slots selected", tx, ty, QuickStackUi.TEXT);
-            wrapText(g, "Lock, Unlock, Clear, or adjust the keep count for all selected slots.",
+            wrapText(g, "Changes apply to every selected slot.",
                     tx, ty + 14, maxW, QuickStackUi.TEXT_MUTED, 3);
         }
 
-        int ly = infoY + infoH - 55;
+        int ly = keepControlsY - 44;
         g.fill(tx, ly, tx + 9, ly + 9, MARK_LOCKED);
-        text(g, "Locked slot", tx + 15, ly + 1, QuickStackUi.TEXT_MUTED);
+        text(g, "Locked", tx + 15, ly + 1, QuickStackUi.TEXT_MUTED);
         int ly2 = ly + 14;
         QuickStackUi.countBadge(g, this.font, "1", tx + 9, ly2 + 9, MARK_KEEP);
         text(g, "Keep count", tx + 15, ly2 + 1, QuickStackUi.TEXT_MUTED);
+        text(g, "Keep selected", tx, keepControlsY - 12, QuickStackUi.TEXT_DIM);
     }
 
     private void buildHitboxes() {
@@ -370,7 +373,8 @@ public class QuickStackRulesScreen extends Screen {
         infoX = panelX + PAD + gridW + PAD;
         infoY = contentTop + 4;
         infoW = panelX + panelW - PAD - infoX;
-        infoH = (actionsY + 18) - infoY;
+        infoH = contentBottom - infoY;
+        keepControlsY = infoY + infoH - 24;
     }
 
     private List<SlotEntry> targetEntries() {

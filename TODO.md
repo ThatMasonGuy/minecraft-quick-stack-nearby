@@ -66,6 +66,10 @@
 - Slot rules currently apply to the same main-inventory source slots that quick
   stack unloads today. Locked slots are skipped, and keep counts leave the
   configured number of items in that slot while still allowing the rest to move.
+- The `0.2.0` UI pass replaced the colored chest/green-arrow quick-stack glyph
+  with a monochrome inventory-out arrow, widened the rules modal, gave the side
+  panel real vertical breathing room, shortened crowded labels, and clamps text
+  button labels inside their own bounds.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -94,8 +98,8 @@
 3. Decide whether `0.2.0` should add a server world-identity profile handshake
    for multiplayer servers that rotate worlds behind one address, matching the
    optional InventorySort profile refinement.
-4. Do a manual in-game visual pass on the right-click rules screen before any
-   public `0.2.0` publish.
+4. Do one last manual in-game playtest of the polished quick-stack button and
+   right-click rules screen before any public `0.2.0` publish.
 5. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
 6. Implement the smallest compat wrapper set from
@@ -151,6 +155,14 @@
   `.smoke-appdata`; emitted both `QUICKSTACKNEARBY_SMOKE_TEST_PASS` and
   `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`, with
   `selfTestItemsMoved=48`.
+- Passed after `0.2.0` UI polish:
+  `.\gradlew.bat compileJava compileClientJava --no-daemon --console=plain`
+  with workspace-local Gradle cache path; first attempt timed out while Gradle
+  held the Fabric Loom cache lock, and the longer rerun completed successfully.
+- Passed after `0.2.0` UI polish:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
+  workspace-local Gradle cache path; rebuilt and verified
+  `build/release/1.21.11/quick-stack-nearby-0.2.0.jar`.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

@@ -7,12 +7,6 @@ final class QuickStackIconButtonRenderer {
 
     private static final int ICON_COLOR = 0xFF1C1C1C;
     private static final int ICON_HOVER_COLOR = 0xFF000000;
-    private static final int CHEST_COLOR = 0xFF6F451B;
-    private static final int CHEST_HOVER_COLOR = 0xFF8A5A24;
-    private static final int CHEST_DARK_COLOR = 0xFF4D3015;
-    private static final int LATCH_COLOR = 0xFFFFD84D;
-    private static final int ARROW_COLOR = 0xFF147A34;
-    private static final int ARROW_HOVER_COLOR = 0xFF0C9639;
 
     private QuickStackIconButtonRenderer() {
     }
@@ -42,19 +36,18 @@ final class QuickStackIconButtonRenderer {
     }
 
     private static void drawQuickStackIcon(GuiGraphics guiGraphics, int x, int y, boolean hovered) {
-        int outline = hovered ? ICON_HOVER_COLOR : ICON_COLOR;
-        int chest = hovered ? CHEST_HOVER_COLOR : CHEST_COLOR;
-        int arrow = hovered ? ARROW_HOVER_COLOR : ARROW_COLOR;
+        int color = hovered ? ICON_HOVER_COLOR : ICON_COLOR;
 
-        fill(guiGraphics, x + 6, y + 2, x + 7, y + 6, arrow);
-        fill(guiGraphics, x + 4, y + 5, x + 9, y + 6, arrow);
-        fill(guiGraphics, x + 5, y + 6, x + 8, y + 7, arrow);
+        fill(guiGraphics, x + 2, y + 3, x + 7, y + 4, color);
+        fill(guiGraphics, x + 2, y + 8, x + 7, y + 9, color);
+        fill(guiGraphics, x + 2, y + 4, x + 3, y + 8, color);
+        fill(guiGraphics, x + 6, y + 4, x + 7, y + 8, color);
 
-        fill(guiGraphics, x + 3, y + 6, x + 9, y + 7, outline);
-        fill(guiGraphics, x + 2, y + 7, x + 10, y + 10, outline);
-        fill(guiGraphics, x + 3, y + 7, x + 9, y + 9, chest);
-        fill(guiGraphics, x + 3, y + 9, x + 9, y + 10, CHEST_DARK_COLOR);
-        fill(guiGraphics, x + 5, y + 7, x + 7, y + 9, LATCH_COLOR);
+        fill(guiGraphics, x + 4, y + 5, x + 5, y + 6, color);
+        fill(guiGraphics, x + 6, y + 5, x + 9, y + 6, color);
+        fill(guiGraphics, x + 7, y + 4, x + 10, y + 5, color);
+        fill(guiGraphics, x + 7, y + 6, x + 10, y + 7, color);
+        fill(guiGraphics, x + 8, y + 3, x + 9, y + 8, color);
     }
 
     private static void fill(GuiGraphics guiGraphics, int left, int top, int right, int bottom, int color) {

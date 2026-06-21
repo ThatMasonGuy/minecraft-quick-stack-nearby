@@ -13,6 +13,10 @@
   scoped TempestStudios storage, slot locks, and per-slot keep counts.
 - Quick-stack requests now send the active scoped slot rules so the server-side
   movement engine leaves locked or keep-counted source slots alone.
+- Polished the quick-stack button and rules screen: the button now uses a
+  monochrome inventory-out icon, text buttons clamp labels to their bounds, and
+  the rules modal gives selection state, legend, and keep-count controls their
+  own space.
 - Avoided rewriting the server config file during normal startup loads; it now
   writes on first creation, recovery, or command-driven changes.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the
@@ -52,6 +56,8 @@
   license verification now reads `license.id`, and draft review projects can
   tolerate a temporary side-support readback lag while still keeping required
   client/server metadata in source.
+- Ignored the workspace-local `.gradle-codex/` cache used by local verification
+  commands.
 
 ## Research Notes
 
