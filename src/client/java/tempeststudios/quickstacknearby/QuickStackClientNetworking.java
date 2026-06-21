@@ -14,15 +14,15 @@ public final class QuickStackClientNetworking {
             return;
         }
 
-        if (!ClientPlayNetworking.canSend(QuickStackRequestPayload.TYPE)) {
-            client.player.displayClientMessage(
-                    Component.literal("Quick Stack Nearby is not available on this server."),
-                    true
+        if (!QuickStackClientNetworkingCompat.canSendQuickStack()) {
+            ClientFeedbackCompat.displayClientMessage(
+                    client.player,
+                    Component.literal("Quick Stack Nearby is not available on this server.")
             );
             return;
         }
 
-        ClientPlayNetworking.send(new QuickStackRequestPayload(
+        QuickStackClientNetworkingCompat.sendQuickStackRequest(new QuickStackRequestPayload(
                 QuickStackRuleStore.getInstance().payloadRules()
         ));
     }

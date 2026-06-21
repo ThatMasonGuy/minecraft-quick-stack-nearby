@@ -38,12 +38,12 @@ public final class QuickStackService {
         if (result.itemsMoved() > 0) {
             player.containerMenu.broadcastChanges();
         }
-        player.displayClientMessage(messageFor(result, targets.size()), true);
+        PlayerFeedbackCompat.displayClientMessage(player, messageFor(result, targets.size()));
         return result;
     }
 
     private static List<QuickStackMoveEngine.Target> nearbyTargets(ServerPlayer player) {
-        ServerLevel level = player.level();
+        ServerLevel level = ServerPlayerCompat.serverLevel(player);
         BlockPos center = player.blockPosition();
         List<ScannedContainer> scannedContainers = new ArrayList<>();
         QuickStackServerConfig config = QuickStackServerConfig.getInstance();
@@ -86,7 +86,8 @@ public final class QuickStackService {
         if (container instanceof BaseContainerBlockEntity baseContainer && !baseContainer.canOpen(player)) {
             return false;
         }
-        return container.stillValid(player) && player.mayInteract(player.level(), blockEntity.getBlockPos());
+        return container.stillValid(player)
+                && player.mayInteract(ServerPlayerCompat.serverLevel(player), blockEntity.getBlockPos());
     }
 
     private static Component messageFor(QuickStackMoveEngine.Result result, int targetCount) {

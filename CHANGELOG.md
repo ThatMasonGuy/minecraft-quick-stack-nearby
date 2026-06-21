@@ -17,6 +17,12 @@
   monochrome inventory-out icon, text buttons clamp labels to their bounds, and
   the rules modal gives selection state, legend, and keep-count controls their
   own space.
+- Added the first cross-version compatibility slice with profile-specific
+  adapters for identifiers, C2S payload registration/sending, player feedback,
+  server-level access, item-stack identity, custom button rendering/click
+  handling, window handles, and singleplayer server directory paths.
+- Verified candidate compilation from `1.20.5-1.20.6` through `1.21.11` while
+  keeping new profile promotion blocked on exact-runtime smoke coverage.
 - Avoided rewriting the server config file during normal startup loads; it now
   writes on first creation, recovery, or command-driven changes.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the

@@ -431,7 +431,7 @@ public class QuickStackRulesScreen extends Screen {
         if (client == null) {
             return false;
         }
-        return GLFW.glfwGetKey(client.getWindow().handle(), key) == GLFW.GLFW_PRESS;
+        return GLFW.glfwGetKey(WindowCompat.handle(client.getWindow()), key) == GLFW.GLFW_PRESS;
     }
 
     private void text(GuiGraphics g, String text, int x, int y, int color) {

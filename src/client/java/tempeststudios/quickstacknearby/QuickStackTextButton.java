@@ -3,10 +3,9 @@ package tempeststudios.quickstacknearby;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-public class QuickStackTextButton extends Button {
+public class QuickStackTextButton extends QuickStackCustomButtonBase {
     private final boolean primary;
 
     public QuickStackTextButton(int x, int y, int width, int height, Component message, OnPress onPress) {
@@ -22,12 +21,12 @@ public class QuickStackTextButton extends Button {
             OnPress onPress,
             boolean primary
     ) {
-        super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
+        super(x, y, width, height, message, onPress, null, null);
         this.primary = primary;
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void paintButton(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         int color = QuickStackUi.button(
                 guiGraphics,
                 getX(),

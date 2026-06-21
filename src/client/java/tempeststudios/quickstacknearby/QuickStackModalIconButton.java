@@ -1,27 +1,22 @@
 package tempeststudios.quickstacknearby;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
-public class QuickStackModalIconButton extends Button {
+public class QuickStackModalIconButton extends QuickStackCustomButtonBase {
     public static final int CLOSE = 0;
 
     private final int icon;
     private final int size;
 
     public QuickStackModalIconButton(int x, int y, int size, int icon, Component tooltip, OnPress onPress) {
-        super(x, y, size, size, Component.empty(), onPress, DEFAULT_NARRATION);
+        super(x, y, size, size, Component.empty(), onPress, tooltip, null);
         this.icon = icon;
         this.size = size;
-        if (tooltip != null && !tooltip.getString().isEmpty()) {
-            setTooltip(Tooltip.create(tooltip));
-        }
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void paintButton(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         int color = QuickStackUi.button(
                 guiGraphics,
                 getX(),

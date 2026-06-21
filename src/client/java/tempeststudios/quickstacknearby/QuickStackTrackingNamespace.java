@@ -20,7 +20,7 @@ public final class QuickStackTrackingNamespace {
         if (client.isSingleplayer() && client.getSingleplayerServer() != null) {
             String worldId = UNKNOWN;
             try {
-                Path serverDir = client.getSingleplayerServer().getServerDirectory();
+                Path serverDir = ServerDirectoryCompat.path(client.getSingleplayerServer());
                 if (serverDir != null && serverDir.getFileName() != null) {
                     worldId = serverDir.getFileName().toString();
                 }

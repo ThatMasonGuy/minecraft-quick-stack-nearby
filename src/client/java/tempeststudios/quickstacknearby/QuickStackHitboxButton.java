@@ -1,14 +1,12 @@
 package tempeststudios.quickstacknearby;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-public class QuickStackHitboxButton extends Button {
+public class QuickStackHitboxButton extends QuickStackCustomButtonBase {
     private String targetId;
 
     public QuickStackHitboxButton(int x, int y, int width, int height, Component message, OnPress onPress) {
-        super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
+        super(x, y, width, height, message, onPress, null, null);
     }
 
     public void setTargetId(String targetId) {
@@ -27,6 +25,6 @@ public class QuickStackHitboxButton extends Button {
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void paintButton(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
     }
 }

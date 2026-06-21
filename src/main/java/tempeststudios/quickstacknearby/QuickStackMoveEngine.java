@@ -1,9 +1,7 @@
 package tempeststudios.quickstacknearby;
 
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -191,14 +189,14 @@ public final class QuickStackMoveEngine {
         int moved = 0;
         for (int slot = 0; slot < target.getContainerSize() && !sourceStack.isEmpty(); slot++) {
             ItemStack targetStack = target.getItem(slot);
-            if (targetStack.isEmpty() || !ItemStack.isSameItemSameComponents(sourceStack, targetStack)) {
+            if (targetStack.isEmpty() || !InventoryCompat.sameItemAndComponents(sourceStack, targetStack)) {
                 continue;
             }
             if (!target.canPlaceItem(slot, sourceStack)) {
                 continue;
             }
 
-            int maxCount = Math.min(targetStack.getMaxStackSize(), target.getMaxStackSize(targetStack));
+            int maxCount = Math.min(targetStack.getMaxStackSize(), InventoryCompat.maxStackSize(target, targetStack));
             int room = maxCount - targetStack.getCount();
             if (room <= 0) {
                 continue;
@@ -220,7 +218,7 @@ public final class QuickStackMoveEngine {
                 continue;
             }
 
-            int maxCount = Math.min(sourceStack.getMaxStackSize(), target.getMaxStackSize(sourceStack));
+            int maxCount = Math.min(sourceStack.getMaxStackSize(), InventoryCompat.maxStackSize(target, sourceStack));
             int amount = Math.min(maxCount, sourceStack.getCount());
             target.setItem(slot, sourceStack.copyWithCount(amount));
             sourceStack.shrink(amount);
@@ -239,9 +237,9 @@ public final class QuickStackMoveEngine {
         }
     }
 
-    public record StackKey(Item item, DataComponentPatch components) {
+    public record StackKey(Object identity) {
         public static StackKey of(ItemStack stack) {
-            return new StackKey(stack.getItem(), stack.getComponentsPatch());
+            return new StackKey(InventoryCompat.stackIdentity(stack));
         }
     }
 
