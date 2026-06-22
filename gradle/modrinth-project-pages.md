@@ -31,6 +31,8 @@ inventory into nearby containers that already hold those items.
 - Falls back to a local InventorySort-style button placement when Inv+ is not
   installed.
 
+![Quick Stack Nearby rules](modrinth-gallery://QuickStackNearby/02_quick_stack_nearby.png)
+
 ## Install Note
 
 Multiplayer quick stacking requires Quick Stack Nearby on both the server and
@@ -42,6 +44,8 @@ runs the common mod logic in the same process.
 
 Version 0.3.0 supports Minecraft 1.20 through 26.x. Hotbar, armor, offhand,
 and carried shulker contents are intentionally left alone in this release.
+More UI improvements are planned as the quick-stack button and rules screen
+continue to mature.
 
 Fabric API is required.
 ```
@@ -64,3 +68,7 @@ Fabric API is required.
   readback confirmed project status `draft`, requested status `approved`,
   required client/server metadata, LGPL-3.0-or-later license, source/issues
   URLs, and seven listed `0.3.0` Modrinth versions.
+- 2026-06-22: Live gallery refresh replaced the Modrinth gallery from local
+  source with four images, kept `Quick Stack Result` featured, added the rules
+  screenshot to the description, and authenticated readback confirmed the UI
+  improvements note in the body.

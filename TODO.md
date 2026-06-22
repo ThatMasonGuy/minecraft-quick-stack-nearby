@@ -120,6 +120,9 @@
 - Modrinth project page dry-run and live sync completed on 2026-06-22 with the
   `0.3.0` project-page copy, required side metadata, LGPL license, source/issues
   URLs, root icon, and one gallery image.
+- Modrinth project page/gallery refresh later on 2026-06-22 replaced the live
+  gallery with four source-controlled images, added the rules screenshot to the
+  main description, and mentioned that more UI improvements are planned.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -281,6 +284,15 @@
   `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, and GitHub Release
   `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.3.0`
   is published with no jar assets attached.
+- Passed after gallery refresh:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun -ReplaceGallery` parsed
+  four gallery images, two description images, required client/server metadata,
+  LGPL-3.0-or-later license, source/issues URLs, and the root icon.
+- Passed after gallery refresh:
+  `.\scripts\sync-modrinth-project-pages.ps1 -ReplaceGallery` completed and
+  authenticated Modrinth readback confirmed four gallery images, featured
+  `Quick Stack Result`, and the main body note that more UI improvements are
+  planned.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

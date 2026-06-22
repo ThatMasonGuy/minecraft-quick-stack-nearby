@@ -3,8 +3,23 @@
     "images": [
       {
         "file": "01_quick_stack_nearby.png",
-        "title": "Quick Stack Nearby",
-        "description": "Quick Stack Nearby project artwork."
+        "title": "Quick Stack Result",
+        "description": "Quick Stack Nearby moves matching items into nearby containers and reports how many items moved."
+      },
+      {
+        "file": "02_quick_stack_nearby.png",
+        "title": "Slot Rules Screen",
+        "description": "Right-click the quick-stack button to lock slots or keep selected counts in the player inventory."
+      },
+      {
+        "file": "03_quick_stack_nearby.png",
+        "title": "Inventory Button Tooltip",
+        "description": "The inventory button quick-stacks to nearby containers and opens slot rules on right-click."
+      },
+      {
+        "file": "04_quick_stack_nearby_art.png",
+        "title": "Quick Stack Artwork",
+        "description": "Quick Stack Nearby artwork with items flying from a chest."
       }
     ]
   }
