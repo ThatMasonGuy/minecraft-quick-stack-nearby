@@ -31,6 +31,11 @@ or assigned a keep count that leaves that many items behind when quick stacking.
 Rules are saved under the shared TempestStudios app-data folder and scoped by
 singleplayer instance/world or multiplayer server/account.
 
+The `0.2.0` compatibility pass now builds release jars for candidate profiles
+from Minecraft `1.20` through `26.x`, and each compatibility group's anchor
+runtime has passed selected client and dedicated-server smoke. Non-anchor exact
+game versions remain pending until full smoke coverage runs.
+
 Hotbar, armor, offhand, and carried shulker contents are intentionally left
 alone for the first public review build.
 
@@ -65,4 +70,5 @@ Supported profile build example:
 .\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
 ```
 
-Publishing currently targets only the smoke-tested `1.21.11` profile.
+Publishing currently targets only profiles whose exact runtime matrix has smoke
+evidence.

@@ -6,9 +6,10 @@
                                          "source_profile":  "1.20-1.20.4",
                                          "game_versions":  {
                                                                "1.20":  {
-                                                                            "status":  "pending",
-                                                                            "method":  "not-run",
-                                                                            "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            "status":  "pass",
+                                                                            "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                            "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                            "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                         },
                                                                "1.20.1":  {
                                                                               "status":  "pending",
@@ -37,9 +38,10 @@
                                            "source_profile":  "1.20.5-1.20.6",
                                            "game_versions":  {
                                                                  "1.20.5":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                                "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                                "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                             },
                                                                  "1.20.6":  {
                                                                                 "status":  "pending",
@@ -53,9 +55,10 @@
                                          "source_profile":  "1.21-1.21.5",
                                          "game_versions":  {
                                                                "1.21":  {
-                                                                            "status":  "pending",
-                                                                            "method":  "not-run",
-                                                                            "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                            "status":  "pass",
+                                                                            "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                            "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                            "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                         },
                                                                "1.21.1":  {
                                                                               "status":  "pending",
@@ -89,9 +92,10 @@
                                            "source_profile":  "1.21.6-1.21.8",
                                            "game_versions":  {
                                                                  "1.21.6":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                                "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                                "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                             },
                                                                  "1.21.7":  {
                                                                                 "status":  "pending",
@@ -110,9 +114,10 @@
                                             "source_profile":  "1.21.9-1.21.10",
                                             "game_versions":  {
                                                                   "1.21.9":  {
-                                                                                 "status":  "pending",
-                                                                                 "method":  "not-run",
-                                                                                 "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                 "status":  "pass",
+                                                                                 "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                                 "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                                 "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                              },
                                                                   "1.21.10":  {
                                                                                   "status":  "pending",
@@ -153,9 +158,10 @@
                                                                                   "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
                                                                               },
                                                                    "26.2-pre-3":  {
-                                                                                      "status":  "pending",
-                                                                                      "method":  "not-run",
-                                                                                      "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                      "status":  "pass",
+                                                                                      "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
+                                                                                      "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
+                                                                                      "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
                                                                                   }
                                                                }
                                          }

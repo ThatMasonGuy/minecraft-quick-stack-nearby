@@ -1,7 +1,9 @@
 # Compatibility
 
-Scope: Quick Stack Nearby source compatibility after the first playable
-`1.21.11` implementation. Version `0.1.0` supports Minecraft `1.21.11` only.
+Scope: Quick Stack Nearby source compatibility on the `0.2.0` development
+line. Version `0.1.0` supports Minecraft `1.21.11` only; additional publish
+targets stay candidates until every exact runtime in a profile has smoke
+evidence.
 
 ## Candidate Profiles
 
@@ -22,6 +24,15 @@ Scope: Quick Stack Nearby source compatibility after the first playable
 
 ## Current Evidence
 
+- `buildValidationVersions` passed on 2026-06-22 and built release jars for
+  every validation profile from `1.20-1.20.4` through `26.x`.
+- Selected anchor client and dedicated-server smoke passed on 2026-06-22 for
+  `1.20`, `1.20.5`, `1.21`, `1.21.6`, `1.21.9`, `1.21.11`, and
+  `26.2-pre-3`. Each dedicated-server smoke reported
+  `selfTestItemsMoved=48`.
+- Non-anchor exact game versions remain pending in `gradle/smoke-tests.json`.
+  Do not promote a compatibility group to supported release metadata until each
+  listed exact game version has a pass record.
 - `1.21.11` compiles and passes selected packaged client and dedicated-server
   smoke tests. The dedicated-server smoke exercises the quick-stack move engine
   and reports `selfTestItemsMoved=48`.

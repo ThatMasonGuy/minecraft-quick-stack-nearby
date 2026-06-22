@@ -3,7 +3,6 @@ package tempeststudios.quickstacknearby;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,7 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuickStackRulesScreen extends Screen {
+public class QuickStackRulesScreen extends QuickStackRulesScreenBase {
     private static final int PAD = 12;
     private static final int MARK_LOCKED = 0xFFD15B4A;
     private static final int MARK_KEEP = 0xFFFFC857;
@@ -115,7 +114,7 @@ public class QuickStackRulesScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
+    protected void paintScreen(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         QuickStackUi.scrim(g, this.width, this.height);
         QuickStackUi.window(g, panelX, panelY, panelW, panelH);
 
@@ -127,7 +126,6 @@ public class QuickStackRulesScreen extends Screen {
         renderSelectionInfo(g);
 
         updateHitboxes();
-        super.render(g, mouseX, mouseY, partialTick);
     }
 
     private void renderSlots(GuiGraphics g, int mouseX, int mouseY) {
@@ -339,7 +337,7 @@ public class QuickStackRulesScreen extends Screen {
     }
 
     private void closeToParent() {
-        Minecraft.getInstance().setScreen(parent);
+        ClientScreenCompat.setScreen(Minecraft.getInstance(), parent);
     }
 
     @Override

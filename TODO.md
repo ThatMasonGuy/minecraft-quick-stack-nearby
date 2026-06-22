@@ -81,6 +81,18 @@
 - The legacy `1.20-1.20.4` compatibility slice now compiles with Fabric's old
   `FabricPacket`/`PacketType` networking API, NBT-era item-stack identity, the
   no-argument container max-stack limit, and old widget bounds/render hooks.
+- The `26.x` compatibility slice now compiles with `serverboundPlay`
+  networking, `Identifier` resources, server system-message feedback, and a
+  `GuiGraphicsExtractor` bridge that lets the existing rules/button UI render
+  through the 26.x extractor pass.
+- `buildValidationVersions` now builds release jars for every validation
+  profile: `1.20-1.20.4`, `1.20.5-1.20.6`, `1.21-1.21.5`,
+  `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and `26.x`.
+- Selected anchor client and dedicated-server smoke passed for `1.20`,
+  `1.20.5`, `1.21`, `1.21.6`, `1.21.9`, `1.21.11`, and `26.2-pre-3`; every
+  server smoke reported `selfTestItemsMoved=48`.
+- Non-anchor exact runtime versions remain pending in `gradle/smoke-tests.json`,
+  so no additional profile has been promoted to supported publish metadata yet.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -113,8 +125,9 @@
    right-click rules screen before any public `0.2.0` publish.
 5. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-6. Add the `26.x` networking, action-bar feedback, and extractor-era client
-   rendering adapters.
+6. Run the full exact-version validation smoke matrix, preferably through the
+   manual GitHub candidate smoke workflow, before promoting any candidate
+   profile to supported publish metadata.
 7. Promote only future smoke-passed profile groups into
    `supported_minecraft_version_profiles`.
 
@@ -195,6 +208,18 @@
   `.\gradlew.bat buildAllMods --no-daemon --console=plain` with
   workspace-local Gradle cache path; rebuilt and verified the supported
   `1.21.11` release jar while candidate profiles remained non-publishable.
+- Passed after adding 26.x and UI extractor compatibility:
+  `.\gradlew.bat compileJava compileClientJava "-Pminecraft_version_profile=26.x" --no-daemon --console=plain`.
+- Passed after completing the compile/build compatibility pass:
+  `.\gradlew.bat buildValidationVersions --no-daemon --console=plain`; built
+  validation release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and `26.x`.
+- Passed anchor runtime smoke after completing the compatibility pass:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=1.20-1.20.4,1.20.5-1.20.6,1.21-1.21.5,1.21.6-1.21.8,1.21.9-1.21.10,1.21.11,26.x" "-Pquickstacknearby_smoke_game_versions=1.20,1.20.5,1.21,1.21.6,1.21.9,1.21.11,26.2-pre-3" --no-daemon --console=plain`
+  with `APPDATA` redirected to `.smoke-appdata`; each selected client emitted
+  `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, and each selected dedicated server
+  emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with
+  `selfTestItemsMoved=48`.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

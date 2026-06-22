@@ -1,7 +1,6 @@
 package tempeststudios.quickstacknearby.mixin;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -13,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tempeststudios.quickstacknearby.QuickStackButtonSlotBridge;
 import tempeststudios.quickstacknearby.QuickStackClientNetworking;
+import tempeststudios.quickstacknearby.ClientScreenCompat;
 import tempeststudios.quickstacknearby.QuickStackIconButton;
 import tempeststudios.quickstacknearby.QuickStackRulesScreen;
 import tempeststudios.quickstacknearby.RecipeBookAwareButtonScreen;
@@ -54,7 +54,7 @@ public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareB
                     quickStackNearby$clearFocus(client, screen, pressed);
                 },
                 pressed -> {
-                    client.setScreen(new QuickStackRulesScreen(screen, client.player));
+                    ClientScreenCompat.setScreen(client, new QuickStackRulesScreen(screen, client.player));
                     quickStackNearby$clearFocus(client, screen, pressed);
                 }
         );
@@ -62,8 +62,8 @@ public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareB
         quickStackNearby$button = button;
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void quickStackNearby$onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    @Inject(method = {"render", "extractRenderState"}, at = @At("HEAD"), require = 0)
+    private void quickStackNearby$onRender(CallbackInfo ci) {
         quickStackNearby$updateButtonPosition();
     }
 

@@ -24,8 +24,15 @@
 - Added legacy `1.20-1.20.4` adapters for Fabric's old
   `FabricPacket`/`PacketType` networking, NBT stack identity, container
   max-stack limits, and public widget rendering/bounds APIs.
-- Verified candidate compilation from `1.20.5-1.20.6` through `1.21.11` while
-  keeping new profile promotion blocked on exact-runtime smoke coverage.
+- Added 26.x adapters for `serverboundPlay` networking, server feedback,
+  extractor-based widget/screen rendering, screen navigation, and singleplayer
+  state checks.
+- Verified validation builds for every profile from `1.20-1.20.4` through
+  `26.x` while keeping new profile promotion blocked on exact-runtime smoke
+  coverage.
+- Smoke-tested each compatibility group's anchor runtime on both client and
+  dedicated server: `1.20`, `1.20.5`, `1.21`, `1.21.6`, `1.21.9`,
+  `1.21.11`, and `26.2-pre-3`.
 - Avoided rewriting the server config file during normal startup loads; it now
   writes on first creation, recovery, or command-driven changes.
 - Scaffolded Quick Stack Nearby as a Fabric single-mod project with the

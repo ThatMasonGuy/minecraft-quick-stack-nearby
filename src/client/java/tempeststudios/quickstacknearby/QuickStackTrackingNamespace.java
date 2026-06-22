@@ -17,7 +17,7 @@ public final class QuickStackTrackingNamespace {
             return UNKNOWN;
         }
 
-        if (client.isSingleplayer() && client.getSingleplayerServer() != null) {
+        if (ClientStateCompat.hasSingleplayerServer(client) && client.getSingleplayerServer() != null) {
             String worldId = UNKNOWN;
             try {
                 Path serverDir = ServerDirectoryCompat.path(client.getSingleplayerServer());
