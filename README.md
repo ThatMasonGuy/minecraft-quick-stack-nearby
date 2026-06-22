@@ -20,24 +20,19 @@ the server-side logic in the same process.
 
 ## Current State
 
-The `0.1.0` release supports Minecraft `1.21.11`. The survival inventory button
-sends a server-authoritative request that scans nearby containers and moves
-matching main-inventory stacks into containers that already hold those item
-types.
+The `0.3.0` release supports Minecraft `1.20` through `26.x` using seven
+smoke-tested compatibility-group jars. The survival inventory button sends a
+server-authoritative request that scans nearby containers and moves matching
+main-inventory stacks into containers that already hold those item types.
 
-On the `0.2.0` development line, right-clicking the quick-stack button opens a
-player-inventory rule screen. Main-inventory slots can be locked from unloading
-or assigned a keep count that leaves that many items behind when quick stacking.
-Rules are saved under the shared TempestStudios app-data folder and scoped by
-singleplayer instance/world or multiplayer server/account.
-
-The `0.2.0` compatibility pass now builds release jars for candidate profiles
-from Minecraft `1.20` through `26.x`, and each compatibility group's anchor
-runtime has passed selected client and dedicated-server smoke. Non-anchor exact
-game versions remain pending until full smoke coverage runs.
+Right-clicking the quick-stack button opens a player-inventory rule screen.
+Main-inventory slots can be locked from unloading or assigned a keep count that
+leaves that many items behind when quick stacking. Rules are saved under the
+shared TempestStudios app-data folder and scoped by singleplayer instance/world
+or multiplayer server/account.
 
 Hotbar, armor, offhand, and carried shulker contents are intentionally left
-alone for the first public review build.
+alone for this release.
 
 ## Commands
 
@@ -52,9 +47,8 @@ Ops can inspect or change the nearby-container scan range:
 `/qsn` is available as a shorter alias. Range settings are persisted in the
 shared TempestStudios app-data folder.
 
-Other Minecraft version profiles remain candidates in `COMPATIBILITY.md` and
-`gradle/version-profiles/README.md` until compatibility work and smoke evidence
-prove their release targets.
+Supported Minecraft version profiles and exact runtime evidence are documented
+in `COMPATIBILITY.md` and `gradle/version-profiles/README.md`.
 
 ## Build
 
@@ -70,5 +64,4 @@ Supported profile build example:
 .\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
 ```
 
-Publishing currently targets only profiles whose exact runtime matrix has smoke
-evidence.
+Publishing targets only profiles whose exact runtime matrix has smoke evidence.

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Prepared the `0.3.0` release line and promoted all current compatibility
+  groups from Minecraft `1.20` through `26.x` to supported publish profiles.
+- Recorded full exact-runtime smoke evidence from GitHub Actions candidate
+  smoke validation run `27922347858`, which passed every listed client and
+  dedicated-server runtime and reported `selfTestItemsMoved=48` in all 23
+  server self-tests.
+- Made the smoke matrix gate explicit for every supported publish profile so
+  future Modrinth uploads require pass records for all listed game versions.
 - Started the `0.2.0` development line.
 - Replaced the small quick-stack button glyph with a clearer chest-and-arrow
   icon.

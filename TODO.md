@@ -51,7 +51,8 @@
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, and GitHub Release
   `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.1.0`
   is published without jar assets.
-- The working tree is now on `0.2.0` development. The first client UI slice
+- The working tree is now on `0.3.0` release prep after the exact-runtime
+  compatibility smoke pass. The first client UI slice
   replaces the tiny quick-stack glyph with a chest-and-arrow icon and adds the
   InventorySort-style recipe-book render bridge for button repositioning.
 - The server config slice now creates
@@ -74,10 +75,9 @@
   packets, player feedback, server-level access, item-stack identity, custom
   button rendering/click handling, window handles, and singleplayer server
   directory paths through version-specific adapters.
-- Candidate compile checks now pass for `1.20.5-1.20.6`,
-  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, and the supported
-  `1.21.11` profile. No additional profile has been promoted yet because
-  exact-runtime smoke coverage is still pending.
+- Compatibility compile checks now pass for `1.20-1.20.4`,
+  `1.20.5-1.20.6`, `1.21-1.21.5`, `1.21.6-1.21.8`,
+  `1.21.9-1.21.10`, `1.21.11`, and `26.x`.
 - The legacy `1.20-1.20.4` compatibility slice now compiles with Fabric's old
   `FabricPacket`/`PacketType` networking API, NBT-era item-stack identity, the
   no-argument container max-stack limit, and old widget bounds/render hooks.
@@ -91,8 +91,16 @@
 - Selected anchor client and dedicated-server smoke passed for `1.20`,
   `1.20.5`, `1.21`, `1.21.6`, `1.21.9`, `1.21.11`, and `26.2-pre-3`; every
   server smoke reported `selfTestItemsMoved=48`.
-- Non-anchor exact runtime versions remain pending in `gradle/smoke-tests.json`,
-  so no additional profile has been promoted to supported publish metadata yet.
+- GitHub Actions candidate smoke validation run `27922347858` passed on
+  2026-06-22 at source commit `e547e00c52ba67b7c859337dc551d6d97bbe95cc`.
+  Artifact logs captured 23 client pass markers, 23 dedicated-server pass
+  markers, and 23 dedicated-server self-tests reporting
+  `selfTestItemsMoved=48`.
+- `gradle/smoke-tests.json` now records pass evidence for every exact runtime
+  from Minecraft `1.20` through `26.x`.
+- `gradle.properties` now promotes `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and `26.x`
+  to supported publish metadata for `0.3.0`.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -109,27 +117,20 @@
   server runs the common entrypoint in the client process.
 - UI/container button drift should follow InventorySort's candidate profile
   groups until proven otherwise.
-- Only `1.21.11` is publishable for `0.1.0`; every remaining candidate in
-  `gradle/smoke-tests.json` stays pending.
+- `0.3.0` is publishable for the supported profile groups from Minecraft
+  `1.20` through `26.x`; no active candidate profiles remain queued.
 
 ## Next Implementation Tasks
 
-1. Watch Modrinth review for the draft project moving from requested
-   `approved` to publicly approved/listed, then confirm the public project and
-   version URLs resolve without authentication.
-2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Decide whether `0.2.0` should add a server world-identity profile handshake
-   for multiplayer servers that rotate worlds behind one address, matching the
-   optional InventorySort profile refinement.
-4. Do one last manual in-game playtest of the polished quick-stack button and
-   right-click rules screen before any public `0.2.0` publish.
-5. Decide whether a later release should include hotbar stacks, carried
+1. Run local `buildAllVersions` after the `0.3.0` promotion commit.
+2. Run the guarded GitHub Actions `modrinth publish` workflow as a dry run for
+   `0.3.0`.
+3. Run the guarded GitHub Actions `modrinth publish` workflow live for `0.3.0`.
+4. Tag the exact published source commit as `v0.3.0` and create the asset-free
+   GitHub Release.
+5. Add richer result feedback or sounds if the first playtest feels too quiet.
+6. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-6. Run the full exact-version validation smoke matrix, preferably through the
-   manual GitHub candidate smoke workflow, before promoting any candidate
-   profile to supported publish metadata.
-7. Promote only future smoke-passed profile groups into
-   `supported_minecraft_version_profiles`.
 
 ## Verification Log
 
@@ -220,6 +221,20 @@
   `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, and each selected dedicated server
   emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with
   `selfTestItemsMoved=48`.
+- Passed exact-runtime GitHub candidate smoke validation: workflow run
+  `27922347858` on `main` at commit
+  `e547e00c52ba67b7c859337dc551d6d97bbe95cc` completed successfully in
+  37m16s; artifacts contained 23 client pass markers, 23 dedicated-server pass
+  markers, and 23 server self-tests reporting `selfTestItemsMoved=48`.
+- Passed after `0.3.0` profile promotion:
+  `.\gradlew.bat listVersionProfiles verifySmokeTestMatrix --no-daemon --console=plain`;
+  Gradle listed seven supported profiles, no candidates, and verified pass
+  records for every supported exact runtime in `gradle/smoke-tests.json`.
+- Passed after `0.3.0` profile promotion:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; built and
+  verified release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
+  `26.1-26.2-pre-3`.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

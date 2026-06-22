@@ -7,29 +7,33 @@
                                          "game_versions":  {
                                                                "1.20":  {
                                                                             "status":  "pass",
-                                                                            "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                            "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                            "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                            "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                            "tested_at":  "2026-06-22T01:00:07Z",
+                                                                            "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                         },
                                                                "1.20.1":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.20.2":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.20.3":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.20.4":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           }
                                                            }
                                      },
@@ -39,14 +43,15 @@
                                            "game_versions":  {
                                                                  "1.20.5":  {
                                                                                 "status":  "pass",
-                                                                                "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                                "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                                "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             },
                                                                  "1.20.6":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             }
                                                              }
                                        },
@@ -56,34 +61,39 @@
                                          "game_versions":  {
                                                                "1.21":  {
                                                                             "status":  "pass",
-                                                                            "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                            "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                            "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                            "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                            "tested_at":  "2026-06-22T01:00:07Z",
+                                                                            "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                         },
                                                                "1.21.1":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.21.2":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.21.3":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.21.4":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           },
                                                                "1.21.5":  {
-                                                                              "status":  "pending",
-                                                                              "method":  "not-run",
-                                                                              "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                              "status":  "pass",
+                                                                              "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                              "tested_at":  "2026-06-22T01:00:07Z",
+                                                                              "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                           }
                                                            }
                                      },
@@ -93,19 +103,21 @@
                                            "game_versions":  {
                                                                  "1.21.6":  {
                                                                                 "status":  "pass",
-                                                                                "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                                "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                                "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             },
                                                                  "1.21.7":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             },
                                                                  "1.21.8":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             }
                                                              }
                                        },
@@ -115,14 +127,15 @@
                                             "game_versions":  {
                                                                   "1.21.9":  {
                                                                                  "status":  "pass",
-                                                                                 "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                                 "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                                 "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                                 "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                 "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                 "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                              },
                                                                   "1.21.10":  {
-                                                                                  "status":  "pending",
-                                                                                  "method":  "not-run",
-                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                  "status":  "pass",
+                                                                                  "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                  "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                  "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                               }
                                                               }
                                         },
@@ -132,9 +145,9 @@
                                      "game_versions":  {
                                                            "1.21.11":  {
                                                                            "status":  "pass",
-                                                                           "method":  "buildRelease plus selected client and dedicated-server smoke tests",
-                                                                           "tested_at":  "2026-06-19T16:07:59.8409396+10:00",
-                                                                           "notes":  "Candidate profile passed packaged 1.21.11 client launch and dedicated-server launch; server smoke self-test moved 48 matching items."
+                                                                           "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                           "tested_at":  "2026-06-22T01:00:07Z",
+                                                                           "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                        }
                                                        }
                                  },
@@ -143,25 +156,28 @@
                                              "source_profile":  "26.x",
                                              "game_versions":  {
                                                                    "26.1":  {
-                                                                                "status":  "pending",
-                                                                                "method":  "not-run",
-                                                                                "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                "status":  "pass",
+                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                             },
                                                                    "26.1.1":  {
-                                                                                  "status":  "pending",
-                                                                                  "method":  "not-run",
-                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                  "status":  "pass",
+                                                                                  "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                  "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                  "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                               },
                                                                    "26.1.2":  {
-                                                                                  "status":  "pending",
-                                                                                  "method":  "not-run",
-                                                                                  "notes":  "Candidate profile seeded during scaffold; not publishable until compile and launcher smoke pass."
+                                                                                  "status":  "pass",
+                                                                                  "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                  "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                  "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                               },
                                                                    "26.2-pre-3":  {
                                                                                       "status":  "pass",
-                                                                                      "method":  "buildValidationVersions plus selected client and dedicated-server anchor smoke tests",
-                                                                                      "tested_at":  "2026-06-22T02:38:58.1969462+10:00",
-                                                                                      "notes":  "Anchor runtime passed packaged client launch and dedicated-server launch; server smoke self-test moved 48 matching items. Remaining exact versions in this compatibility group stay pending until exact smoke passes."
+                                                                                      "method":  "GitHub Actions candidate smoke validation run 27922347858",
+                                                                                      "tested_at":  "2026-06-22T01:00:07Z",
+                                                                                      "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
                                                                                   }
                                                                }
                                          }

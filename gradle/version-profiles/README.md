@@ -3,13 +3,13 @@
 Build profiles keep one source tree while letting Gradle swap the Minecraft,
 Fabric Loader, Fabric API, Loom, and Java target versions.
 
-Quick Stack Nearby `0.1.0` supports Minecraft `1.21.11` only. The current
-profile lists are:
+Quick Stack Nearby `0.3.0` supports Minecraft `1.20` through `26.x`. The
+current profile lists are:
 
 ```properties
 minecraft_version_profile=1.21.11
-supported_minecraft_version_profiles=1.21.11
-candidate_minecraft_version_profiles=1.20-1.20.4,1.20.5-1.20.6,1.21-1.21.5,1.21.6-1.21.8,1.21.9-1.21.10,26.x
+supported_minecraft_version_profiles=1.20-1.20.4,1.20.5-1.20.6,1.21-1.21.5,1.21.6-1.21.8,1.21.9-1.21.10,1.21.11,26.x
+candidate_minecraft_version_profiles=
 ```
 
 The candidate groups mirror InventorySort's UI/button compatibility surfaces
@@ -21,20 +21,19 @@ in `docs/compatibility-research.md`.
 
 ## Candidate Profiles
 
-| Profile | Compile anchor | Runtime versions | Compat group |
-| --- | --- | --- | --- |
-| `1.20-1.20.4` | `1.20.4` | `1.20` through `1.20.4` | `1.20-1.20.4` |
-| `1.20.5-1.20.6` | `1.20.6` | `1.20.5` through `1.20.6` | `1.20.5-1.20.6` |
-| `1.21-1.21.5` | `1.21.5` | `1.21` through `1.21.5` | `1.21-1.21.5` |
-| `1.21.6-1.21.8` | `1.21.8` | `1.21.6` through `1.21.8` | `1.21.6-1.21.8` |
-| `1.21.9-1.21.10` | `1.21.10` | `1.21.9` through `1.21.10` | `1.21.9-1.21.10` |
-| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | `26.x` |
+No active candidate profiles are queued for `0.3.0`.
 
 ## Supported Profiles
 
 | Profile | Compile anchor | Runtime versions | Compat group |
 | --- | --- | --- | --- |
+| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | `1.20-1.20.4` |
+| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | `1.20.5-1.20.6` |
+| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | `1.21-1.21.5` |
+| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | `1.21.6-1.21.8` |
+| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | `1.21.9-1.21.10` |
 | `1.21.11` | `1.21.11` | `1.21.11` | `1.21.11` |
+| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | `26.x` |
 
 ## Commands
 
@@ -47,14 +46,14 @@ in `docs/compatibility-research.md`.
 .\gradlew.bat listVersionProfiles --no-daemon --console=plain
 ```
 
-`buildAllVersions` builds every supported profile. For `0.1.0`, that means the
-single `1.21.11` jar.
+`buildAllVersions` builds every supported profile. For `0.3.0`, that means the
+seven compatibility-group jars listed above.
 
 Focused smoke commands:
 
 ```powershell
-.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
-.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.20-1.20.4" "-Pquickstacknearby_smoke_game_versions=1.20.4" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.20-1.20.4" "-Pquickstacknearby_smoke_game_versions=1.20.4" --no-daemon --console=plain
 ```
 
 ## Promotion Rule

@@ -1,26 +1,27 @@
 # Compatibility
 
-Scope: Quick Stack Nearby source compatibility on the `0.2.0` development
-line. Version `0.1.0` supports Minecraft `1.21.11` only; additional publish
-targets stay candidates until every exact runtime in a profile has smoke
-evidence.
+Scope: Quick Stack Nearby `0.3.0` release compatibility. Version `0.3.0`
+supports Minecraft `1.20` through `26.x` through compatibility-group jars that
+passed full client and dedicated-server smoke validation for every exact
+runtime listed below.
 
 ## Candidate Profiles
 
-| Profile | Compile anchor | Runtime versions | Reason to track |
-| --- | --- | --- | --- |
-| `1.20-1.20.4` | `1.20.4` | `1.20` through `1.20.4` | Older inventory screen and widget surface from the InventorySort donor. |
-| `1.20.5-1.20.6` | `1.20.6` | `1.20.5` through `1.20.6` | First post-1.20.4 UI/API split tracked by InventorySort. |
-| `1.21-1.21.5` | `1.21.5` | `1.21` through `1.21.5` | Stable early 1.21 group for container UI work. |
-| `1.21.6-1.21.8` | `1.21.8` | `1.21.6` through `1.21.8` | Separate InventorySort button compatibility group. |
-| `1.21.9-1.21.10` | `1.21.10` | `1.21.9` through `1.21.10` | Late 1.21 group before the 1.21.11 profile split. |
-| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | Experimental non-remap lane inherited from InventorySort. |
+No active candidate profiles are queued for `0.3.0`; every current
+compatibility-group profile has been promoted after full exact-runtime smoke
+coverage.
 
 ## Supported Profiles
 
 | Profile | Compile anchor | Runtime versions | Release status |
 | --- | --- | --- | --- |
-| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.1.0`. |
+| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | Supported for `0.3.0`. |
+| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | Supported for `0.3.0`. |
+| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | Supported for `0.3.0`. |
+| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.3.0`. |
+| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.3.0`. |
+| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.3.0`. |
+| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | Supported for `0.3.0`. |
 
 ## Current Evidence
 
@@ -30,9 +31,13 @@ evidence.
   `1.20`, `1.20.5`, `1.21`, `1.21.6`, `1.21.9`, `1.21.11`, and
   `26.2-pre-3`. Each dedicated-server smoke reported
   `selfTestItemsMoved=48`.
-- Non-anchor exact game versions remain pending in `gradle/smoke-tests.json`.
-  Do not promote a compatibility group to supported release metadata until each
-  listed exact game version has a pass record.
+- Full GitHub Actions candidate smoke validation run `27922347858` passed on
+  2026-06-22 at source commit `e547e00c52ba67b7c859337dc551d6d97bbe95cc`.
+  Artifact logs captured 23 client pass markers, 23 dedicated-server pass
+  markers, and 23 dedicated-server self-tests reporting
+  `selfTestItemsMoved=48`.
+- Every exact game version listed in `gradle/smoke-tests.json` now has a pass
+  record from run `27922347858`.
 - `1.21.11` compiles and passes selected packaged client and dedicated-server
   smoke tests. The dedicated-server smoke exercises the quick-stack move engine
   and reports `selfTestItemsMoved=48`.
