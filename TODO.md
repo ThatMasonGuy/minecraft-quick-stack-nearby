@@ -101,6 +101,25 @@
 - `gradle.properties` now promotes `1.20-1.20.4`, `1.20.5-1.20.6`,
   `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and `26.x`
   to supported publish metadata for `0.3.0`.
+- GitHub push CI run `27923577574` passed on the `0.3.0` promotion commit
+  `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`.
+- GitHub Actions `modrinth publish` dry-run workflow run `27923580593` passed
+  on commit `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2` and prepared seven
+  listed Fabric upload plans.
+- GitHub Actions `modrinth publish` live workflow run `27924627691` passed on
+  commit `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2` and uploaded listed
+  Modrinth versions `7yQysNA6`, `DP3nAUdg`, `zgSJNefs`, `KmN9ax8w`,
+  `FRX31oZm`, `uLPA9zwU`, and `lYiTZ1J6`.
+- Authenticated Modrinth readback on 2026-06-22 confirmed the project remains
+  `draft` with requested status `approved`, public unauthenticated readback
+  still returns `404 Not Found`, and all seven `0.3.0` versions are `listed`.
+- Annotated tag `v0.3.0` points to
+  `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.3.0`
+  is published without jar assets.
+- Modrinth project page dry-run and live sync completed on 2026-06-22 with the
+  `0.3.0` project-page copy, required side metadata, LGPL license, source/issues
+  URLs, root icon, and one gallery image.
 - The local `0.2.0` package has been rebuilt and focused-smoked on 1.21.11
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
@@ -122,15 +141,15 @@
 
 ## Next Implementation Tasks
 
-1. Run local `buildAllVersions` after the `0.3.0` promotion commit.
-2. Run the guarded GitHub Actions `modrinth publish` workflow as a dry run for
-   `0.3.0`.
-3. Run the guarded GitHub Actions `modrinth publish` workflow live for `0.3.0`.
-4. Tag the exact published source commit as `v0.3.0` and create the asset-free
-   GitHub Release.
-5. Add richer result feedback or sounds if the first playtest feels too quiet.
-6. Decide whether a later release should include hotbar stacks, carried
+1. Watch Modrinth review for the draft project moving from requested
+   `approved` to publicly approved/listed, then confirm the public project and
+   version URLs resolve without authentication.
+2. Add richer result feedback or sounds if the first playtest feels too quiet.
+3. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
+4. Decide whether a later release should add a server world-identity profile
+   handshake for multiplayer servers that rotate worlds behind one address,
+   matching the optional InventorySort profile refinement.
 
 ## Verification Log
 
@@ -235,6 +254,33 @@
   verified release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
   `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
   `26.1-26.2-pre-3`.
+- Passed on GitHub Actions: push build run `27923577574` on `main`, source
+  commit `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, completed successfully.
+- Passed on GitHub Actions: manual `modrinth publish` dry-run workflow run
+  `27923580593` on `main`, source commit
+  `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, completed successfully and
+  prepared seven listed Fabric upload plans for Modrinth project `5Hu4HCfZ`.
+- Passed on GitHub Actions: manual `modrinth publish` live workflow run
+  `27924627691` on `main`, source commit
+  `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, completed successfully and
+  uploaded Modrinth versions `7yQysNA6`, `DP3nAUdg`, `zgSJNefs`, `KmN9ax8w`,
+  `FRX31oZm`, `uLPA9zwU`, and `lYiTZ1J6`.
+- Live publish artifact readback: upload plan requested seven listed Fabric
+  release entries for project `5Hu4HCfZ`, and captured 23 client smoke markers,
+  23 dedicated-server smoke markers, and 23 server self-tests reporting
+  `selfTestItemsMoved=48`.
+- Passed after live page sync:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun` and
+  `.\scripts\sync-modrinth-project-pages.ps1` completed with the `0.3.0`
+  project-page copy, required client/server metadata, LGPL-3.0-or-later
+  license, source/issues URLs, root icon, and one gallery image.
+- Authenticated release readback: project `5Hu4HCfZ` remains `draft` with
+  requested status `approved`, public unauthenticated readback still returns
+  `404 Not Found`, and all seven `0.3.0` versions are `listed`.
+- Passed release readback: `v0.3.0` resolves to
+  `0be077d08495b0aba4dfa3ec2a5d4b41964e53e2`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.3.0`
+  is published with no jar assets attached.
 - Passed on GitHub Actions: manual `modrinth publish` workflow run
   `27824441279` on branch `release/v0.1.0`, source commit
   `4d95b7a5e5da68f942381f54cf8fd42cc21afd05`, completed successfully and

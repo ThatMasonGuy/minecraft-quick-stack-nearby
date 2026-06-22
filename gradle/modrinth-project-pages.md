@@ -60,3 +60,7 @@ Fabric API is required.
 - 2026-06-19: Authenticated Modrinth readback confirmed project id `5Hu4HCfZ`,
   slug `quick-stack-nearby`, title `Quick Stack Nearby`, status `draft`,
   client/server metadata `unknown`, and license `LicenseRef-Unknown`.
+- 2026-06-22: Live page sync completed after the `0.3.0` publish; authenticated
+  readback confirmed project status `draft`, requested status `approved`,
+  required client/server metadata, LGPL-3.0-or-later license, source/issues
+  URLs, and seven listed `0.3.0` Modrinth versions.

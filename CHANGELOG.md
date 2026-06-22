@@ -10,6 +10,10 @@
   server self-tests.
 - Made the smoke matrix gate explicit for every supported publish profile so
   future Modrinth uploads require pass records for all listed game versions.
+- Published `0.3.0` through the guarded GitHub Actions Modrinth workflow,
+  uploaded seven listed Modrinth versions, tagged `v0.3.0` on the exact release
+  source commit, created the asset-free GitHub Release, and synced the
+  Modrinth project page copy for the release.
 - Started the `0.2.0` development line.
 - Replaced the small quick-stack button glyph with a clearer chest-and-arrow
   icon.
