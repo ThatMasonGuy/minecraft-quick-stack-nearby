@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Started the `0.3.1` release line and fixed the quick-stack button's
+  secondary-click rules-screen path by intercepting right-clicks before
+  inventory slot handling can consume them.
+- Fixed the split source-set build wiring so clean client compiles can resolve
+  common Quick Stack Nearby classes from `sourceSets.main.output`.
 - Prepared the `0.3.0` release line and promoted all current compatibility
   groups from Minecraft `1.20` through `26.x` to supported publish profiles.
 - Recorded full exact-runtime smoke evidence from GitHub Actions candidate

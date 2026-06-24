@@ -1,21 +1,25 @@
 package tempeststudios.quickstacknearby.mixin;
 
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tempeststudios.quickstacknearby.QuickStackButtonSlotBridge;
 import tempeststudios.quickstacknearby.QuickStackClientNetworking;
 import tempeststudios.quickstacknearby.ClientScreenCompat;
 import tempeststudios.quickstacknearby.QuickStackIconButton;
 import tempeststudios.quickstacknearby.QuickStackRulesScreen;
 import tempeststudios.quickstacknearby.RecipeBookAwareButtonScreen;
+import tempeststudios.quickstacknearby.WindowCompat;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareButtonScreen {
@@ -67,6 +71,29 @@ public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareB
         quickStackNearby$updateButtonPosition();
     }
 
+    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true, require = 0)
+    private void quickStackNearby$onMouseClicked(CallbackInfoReturnable<Boolean> cir) {
+        if (quickStackNearby$button == null) {
+            return;
+        }
+
+        Minecraft client = Minecraft.getInstance();
+        if (client == null || client.player == null || !quickStackNearby$isRightMouseButtonDown(client)) {
+            return;
+        }
+
+        double mouseX = quickStackNearby$scaledMouseX(client);
+        double mouseY = quickStackNearby$scaledMouseY(client);
+        if (!quickStackNearby$button.isMouseOver(mouseX, mouseY)) {
+            return;
+        }
+
+        AbstractContainerScreen<?> screen = (AbstractContainerScreen<?>) (Object) this;
+        ClientScreenCompat.setScreen(client, new QuickStackRulesScreen(screen, client.player));
+        quickStackNearby$clearFocus(client, screen, quickStackNearby$button);
+        cir.setReturnValue(true);
+    }
+
     @Override
     public void quickstacknearby$updateButtonPositionsFromRecipeBookRender() {
         quickStackNearby$updateButtonPosition();
@@ -101,5 +128,22 @@ public abstract class QuickStackInventoryScreenMixin implements RecipeBookAwareB
             button.setFocused(false);
             screen.setFocused(null);
         });
+    }
+
+    @Unique
+    private static boolean quickStackNearby$isRightMouseButtonDown(Minecraft client) {
+        return GLFW.glfwGetMouseButton(WindowCompat.handle(client.getWindow()), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS;
+    }
+
+    @Unique
+    private static double quickStackNearby$scaledMouseX(Minecraft client) {
+        Window window = client.getWindow();
+        return client.mouseHandler.xpos() * window.getGuiScaledWidth() / Math.max(1, window.getWidth());
+    }
+
+    @Unique
+    private static double quickStackNearby$scaledMouseY(Minecraft client) {
+        Window window = client.getWindow();
+        return client.mouseHandler.ypos() * window.getGuiScaledHeight() / Math.max(1, window.getHeight());
     }
 }

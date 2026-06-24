@@ -93,6 +93,8 @@ sourceSets {
 		}
 	}
 	client {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
 		java {
 			srcDir "src/compat/${compat_group}/client/java"
 		}

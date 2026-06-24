@@ -127,6 +127,14 @@
   client and dedicated-server launches. Smoke used a workspace-local `APPDATA`
   override so TempestStudios config creation was exercised without touching the
   real user app-data folder.
+- The working tree is now on `0.3.1` release prep. The quick-stack inventory
+  button now catches right-clicks before container slot handling and opens the
+  slot rules screen reliably.
+- Clean client builds now explicitly compile against the common source-set
+  output, matching the existing client references to shared payload and storage
+  classes.
+- `0.3.1` `buildAllVersions` passed locally on 2026-06-24 for the existing
+  supported profile set from `1.20-1.20.4` through `26.x`.
 
 ## Research Conclusions
 
@@ -147,16 +155,26 @@
 1. Watch Modrinth review for the draft project moving from requested
    `approved` to publicly approved/listed, then confirm the public project and
    version URLs resolve without authentication.
-2. Add richer result feedback or sounds if the first playtest feels too quiet.
-3. Decide whether a later release should include hotbar stacks, carried
+2. Verify and promote Minecraft `26.2` final and `26.3-snapshot-1` support for
+   the `0.3.1` release.
+3. Add richer result feedback or sounds if the first playtest feels too quiet.
+4. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-4. Decide whether a later release should add a server world-identity profile
+5. Decide whether a later release should add a server world-identity profile
    handshake for multiplayer servers that rotate worlds behind one address,
    matching the optional InventorySort profile refinement.
 
 ## Verification Log
 
 - Passed: `git diff --check`.
+- Passed after the `0.3.1` right-click rules fix and split source-set classpath
+  correction: `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built
+  and verified `build/release/1.21.11/quick-stack-nearby-0.3.1.jar`.
+- Passed after the `0.3.1` right-click rules fix and split source-set classpath
+  correction: `.\gradlew.bat buildAllVersions --no-daemon --console=plain`;
+  built and verified release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
+  `26.1-26.2-pre-3`.
 - Passed: `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`.
 - Passed: `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
 - Passed after pipeline correction:
