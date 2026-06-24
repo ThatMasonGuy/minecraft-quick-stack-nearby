@@ -7,6 +7,12 @@
   inventory slot handling can consume them.
 - Fixed the split source-set build wiring so clean client compiles can resolve
   common Quick Stack Nearby classes from `sourceSets.main.output`.
+- Updated the `26.x` release profile to compile from Minecraft
+  `26.3-snapshot-1`, publish profile id `26.1-26.3-snapshot-1`, and claim
+  `26.2` final plus `26.3-snapshot-1` after local selected client and
+  dedicated-server smoke passed for every listed 26.x runtime.
+- Updated the 26.x runtime-only smoke profiles to launch with Fabric Loader
+  `0.19.3`, matching the `0.3.1` release jar's loader dependency.
 - Prepared the `0.3.0` release line and promoted all current compatibility
   groups from Minecraft `1.20` through `26.x` to supported publish profiles.
 - Recorded full exact-runtime smoke evidence from GitHub Actions candidate

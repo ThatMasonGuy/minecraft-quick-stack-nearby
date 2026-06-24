@@ -1,13 +1,13 @@
 # Compatibility
 
-Scope: Quick Stack Nearby `0.3.0` release compatibility. Version `0.3.0`
-supports Minecraft `1.20` through `26.x` through compatibility-group jars that
-passed full client and dedicated-server smoke validation for every exact
-runtime listed below.
+Scope: Quick Stack Nearby `0.3.1` release compatibility. Version `0.3.1`
+supports Minecraft `1.20` through `26.3-snapshot-1` through
+compatibility-group jars that passed full client and dedicated-server smoke
+validation for every exact runtime listed below.
 
 ## Candidate Profiles
 
-No active candidate profiles are queued for `0.3.0`; every current
+No active candidate profiles are queued for `0.3.1`; every current
 compatibility-group profile has been promoted after full exact-runtime smoke
 coverage.
 
@@ -15,16 +15,28 @@ coverage.
 
 | Profile | Compile anchor | Runtime versions | Release status |
 | --- | --- | --- | --- |
-| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | Supported for `0.3.0`. |
-| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | Supported for `0.3.0`. |
-| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | Supported for `0.3.0`. |
-| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.3.0`. |
-| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.3.0`. |
-| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.3.0`. |
-| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | Supported for `0.3.0`. |
+| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | Supported for `0.3.1`. |
+| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | Supported for `0.3.1`. |
+| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | Supported for `0.3.1`. |
+| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.3.1`. |
+| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.3.1`. |
+| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.3.1`. |
+| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, `26.3-snapshot-1` | Supported for `0.3.1`. |
 
 ## Current Evidence
 
+- Official Mojang and Fabric metadata checked on 2026-06-24 confirmed
+  Minecraft `26.2` as a stable release, `26.3-snapshot-1` as the current
+  snapshot target, Fabric Loader `0.19.3`, Fabric API `0.153.0+26.2` for
+  `26.2`, and Fabric API `0.153.1+26.3` for `26.3-snapshot-1`.
+- The `26.x` release profile now compiles from `26.3-snapshot-1`, publishes
+  profile id `26.1-26.3-snapshot-1`, and lists Modrinth game versions
+  `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and
+  `26.3-snapshot-1`.
+- Selected 26.x client and dedicated-server smoke passed locally on 2026-06-24
+  for every listed 26.x runtime. Each client emitted
+  `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, and each dedicated server emitted
+  `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with `selfTestItemsMoved=48`.
 - `buildValidationVersions` passed on 2026-06-22 and built release jars for
   every validation profile from `1.20-1.20.4` through `26.x`.
 - Selected anchor client and dedicated-server smoke passed on 2026-06-22 for
@@ -37,7 +49,8 @@ coverage.
   markers, and 23 dedicated-server self-tests reporting
   `selfTestItemsMoved=48`.
 - Every exact game version listed in `gradle/smoke-tests.json` now has a pass
-  record from run `27922347858`.
+  record, with the 26.x records refreshed locally for the `0.3.1`
+  `26.1-26.3-snapshot-1` release profile.
 - `1.21.11` compiles and passes selected packaged client and dedicated-server
   smoke tests. The dedicated-server smoke exercises the quick-stack move engine
   and reports `selfTestItemsMoved=48`.

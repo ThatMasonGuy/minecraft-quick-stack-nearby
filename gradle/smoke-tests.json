@@ -151,33 +151,45 @@
                                                                        }
                                                        }
                                  },
-                     "26.1-26.2-pre-3":  {
-                                             "profile_id":  "26.1-26.2-pre-3",
+                     "26.1-26.3-snapshot-1":  {
+                                                 "profile_id":  "26.1-26.3-snapshot-1",
                                              "source_profile":  "26.x",
                                              "game_versions":  {
                                                                    "26.1":  {
                                                                                 "status":  "pass",
-                                                                                "method":  "GitHub Actions candidate smoke validation run 27922347858",
-                                                                                "tested_at":  "2026-06-22T01:00:07Z",
-                                                                                "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
+                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                             },
                                                                    "26.1.1":  {
                                                                                   "status":  "pass",
-                                                                                  "method":  "GitHub Actions candidate smoke validation run 27922347858",
-                                                                                  "tested_at":  "2026-06-22T01:00:07Z",
-                                                                                  "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
+                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                  "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                  "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                               },
                                                                    "26.1.2":  {
                                                                                   "status":  "pass",
-                                                                                  "method":  "GitHub Actions candidate smoke validation run 27922347858",
-                                                                                  "tested_at":  "2026-06-22T01:00:07Z",
-                                                                                  "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
+                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                  "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                  "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                               },
                                                                    "26.2-pre-3":  {
                                                                                       "status":  "pass",
-                                                                                      "method":  "GitHub Actions candidate smoke validation run 27922347858",
-                                                                                      "tested_at":  "2026-06-22T01:00:07Z",
-                                                                                      "notes":  "Full candidate smoke passed on GitHub Actions at source e547e00c52ba67b7c859337dc551d6d97bbe95cc; artifact logs captured client and dedicated-server pass markers for every exact runtime, with 23 server self-tests reporting selfTestItemsMoved=48."
+                                                                                      "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                      "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                      "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
+                                                                                  },
+                                                                   "26.2":  {
+                                                                                "status":  "pass",
+                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
+                                                                            },
+                                                                   "26.3-snapshot-1":  {
+                                                                                            "status":  "pass",
+                                                                                            "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
+                                                                                            "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                            "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                                   }
                                                                }
                                          }

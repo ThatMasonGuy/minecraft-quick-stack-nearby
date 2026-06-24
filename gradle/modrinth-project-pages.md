@@ -17,13 +17,15 @@ Quick Stack Nearby brings Terraria-style quick stacking to Minecraft. The goal
 is simple: press one inventory button and send matching items from your
 inventory into nearby containers that already hold those items.
 
-## What 0.3.0 Does
+## What 0.3.1 Does
 
 - Adds a quick-stack button to the player inventory.
 - Moves matching main-inventory stacks into nearby containers that already hold
   those item types.
 - Lets players right-click the button to lock main-inventory slots or keep a
   chosen count behind while quick stacking.
+- Fixes right-clicking the quick-stack button so the slot rules screen opens
+  reliably.
 - Adds server-operator commands for inspecting, changing, and reloading the
   nearby-container scan range.
 - Keeps item movement server-authoritative for multiplayer.
@@ -42,10 +44,10 @@ clear unavailable message instead of moving items.
 Offline singleplayer works from a client install because the integrated server
 runs the common mod logic in the same process.
 
-Version 0.3.0 supports Minecraft 1.20 through 26.x. Hotbar, armor, offhand,
-and carried shulker contents are intentionally left alone in this release.
-More UI improvements are planned as the quick-stack button and rules screen
-continue to mature.
+Version 0.3.1 supports Minecraft 1.20 through 26.3-snapshot-1, including
+Minecraft 26.2 final. Hotbar, armor, offhand, and carried shulker contents are
+intentionally left alone in this release. More UI improvements are planned as
+the quick-stack button and rules screen continue to mature.
 
 Fabric API is required.
 ```

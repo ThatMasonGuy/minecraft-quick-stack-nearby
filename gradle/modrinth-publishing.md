@@ -1,8 +1,8 @@
 # Modrinth Publishing
 
 Modrinth publishing uses the profiles listed in
-`supported_minecraft_version_profiles`. For `0.3.0`, the supported publish
-profiles cover Minecraft `1.20` through `26.x`.
+`supported_minecraft_version_profiles`. For `0.3.1`, the supported publish
+profiles cover Minecraft `1.20` through `26.3-snapshot-1`.
 
 ## Tasks
 
@@ -38,8 +38,8 @@ Modrinth changelogs come from:
 gradle/release-notes/<mod_version>.md
 ```
 
-The current release version is `0.3.0`, so the active notes file is
-`gradle/release-notes/0.3.0.md`.
+The current release version is `0.3.1`, so the active notes file is
+`gradle/release-notes/0.3.1.md`.
 
 ## Project Page Copy
 

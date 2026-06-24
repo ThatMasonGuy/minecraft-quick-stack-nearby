@@ -135,6 +135,23 @@
   classes.
 - `0.3.1` `buildAllVersions` passed locally on 2026-06-24 for the existing
   supported profile set from `1.20-1.20.4` through `26.x`.
+- Official Mojang and Fabric metadata checked on 2026-06-24 confirmed
+  Minecraft `26.2` final, `26.3-snapshot-1`, Fabric Loader `0.19.3`,
+  Fabric API `0.153.0+26.2`, and Fabric API `0.153.1+26.3`.
+- The `26.x` release profile now compiles from `26.3-snapshot-1`, keeps the
+  compatibility dependency bounded to `>=26.1 <26.3`, publishes as profile id
+  `26.1-26.3-snapshot-1`, and lists Modrinth game versions `26.1`,
+  `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and `26.3-snapshot-1`.
+- Exact smoke runtime profiles now exist for `26.2` and `26.3-snapshot-1`.
+  Older 26.x smoke runtime profiles now launch with Fabric Loader `0.19.3` so
+  they can test the `0.3.1` jar's loader dependency.
+- Local selected 26.x client and dedicated-server smoke passed on 2026-06-24
+  for `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and
+  `26.3-snapshot-1`; every client emitted `QUICKSTACKNEARBY_SMOKE_TEST_PASS`
+  and every server emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with
+  `selfTestItemsMoved=48`.
+- `gradle/smoke-tests.json` now records pass evidence for the `0.3.1`
+  `26.1-26.3-snapshot-1` release profile.
 
 ## Research Conclusions
 
@@ -155,8 +172,8 @@
 1. Watch Modrinth review for the draft project moving from requested
    `approved` to publicly approved/listed, then confirm the public project and
    version URLs resolve without authentication.
-2. Verify and promote Minecraft `26.2` final and `26.3-snapshot-1` support for
-   the `0.3.1` release.
+2. Run the guarded `0.3.1` Modrinth publish dry run, then the live guarded
+   publish workflow after explicit approval.
 3. Add richer result feedback or sounds if the first playtest feels too quiet.
 4. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
@@ -175,6 +192,29 @@
   built and verified release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
   `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
   `26.1-26.2-pre-3`.
+- Failed before updating older 26.x runtime smoke profiles:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1,26.1.1,26.1.2,26.2-pre-3,26.2,26.3-snapshot-1" --no-daemon --console=plain`;
+  the `26.1` client launch rejected the `0.3.1` jar because the smoke profile
+  launched Fabric Loader `0.19.2` while the release jar requires
+  Fabric Loader `0.19.3`.
+- Passed after updating 26.x runtime smoke profiles to Fabric Loader `0.19.3`:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1,26.1.1,26.1.2,26.2-pre-3,26.2,26.3-snapshot-1" --no-daemon --console=plain`;
+  all six client launches emitted `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, all six
+  dedicated-server launches emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`,
+  and each server self-test reported `selfTestItemsMoved=48`.
+- Passed after the 26.2 final and 26.3 snapshot support refresh:
+  `.\gradlew.bat listVersionProfiles verifySmokeTestMatrix --no-daemon --console=plain`;
+  Gradle listed seven supported profiles, no candidates, and verified the
+  `26.1-26.3-snapshot-1` smoke matrix entries.
+- Passed after the 26.2 final and 26.3 snapshot support refresh:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; built and
+  verified release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
+  `26.1-26.3-snapshot-1`.
+- Passed after the 0.3.1 project-page copy refresh:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
+  images, two description images, required client/server metadata, LGPL license,
+  source/issues URLs, and the root icon without Modrinth API writes.
 - Passed: `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`.
 - Passed: `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
 - Passed after pipeline correction:

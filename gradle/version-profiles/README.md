@@ -3,8 +3,8 @@
 Build profiles keep one source tree while letting Gradle swap the Minecraft,
 Fabric Loader, Fabric API, Loom, and Java target versions.
 
-Quick Stack Nearby `0.3.0` supports Minecraft `1.20` through `26.x`. The
-current profile lists are:
+Quick Stack Nearby `0.3.1` supports Minecraft `1.20` through
+`26.3-snapshot-1`. The current profile lists are:
 
 ```properties
 minecraft_version_profile=1.21.11
@@ -21,7 +21,7 @@ in `docs/compatibility-research.md`.
 
 ## Candidate Profiles
 
-No active candidate profiles are queued for `0.3.0`.
+No active candidate profiles are queued for `0.3.1`.
 
 ## Supported Profiles
 
@@ -33,7 +33,12 @@ No active candidate profiles are queued for `0.3.0`.
 | `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | `1.21.6-1.21.8` |
 | `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | `1.21.9-1.21.10` |
 | `1.21.11` | `1.21.11` | `1.21.11` | `1.21.11` |
-| `26.x` | `26.2-pre-3` | `26.1` through `26.2-pre-3` | `26.x` |
+| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, `26.3-snapshot-1` | `26.x` |
+
+Exact `26.x` runtime-only smoke profiles include `26.1`, `26.1.1`, `26.1.2`,
+`26.2-pre-3`, `26.2`, and `26.3-snapshot-1`. They are not release profiles;
+the public release jar is built once from `26.x` and launched against each
+exact runtime before its game version is claimed on Modrinth.
 
 ## Commands
 
@@ -46,7 +51,7 @@ No active candidate profiles are queued for `0.3.0`.
 .\gradlew.bat listVersionProfiles --no-daemon --console=plain
 ```
 
-`buildAllVersions` builds every supported profile. For `0.3.0`, that means the
+`buildAllVersions` builds every supported profile. For `0.3.1`, that means the
 seven compatibility-group jars listed above.
 
 Focused smoke commands:
