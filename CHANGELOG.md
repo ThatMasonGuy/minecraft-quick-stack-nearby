@@ -15,6 +15,14 @@
   Minecraft `26.2` became the supported final release target.
 - Updated the 26.x runtime-only smoke profiles to launch with Fabric Loader
   `0.19.3`, matching the `0.3.1` release jar's loader dependency.
+- Published `0.3.1` through the guarded GitHub Actions Modrinth workflow on
+  release source commit `66bc853`, uploaded seven listed Modrinth versions
+  without `26.2-pre-3`, tagged `v0.3.1` on the exact release source commit,
+  created the asset-free GitHub Release, and synced the Modrinth project page
+  copy for the release.
+- Documented that agents should not run a separate `modrinth publish` dry run
+  immediately before an already-approved live publish because the live guarded
+  workflow runs the same validation gate before uploading.
 - Prepared the `0.3.0` release line and promoted all current compatibility
   groups from Minecraft `1.20` through `26.x` to supported publish profiles.
 - Recorded full exact-runtime smoke evidence from GitHub Actions candidate

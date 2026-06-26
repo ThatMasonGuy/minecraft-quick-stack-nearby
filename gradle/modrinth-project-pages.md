@@ -74,3 +74,8 @@ Fabric API is required.
   source with four images, kept `Quick Stack Result` featured, added the rules
   screenshot to the description, and authenticated readback confirmed the UI
   improvements note in the body.
+- 2026-06-26: Live page sync completed after the `0.3.1` publish; authenticated
+  readback confirmed project status `processing`, requested status `approved`,
+  required client/server metadata, LGPL-3.0-or-later license, four gallery
+  images, the `0.3.1` support text in the body, and seven listed `0.3.1`
+  Modrinth versions.

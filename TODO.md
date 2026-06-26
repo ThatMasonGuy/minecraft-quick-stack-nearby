@@ -156,6 +156,33 @@
   `26.1-26.3-snapshot-1` release profile.
 - The local generated release output was cleaned and rebuilt; `build/release`
   now contains only current release folders and no `26.1-26.2-pre-3` output.
+- GitHub Actions `modrinth publish` live workflow run `28210280858` passed on
+  commit `66bc853c11b28d9b274d1f4e0b2eaadb3fe35b31`; the `dry_run` workflow
+  step was skipped, the live publish step completed successfully, and artifact
+  `7895125816` captured the upload plan, release jars, smoke logs, and smoke
+  mod lists.
+- The `0.3.1` live upload created seven listed Modrinth versions:
+  `x1nAvyq4`, `JttULl22`, `YrIXIJOl`, `ceu7PvOI`, `u9hnkQE8`, `xqbkC9P3`, and
+  `6Nu2Lq2r`.
+- The `0.3.1` 26.x Modrinth version `6Nu2Lq2r` lists only `26.1`, `26.1.1`,
+  `26.1.2`, `26.2`, and `26.3-snapshot-1`; `26.2-pre-3` is not in the live
+  upload plan or authenticated version readback.
+- Live publish logs captured 24 client smoke markers and 24 dedicated-server
+  smoke markers. Every dedicated-server smoke reported `selfTestItemsMoved=48`.
+- Annotated tag `v0.3.1` points to
+  `66bc853c11b28d9b274d1f4e0b2eaadb3fe35b31`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.3.1`
+  is published without jar assets.
+- Modrinth project page live sync completed on 2026-06-26. Authenticated
+  readback confirmed project status `processing`, requested status `approved`,
+  required client/server metadata, LGPL-3.0-or-later license, four gallery
+  images, and the `0.3.1` support text in the body. Public unauthenticated
+  readback still returns `404 Not Found` while the project is not publicly
+  approved/listed.
+- `AGENTS.md` now records that agents should not run a separate
+  `modrinth publish` dry run immediately before an already-approved live
+  publish because the live guarded workflow runs the same validation gate before
+  upload.
 
 ## Research Conclusions
 
@@ -176,12 +203,10 @@
 1. Watch Modrinth review for the draft project moving from requested
    `approved` to publicly approved/listed, then confirm the public project and
    version URLs resolve without authentication.
-2. Run the guarded `0.3.1` Modrinth publish dry run, then the live guarded
-   publish workflow after explicit approval.
-3. Add richer result feedback or sounds if the first playtest feels too quiet.
-4. Decide whether a later release should include hotbar stacks, carried
+2. Add richer result feedback or sounds if the first playtest feels too quiet.
+3. Decide whether a later release should include hotbar stacks, carried
    shulker-box contents, or a config toggle for those behaviors.
-5. Decide whether a later release should add a server world-identity profile
+4. Decide whether a later release should add a server world-identity profile
    handshake for multiplayer servers that rotate worlds behind one address,
    matching the optional InventorySort profile refinement.
 
@@ -234,6 +259,29 @@
   `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
   images, two description images, required client/server metadata, LGPL license,
   source/issues URLs, and the root icon without Modrinth API writes.
+- Cancelled intentionally: GitHub Actions `modrinth publish` dry-run workflow
+  run `28209311625`, after deciding not to double-run the full release
+  validation when live publish approval had already been given.
+- Passed on GitHub Actions: manual `modrinth publish` live workflow run
+  `28210280858` on `main`, source commit
+  `66bc853c11b28d9b274d1f4e0b2eaadb3fe35b31`, completed successfully in the
+  live publish step after skipping the dry-run step.
+- Live publish artifact readback: upload plan requested seven listed Fabric
+  release entries for project `5Hu4HCfZ`, excluded `26.2-pre-3`, and captured
+  24 client smoke markers plus 24 dedicated-server smoke markers with
+  `selfTestItemsMoved=48`.
+- Passed release readback: authenticated Modrinth version readback confirmed
+  listed `0.3.1` versions `x1nAvyq4`, `JttULl22`, `YrIXIJOl`, `ceu7PvOI`,
+  `u9hnkQE8`, `xqbkC9P3`, and `6Nu2Lq2r`.
+- Passed release readback: `v0.3.1` resolves to
+  `66bc853c11b28d9b274d1f4e0b2eaadb3fe35b31`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.3.1`
+  is published with no jar assets attached.
+- Passed after live page sync:
+  `.\scripts\sync-modrinth-project-pages.ps1` completed and authenticated
+  Modrinth readback showed required client/server metadata, LGPL license,
+  source/issues URLs, four gallery images, and the `0.3.1` support text in the
+  body.
 - Passed: `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`.
 - Passed: `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
 - Passed after pipeline correction:

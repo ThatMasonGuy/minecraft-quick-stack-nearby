@@ -25,10 +25,10 @@ profiles cover Minecraft `1.20` through `26.3-snapshot-1`.
 
 - Project id: `5Hu4HCfZ`
 - Slug read back with authentication on 2026-06-19: `quick-stack-nearby`
-- Current status on 2026-06-22: `draft`
-- Current requested status on 2026-06-22: `approved`
+- Current status on 2026-06-26: `processing`
+- Current requested status on 2026-06-26: `approved`
 - Current public unauthenticated readback: `404 Not Found`, expected while the
-  project remains draft/private.
+  project remains draft/private or processing.
 
 ## Release Notes
 
