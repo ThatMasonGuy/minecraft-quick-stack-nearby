@@ -11,6 +11,8 @@
   `26.3-snapshot-1`, publish profile id `26.1-26.3-snapshot-1`, and claim
   `26.2` final plus `26.3-snapshot-1` after local selected client and
   dedicated-server smoke passed for every listed 26.x runtime.
+- Retired `26.2-pre-3` from the current `0.3.1` Modrinth target set after
+  Minecraft `26.2` became the supported final release target.
 - Updated the 26.x runtime-only smoke profiles to launch with Fabric Loader
   `0.19.3`, matching the `0.3.1` release jar's loader dependency.
 - Prepared the `0.3.0` release line and promoted all current compatibility

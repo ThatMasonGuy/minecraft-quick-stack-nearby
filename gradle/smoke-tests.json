@@ -157,38 +157,32 @@
                                              "game_versions":  {
                                                                    "26.1":  {
                                                                                 "status":  "pass",
-                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-26",
+                                                                                "tested_at":  "2026-06-26T00:25:13Z",
                                                                                 "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                             },
                                                                    "26.1.1":  {
                                                                                   "status":  "pass",
-                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                  "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-26",
+                                                                                  "tested_at":  "2026-06-26T00:25:13Z",
                                                                                   "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                               },
                                                                    "26.1.2":  {
                                                                                   "status":  "pass",
-                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                  "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                  "method":  "Local selected client and dedicated-server smoke on 2026-06-26",
+                                                                                  "tested_at":  "2026-06-26T00:25:13Z",
                                                                                   "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                               },
-                                                                   "26.2-pre-3":  {
-                                                                                      "status":  "pass",
-                                                                                      "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                      "tested_at":  "2026-06-24T10:05:56Z",
-                                                                                      "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
-                                                                                  },
                                                                    "26.2":  {
                                                                                 "status":  "pass",
-                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                "method":  "Local selected client and dedicated-server smoke on 2026-06-26",
+                                                                                "tested_at":  "2026-06-26T00:25:13Z",
                                                                                 "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                             },
                                                                    "26.3-snapshot-1":  {
                                                                                             "status":  "pass",
-                                                                                            "method":  "Local selected client and dedicated-server smoke on 2026-06-24",
-                                                                                            "tested_at":  "2026-06-24T10:05:56Z",
+                                                                                            "method":  "Local selected client and dedicated-server smoke on 2026-06-26",
+                                                                                            "tested_at":  "2026-06-26T00:25:13Z",
                                                                                             "notes":  "Selected smoke passed for the 0.3.1 26.x release jar with release profile 26.1-26.3-snapshot-1; client emitted QUICKSTACKNEARBY_SMOKE_TEST_PASS and dedicated server emitted QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS with selfTestItemsMoved=48."
                                                                                   }
                                                                }

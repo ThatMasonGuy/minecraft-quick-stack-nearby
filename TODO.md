@@ -135,23 +135,27 @@
   classes.
 - `0.3.1` `buildAllVersions` passed locally on 2026-06-24 for the existing
   supported profile set from `1.20-1.20.4` through `26.x`.
-- Official Mojang and Fabric metadata checked on 2026-06-24 confirmed
+- Official Mojang and Fabric metadata checked on 2026-06-26 confirmed
   Minecraft `26.2` final, `26.3-snapshot-1`, Fabric Loader `0.19.3`,
   Fabric API `0.153.0+26.2`, and Fabric API `0.153.1+26.3`.
 - The `26.x` release profile now compiles from `26.3-snapshot-1`, keeps the
   compatibility dependency bounded to `>=26.1 <26.3`, publishes as profile id
   `26.1-26.3-snapshot-1`, and lists Modrinth game versions `26.1`,
-  `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and `26.3-snapshot-1`.
+  `26.1.1`, `26.1.2`, `26.2`, and `26.3-snapshot-1`.
 - Exact smoke runtime profiles now exist for `26.2` and `26.3-snapshot-1`.
   Older 26.x smoke runtime profiles now launch with Fabric Loader `0.19.3` so
   they can test the `0.3.1` jar's loader dependency.
-- Local selected 26.x client and dedicated-server smoke passed on 2026-06-24
-  for `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and
+- `26.2-pre-3` is retired from the current `0.3.1` target set now that
+  Minecraft `26.2` is final; the runtime-only smoke profile file was removed.
+- Local selected 26.x client and dedicated-server smoke passed on 2026-06-26
+  for `26.1`, `26.1.1`, `26.1.2`, `26.2`, and
   `26.3-snapshot-1`; every client emitted `QUICKSTACKNEARBY_SMOKE_TEST_PASS`
   and every server emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with
   `selfTestItemsMoved=48`.
 - `gradle/smoke-tests.json` now records pass evidence for the `0.3.1`
   `26.1-26.3-snapshot-1` release profile.
+- The local generated release output was cleaned and rebuilt; `build/release`
+  now contains only current release folders and no `26.1-26.2-pre-3` output.
 
 ## Research Conclusions
 
@@ -212,6 +216,21 @@
   `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
   `26.1-26.3-snapshot-1`.
 - Passed after the 0.3.1 project-page copy refresh:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
+  images, two description images, required client/server metadata, LGPL license,
+  source/issues URLs, and the root icon without Modrinth API writes.
+- Passed after retiring `26.2-pre-3` from the current target set:
+  `.\gradlew.bat listVersionProfiles verifySmokeTestMatrix --no-daemon --console=plain`.
+- Passed after cleaning `build/release` and retiring `26.2-pre-3`:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt only
+  the current release folders and verified `26.x` Modrinth game versions
+  `26.1`, `26.1.1`, `26.1.2`, `26.2`, and `26.3-snapshot-1`.
+- Passed after retiring `26.2-pre-3`:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1,26.1.1,26.1.2,26.2,26.3-snapshot-1" --no-daemon --console=plain`;
+  all five client launches emitted `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, all five
+  dedicated-server launches emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`,
+  and each server self-test reported `selfTestItemsMoved=48`.
+- Passed after retiring `26.2-pre-3`:
   `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
   images, two description images, required client/server metadata, LGPL license,
   source/issues URLs, and the root icon without Modrinth API writes.

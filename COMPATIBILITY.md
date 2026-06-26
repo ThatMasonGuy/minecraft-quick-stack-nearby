@@ -21,28 +21,25 @@ coverage.
 | `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.3.1`. |
 | `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.3.1`. |
 | `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.3.1`. |
-| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, `26.3-snapshot-1` | Supported for `0.3.1`. |
+| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2`, `26.3-snapshot-1` | Supported for `0.3.1`. |
 
 ## Current Evidence
 
-- Official Mojang and Fabric metadata checked on 2026-06-24 confirmed
+- Official Mojang and Fabric metadata checked on 2026-06-26 confirmed
   Minecraft `26.2` as a stable release, `26.3-snapshot-1` as the current
   snapshot target, Fabric Loader `0.19.3`, Fabric API `0.153.0+26.2` for
   `26.2`, and Fabric API `0.153.1+26.3` for `26.3-snapshot-1`.
 - The `26.x` release profile now compiles from `26.3-snapshot-1`, publishes
   profile id `26.1-26.3-snapshot-1`, and lists Modrinth game versions
-  `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, and
-  `26.3-snapshot-1`.
-- Selected 26.x client and dedicated-server smoke passed locally on 2026-06-24
+  `26.1`, `26.1.1`, `26.1.2`, `26.2`, and `26.3-snapshot-1`. The
+  `26.2-pre-3` runtime-only profile has been retired from the current target
+  set.
+- Selected 26.x client and dedicated-server smoke passed locally on 2026-06-26
   for every listed 26.x runtime. Each client emitted
   `QUICKSTACKNEARBY_SMOKE_TEST_PASS`, and each dedicated server emitted
   `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with `selfTestItemsMoved=48`.
 - `buildValidationVersions` passed on 2026-06-22 and built release jars for
   every validation profile from `1.20-1.20.4` through `26.x`.
-- Selected anchor client and dedicated-server smoke passed on 2026-06-22 for
-  `1.20`, `1.20.5`, `1.21`, `1.21.6`, `1.21.9`, `1.21.11`, and
-  `26.2-pre-3`. Each dedicated-server smoke reported
-  `selfTestItemsMoved=48`.
 - Full GitHub Actions candidate smoke validation run `27922347858` passed on
   2026-06-22 at source commit `e547e00c52ba67b7c859337dc551d6d97bbe95cc`.
   Artifact logs captured 23 client pass markers, 23 dedicated-server pass

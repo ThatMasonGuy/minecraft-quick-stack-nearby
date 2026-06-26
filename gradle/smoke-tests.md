@@ -28,10 +28,10 @@ the run.
 
 `gradle/smoke-tests.json` records pass evidence for every exact runtime claimed
 by the supported compatibility-group profiles. The original full GitHub
-Actions candidate smoke pass is recorded for Minecraft `1.20` through
-`26.2-pre-3`; the `0.3.1` 26.x refresh records local selected client and
-dedicated-server smoke for `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`,
-and `26.3-snapshot-1`.
+Actions candidate smoke pass is recorded for the older `0.3.0` compatibility
+promotion; the `0.3.1` 26.x refresh records local selected client and
+dedicated-server smoke for `26.1`, `26.1.1`, `26.1.2`, `26.2`, and
+`26.3-snapshot-1`.
 
 A profile can only move to `supported_minecraft_version_profiles` after every
 listed exact game version has a `pass` record with a date, method, and

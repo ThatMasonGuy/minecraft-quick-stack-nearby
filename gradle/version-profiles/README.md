@@ -33,12 +33,13 @@ No active candidate profiles are queued for `0.3.1`.
 | `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | `1.21.6-1.21.8` |
 | `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | `1.21.9-1.21.10` |
 | `1.21.11` | `1.21.11` | `1.21.11` | `1.21.11` |
-| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2-pre-3`, `26.2`, `26.3-snapshot-1` | `26.x` |
+| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2`, `26.3-snapshot-1` | `26.x` |
 
 Exact `26.x` runtime-only smoke profiles include `26.1`, `26.1.1`, `26.1.2`,
-`26.2-pre-3`, `26.2`, and `26.3-snapshot-1`. They are not release profiles;
-the public release jar is built once from `26.x` and launched against each
-exact runtime before its game version is claimed on Modrinth.
+`26.2`, and `26.3-snapshot-1`. They are not release profiles; the public
+release jar is built once from `26.x` and launched against each exact runtime
+before its game version is claimed on Modrinth. `26.2-pre-3` is no longer a
+current target now that `26.2` is final.
 
 ## Commands
 
