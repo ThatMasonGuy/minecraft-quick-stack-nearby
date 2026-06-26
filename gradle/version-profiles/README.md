@@ -3,7 +3,7 @@
 Build profiles keep one source tree while letting Gradle swap the Minecraft,
 Fabric Loader, Fabric API, Loom, and Java target versions.
 
-Quick Stack Nearby `0.3.1` supports Minecraft `1.20` through
+Quick Stack Nearby `0.3.2` supports Minecraft `1.20` through
 `26.3-snapshot-1`. The current profile lists are:
 
 ```properties
@@ -21,7 +21,7 @@ in `docs/compatibility-research.md`.
 
 ## Candidate Profiles
 
-No active candidate profiles are queued for `0.3.1`.
+No active candidate profiles are queued for `0.3.2`.
 
 ## Supported Profiles
 
@@ -52,7 +52,7 @@ current target now that `26.2` is final.
 .\gradlew.bat listVersionProfiles --no-daemon --console=plain
 ```
 
-`buildAllVersions` builds every supported profile. For `0.3.1`, that means the
+`buildAllVersions` builds every supported profile. For `0.3.2`, that means the
 seven compatibility-group jars listed above.
 
 Focused smoke commands:

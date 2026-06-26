@@ -183,6 +183,14 @@
   `modrinth publish` dry run immediately before an already-approved live
   publish because the live guarded workflow runs the same validation gate before
   upload.
+- The working tree is now on `0.3.2` patch prep because the first `0.3.1`
+  right-click fix still depended on raw GLFW/window mouse state and did not
+  open the rules screen reliably in live testing.
+- The right-click path now uses profile-specific
+  `QuickStackInventoryMouseClickedMixin` shims for both the legacy
+  `mouseClicked(double, double, int)` API and the newer `MouseButtonEvent` API,
+  then calls one shared `QuickStackRulesButtonScreen` handler before inventory
+  slot handling can consume the click.
 
 ## Research Conclusions
 
@@ -213,6 +221,20 @@
 ## Verification Log
 
 - Passed: `git diff --check`.
+- Passed while correcting the `0.3.2` right-click event shim:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
+- Passed after bumping to `0.3.2` and cleaning `build/release`:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt only
+  current `0.3.2` release jars for `1.20-1.20.4`, `1.20.5-1.20.6`,
+  `1.21-1.21.5`, `1.21.6-1.21.8`, `1.21.9-1.21.10`, `1.21.11`, and
+  `26.1-26.3-snapshot-1`.
+- Passed targeted client runtime smoke for the `0.3.2` right-click shim:
+  `.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.20-1.20.4,1.21.11,26.x" "-Pquickstacknearby_smoke_game_versions=1.20,1.21.11,26.3-snapshot-1" "-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-client-only" --no-daemon --console=plain`;
+  all three client launches emitted `QUICKSTACKNEARBY_SMOKE_TEST_PASS`.
+- Passed after updating the `0.3.2` project-page source copy:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
+  images, two description images, required client/server metadata, LGPL
+  license, source/issues URLs, and the root icon without Modrinth API writes.
 - Passed after the `0.3.1` right-click rules fix and split source-set classpath
   correction: `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built
   and verified `build/release/1.21.11/quick-stack-nearby-0.3.1.jar`.

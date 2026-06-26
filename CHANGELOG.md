@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Started the `0.3.2` patch line and corrected the quick-stack button's
+  secondary-click rules-screen path by replacing raw GLFW/window-state polling
+  with profile-specific `mouseClicked` shims that pass Minecraft's actual click
+  event into the shared rules-button handler before inventory slot handling can
+  consume it.
 - Started the `0.3.1` release line and fixed the quick-stack button's
   secondary-click rules-screen path by intercepting right-clicks before
   inventory slot handling can consume them.
