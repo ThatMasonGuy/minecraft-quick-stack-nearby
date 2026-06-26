@@ -84,6 +84,12 @@ unrelated user changes.
   `xvfb`, and avoids locking the local machine for close to an hour.
 - Real Modrinth uploads should go through the guarded GitHub workflow unless
   the user explicitly asks for a local `publishModrinth`.
+- Do not run a separate `modrinth publish` workflow dry run immediately before
+  a live publish when the user has already approved publishing. The live guarded
+  workflow already runs the same build, metadata, and smoke validation before
+  upload. Use `dry_run=true` only when the user asks for a dry run, when the
+  upload plan needs separate review, or when live publish approval is not yet
+  given.
 - After every successful real Modrinth publish, create an annotated Git tag
   named `v<mod_version>` on the released source commit and create a GitHub
   release for that tag. The GitHub release should not attach jar assets;
