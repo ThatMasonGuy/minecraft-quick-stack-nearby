@@ -26,7 +26,7 @@ build evidence and is not committed.
 
 | Profile | Compile result | First blockers | Bridge direction |
 | --- | --- | --- | --- |
-| `1.21.11` | Pass | None for the current implementation. | Keep as the default implementation anchor. |
+| `1.21.11` | Pass | None for the current implementation. | Original implementation anchor for the first compatibility pass. |
 | `1.21.9-1.21.10` | Fails in `compileJava`. | `net.minecraft.resources.Identifier` does not exist; this lane still uses `ResourceLocation`. | Add a resource-id compat class or a version-specific request-payload source. Re-run compile to expose client blockers. |
 | `1.21.6-1.21.8` | Fails in `compileJava`. | Same `Identifier` to `ResourceLocation` split as `1.21.9-1.21.10`. | Same resource-id compat bridge; expect the client button to use the pre-1.21.11 render method. |
 | `1.21-1.21.5` | Fails in `compileJava`. | `Identifier` is still `ResourceLocation`; `ServerPlayer.level()` returns `Level` rather than `ServerLevel`. | Add resource-id and server-level compat. Re-run compile after common shims. |

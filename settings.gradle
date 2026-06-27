@@ -1,7 +1,7 @@
 pluginManagement {
 	def profileName = providers.gradleProperty('minecraft_version_profile')
 			.orElse(providers.gradleProperty('target_minecraft_version'))
-			.orElse('1.21.11')
+			.orElse('26.x')
 			.get()
 	def profileFile = file("gradle/version-profiles/${profileName}.properties")
 	if (!profileFile.isFile()) {

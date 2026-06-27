@@ -11,10 +11,13 @@ launches.
 ## Focused Commands
 
 ```powershell
-.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
-.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
-.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.21.11" "-Pquickstacknearby_smoke_game_versions=1.21.11" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain
 ```
+
+Focused 26.1.2 smoke uses release profile `26.x` because the packaged 26.x jar
+is the supported artifact, then launches the exact `26.1.2` runtime.
 
 ## GitHub Workflow
 

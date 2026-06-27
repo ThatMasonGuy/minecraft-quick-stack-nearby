@@ -51,6 +51,9 @@ shared TempestStudios app-data folder.
 Supported Minecraft version profiles and exact runtime evidence are documented
 in `COMPATIBILITY.md` and `gradle/version-profiles/README.md`.
 
+The default local test build targets the supported `26.x` profile. Focused
+launcher tests use that 26.x jar against exact runtime `26.1.2`.
+
 ## Build
 
 ```powershell
@@ -59,10 +62,10 @@ in `COMPATIBILITY.md` and `gradle/version-profiles/README.md`.
 .\gradlew.bat printVersionProfile --no-daemon --console=plain
 ```
 
-Supported profile build example:
+Targeted local test build example:
 
 ```powershell
-.\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
+.\gradlew.bat buildAllMods "-Pminecraft_version_profile=26.x" --no-daemon --console=plain
 ```
 
 Publishing targets only profiles whose exact runtime matrix has smoke evidence.

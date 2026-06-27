@@ -191,6 +191,9 @@
   `mouseClicked(double, double, int)` API and the newer `MouseButtonEvent` API,
   then calls one shared `QuickStackRulesButtonScreen` handler before inventory
   slot handling can consume the click.
+- Local agent test builds now default to the supported `26.x` release profile.
+  Supported publish profiles remain unchanged, and focused 26.1.2 smoke should
+  select release profile `26.x` with game version `26.1.2`.
 
 ## Research Conclusions
 
@@ -221,6 +224,21 @@
 ## Verification Log
 
 - Passed: `git diff --check`.
+- Failed while checking whether the exact runtime-only `26.1.2` profile could
+  be used as the direct compile target:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; `26.1.2` still
+  lacks the newer `Gui.setScreen(Screen)` API used by the shared `26.x` client
+  compat shim, so local test builds now target the supported `26.x` jar and
+  smoke launches target exact runtime `26.1.2`.
+- Passed after changing the local agent test default:
+  `.\gradlew.bat -q printVersionProfile --no-daemon --console=plain`;
+  Gradle resolved active profile `26.x`, profile id
+  `26.1-26.3-snapshot-1`, compat group `26.x`, Java release `25`, and
+  Modrinth game versions including `26.1.2`.
+- Passed after changing the local agent test default:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built and
+  verified
+  `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.3.2.jar`.
 - Passed while correcting the `0.3.2` right-click event shim:
   `.\gradlew.bat buildAllMods --no-daemon --console=plain`.
 - Passed after bumping to `0.3.2` and cleaning `build/release`:

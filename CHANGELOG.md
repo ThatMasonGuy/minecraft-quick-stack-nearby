@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Changed the local agent test/build default from the `1.21.11` profile to the
+  supported `26.x` profile and documented exact `26.1.2` as the focused smoke
+  runtime, while keeping supported publish profiles unchanged.
 - Started the `0.3.2` patch line and corrected the quick-stack button's
   secondary-click rules-screen path by replacing raw GLFW/window-state polling
   with profile-specific `mouseClicked` shims that pass Minecraft's actual click

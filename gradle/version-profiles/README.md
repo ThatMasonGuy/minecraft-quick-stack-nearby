@@ -7,10 +7,15 @@ Quick Stack Nearby `0.3.2` supports Minecraft `1.20` through
 `26.3-snapshot-1`. The current profile lists are:
 
 ```properties
-minecraft_version_profile=1.21.11
+minecraft_version_profile=26.x
 supported_minecraft_version_profiles=1.20-1.20.4,1.20.5-1.20.6,1.21-1.21.5,1.21.6-1.21.8,1.21.9-1.21.10,1.21.11,26.x
 candidate_minecraft_version_profiles=
 ```
+
+The active `26.x` profile builds the supported jar used for local 26.x testing.
+Focused smoke can then launch that jar against exact runtime `26.1.2`. The
+`26.1.2` profile file is runtime-only and should not be used as the normal
+`buildAllMods` target.
 
 The candidate groups mirror InventorySort's UI/button compatibility surfaces
 because QuickStack will either reserve a slot through the Inv+ API or fall back
@@ -47,7 +52,7 @@ current target now that `26.2` is final.
 .\gradlew.bat printVersionProfile --no-daemon --console=plain
 .\gradlew.bat buildAllMods --no-daemon --console=plain
 .\gradlew.bat buildAllVersions --no-daemon --console=plain
-.\gradlew.bat buildAllMods "-Pminecraft_version_profile=1.21.11" --no-daemon --console=plain
+.\gradlew.bat buildAllMods "-Pminecraft_version_profile=26.x" --no-daemon --console=plain
 .\gradlew.bat buildValidationVersions --no-daemon --console=plain
 .\gradlew.bat listVersionProfiles --no-daemon --console=plain
 ```
@@ -58,8 +63,8 @@ seven compatibility-group jars listed above.
 Focused smoke commands:
 
 ```powershell
-.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=1.20-1.20.4" "-Pquickstacknearby_smoke_game_versions=1.20.4" --no-daemon --console=plain
-.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.20-1.20.4" "-Pquickstacknearby_smoke_game_versions=1.20.4" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain
+.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain
 ```
 
 ## Promotion Rule

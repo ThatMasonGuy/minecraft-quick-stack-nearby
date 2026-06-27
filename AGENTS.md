@@ -74,11 +74,18 @@ unrelated user changes.
 ## Local vs GitHub Validation
 
 - Use local `buildAllMods` for rapid development.
+- The default active profile for local agent test builds is the supported
+  `26.x` release profile. It builds the jar used for 26.x smoke testing; use
+  `-Pminecraft_version_profile=<profile>` only when intentionally checking
+  another compile profile.
 - Use `buildAllVersions` when changing profile metadata, compat overlays,
   release packaging, or anything that should compile across every supported
   publish profile.
 - Use `smokeTestSelectedClients` for focused launcher checks around a suspected
   runtime issue.
+- For the default focused launcher check, build the supported `26.x` release
+  profile and launch exact runtime `26.1.2`:
+  `.\gradlew.bat smokeTestSelected "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" --no-daemon --console=plain`.
 - Prefer the manual GitHub Actions `modrinth publish` workflow for the full
   supported smoke matrix. It installs Java 17, Java 21, and Java 25, runs under
   `xvfb`, and avoids locking the local machine for close to an hour.
