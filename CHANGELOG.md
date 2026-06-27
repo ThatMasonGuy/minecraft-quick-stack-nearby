@@ -5,6 +5,13 @@
 - Changed the local agent test/build default from the `1.21.11` profile to the
   supported `26.x` profile and documented exact `26.1.2` as the focused smoke
   runtime, while keeping supported publish profiles unchanged.
+- Fixed the remaining 26.x right-click rules-screen failure by making the
+  screen-opening bridge handle both the older `Minecraft.setScreen(...)` API
+  used by `26.1.2` and the newer `Gui.setScreen(...)` API used by the
+  `26.3-snapshot-1` compile anchor.
+- Added a client smoke marker that opens and closes a smoke-only screen through
+  the same compat bridge so future focused 26.1.2 smoke catches screen-opener
+  API drift.
 - Started the `0.3.2` patch line and corrected the quick-stack button's
   secondary-click rules-screen path by replacing raw GLFW/window-state polling
   with profile-specific `mouseClicked` shims that pass Minecraft's actual click

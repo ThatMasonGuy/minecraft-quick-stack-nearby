@@ -6,6 +6,7 @@ launches.
 ## Markers
 
 - Client marker: `QUICKSTACKNEARBY_SMOKE_TEST_PASS`
+- Client screen-compat marker: `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS`
 - Server marker: `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS`
 
 ## Focused Commands

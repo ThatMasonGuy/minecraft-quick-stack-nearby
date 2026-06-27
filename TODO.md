@@ -194,6 +194,15 @@
 - Local agent test builds now default to the supported `26.x` release profile.
   Supported publish profiles remain unchanged, and focused 26.1.2 smoke should
   select release profile `26.x` with game version `26.1.2`.
+- The remaining 26.1.2 rules-screen opener failure was caused by API drift
+  inside the 26.x compatibility group: the `26.3-snapshot-1` compile anchor uses
+  `client.gui.setScreen(...)`, while the exact `26.1.2` runtime still needs the
+  older `Minecraft.setScreen(...)` route. `ClientScreenCompat` now probes both
+  screen setter locations at runtime.
+- Client smoke now opens and closes a smoke-only rules-screen base through
+  `ClientScreenCompat` and prints `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS`, so the
+  focused 26.1.2 client smoke exercises the same bridge used by right-clicking
+  the quick-stack button.
 
 ## Research Conclusions
 
@@ -224,12 +233,35 @@
 ## Verification Log
 
 - Passed: `git diff --check`.
-- Failed while checking whether the exact runtime-only `26.1.2` profile could
-  be used as the direct compile target:
+- Failed while checking whether the 26.x right-click screen opener could simply
+  use `Minecraft.setScreen(...)` again:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; the
+  `26.3-snapshot-1` compile anchor no longer has that method, so the 26.x lane
+  needs a runtime bridge across both setter locations.
+- Passed after adding the 26.x screen-opening bridge and smoke marker:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built and
+  verified
+  `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.3.2.jar`.
+- Passed after adding the 26.x screen-opening bridge and shared smoke marker:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
+  verified all seven supported release jars from `1.20-1.20.4` through
+  `26.1-26.3-snapshot-1`.
+- Passed after adding the 26.x screen-opening bridge:
+  `.\gradlew.bat compileJava compileClientJava "-Pminecraft_version_profile=26.1.2" --no-daemon --console=plain`.
+- Passed after adding the 26.x screen-opening bridge:
+  `.\gradlew.bat buildAllMods "-Pminecraft_version_profile=26.1.2" --no-daemon --console=plain`;
+  built and verified
+  `build/release/smoke-26.1.2/quick-stack-nearby-0.3.2.jar`.
+- Passed focused 26.1.2 client smoke after adding the bridge:
+  `.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" "-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-client-only" --no-daemon --console=plain`;
+  the client emitted both `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS` and
+  `QUICKSTACKNEARBY_SMOKE_TEST_PASS`.
+- Failed before adding the 26.x screen-opening bridge, while checking whether
+  the exact runtime-only `26.1.2` profile could be used as the direct build
+  target:
   `.\gradlew.bat buildAllMods --no-daemon --console=plain`; `26.1.2` still
-  lacks the newer `Gui.setScreen(Screen)` API used by the shared `26.x` client
-  compat shim, so local test builds now target the supported `26.x` jar and
-  smoke launches target exact runtime `26.1.2`.
+  lacked the newer `Gui.setScreen(Screen)` API used by the shared `26.x` client
+  compat shim at that point.
 - Passed after changing the local agent test default:
   `.\gradlew.bat -q printVersionProfile --no-daemon --console=plain`;
   Gradle resolved active profile `26.x`, profile id
