@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fixed nearby double-chest handling so quick stack resolves both halves as one
+  combined target, allowing matching stacks in either half to fill the full
+  double chest instead of only that half.
 - Changed the local agent test/build default from the `1.21.11` profile to the
   supported `26.x` profile and documented exact `26.1.2` as the focused smoke
   runtime, while keeping supported publish profiles unchanged.

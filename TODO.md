@@ -203,6 +203,10 @@
   `ClientScreenCompat` and prints `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS`, so the
   focused 26.1.2 client smoke exercises the same bridge used by right-clicking
   the quick-stack button.
+- The nearby-container scan now treats a double chest as one combined target
+  instead of two half-chest targets. Matching stacks found in either half can
+  fill available slots across the full double chest, and the scan skips the
+  second half after resolving the pair.
 
 ## Research Conclusions
 
@@ -256,6 +260,14 @@
   `.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" "-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-client-only" --no-daemon --console=plain`;
   the client emitted both `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS` and
   `QUICKSTACKNEARBY_SMOKE_TEST_PASS`.
+- Failed before widening the double-chest scan comparator for 26.x coordinates:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; the
+  `Comparator.comparingInt(BlockPos::getX)` method reference no longer matched
+  the 26.x `BlockPos` coordinate type.
+- Passed after resolving double chests as one combined target:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built and
+  verified
+  `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.3.2.jar`.
 - Failed before adding the 26.x screen-opening bridge, while checking whether
   the exact runtime-only `26.1.2` profile could be used as the direct build
   target:

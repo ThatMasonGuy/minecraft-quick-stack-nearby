@@ -1,6 +1,7 @@
 package tempeststudios.quickstacknearby;
 
 import net.minecraft.world.Container;
+import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -139,7 +140,7 @@ public final class QuickStackMoveEngine {
                 && dirtChest.getItem(1).getCount() == 12
                 && emptyChest.isEmpty();
 
-        return new SelfTestResult(passed && runSourceRulesSelfTest(), result);
+        return new SelfTestResult(passed && runSourceRulesSelfTest() && runCompoundContainerSelfTest(), result);
     }
 
     private static boolean runSourceRulesSelfTest() {
@@ -175,6 +176,30 @@ public final class QuickStackMoveEngine {
                 && stoneChest.getItem(0).getCount() == 64
                 && stoneChest.getItem(1).getCount() == 4
                 && dirtChest.getItem(0).getCount() == 40;
+    }
+
+    private static boolean runCompoundContainerSelfTest() {
+        SimpleContainer source = new SimpleContainer(36);
+        source.setItem(9, new ItemStack(Items.COBBLESTONE, 32));
+
+        SimpleContainer leftChest = new SimpleContainer(27);
+        leftChest.setItem(0, new ItemStack(Items.COBBLESTONE, 64));
+        SimpleContainer rightChest = new SimpleContainer(27);
+        CompoundContainer doubleChest = new CompoundContainer(leftChest, rightChest);
+
+        Result result = moveMatchingItems(
+                source,
+                9,
+                36,
+                List.of(Target.fromCurrentContents(doubleChest))
+        );
+
+        return result.itemsMoved() == 32
+                && result.sourceStacksTouched() == 1
+                && result.targetContainersTouched() == 1
+                && source.getItem(9).isEmpty()
+                && leftChest.getItem(0).getCount() == 64
+                && rightChest.getItem(0).getCount() == 32;
     }
 
     private static int insertIntoTarget(ItemStack sourceStack, Container target) {
