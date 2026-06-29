@@ -20,7 +20,7 @@ the server-side logic in the same process.
 
 ## Current State
 
-The `0.3.2` release supports Minecraft `1.20` through `26.3-snapshot-1`
+The `0.4.0` release supports Minecraft `1.20` through `26.3-snapshot-1`
 using seven smoke-tested compatibility-group jars. The survival inventory
 button sends a server-authoritative request that scans nearby containers and
 moves matching main-inventory stacks into containers that already hold those

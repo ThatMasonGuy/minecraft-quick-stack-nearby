@@ -17,7 +17,7 @@ Quick Stack Nearby brings Terraria-style quick stacking to Minecraft. The goal
 is simple: press one inventory button and send matching items from your
 inventory into nearby containers that already hold those items.
 
-## What 0.3.2 Does
+## What 0.4.0 Does
 
 - Adds a quick-stack button to the player inventory.
 - Adds a `B`-by-default quick-stack keybind that can be held while moving
@@ -46,7 +46,7 @@ clear unavailable message instead of moving items.
 Offline singleplayer works from a client install because the integrated server
 runs the common mod logic in the same process.
 
-Version 0.3.2 supports Minecraft 1.20 through 26.3-snapshot-1, including
+Version 0.4.0 supports Minecraft 1.20 through 26.3-snapshot-1, including
 Minecraft 26.2 final. Hotbar, armor, offhand, and carried shulker contents are
 intentionally left alone in this release. More UI improvements are planned as
 the quick-stack button and rules screen continue to mature.

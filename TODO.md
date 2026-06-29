@@ -211,6 +211,9 @@
   the world repeats quick-stack requests on a short cooldown, while any open UI
   screen drains queued presses and blocks the hotkey so recipe-book or InvSearch
   text entry cannot dump the player's inventory.
+- The active release prep version is now `0.4.0`; Gradle metadata, current
+  compatibility/docs copy, Modrinth project-page source copy, and
+  `gradle/release-notes/0.4.0.md` point at that version.
 
 ## Research Conclusions
 
@@ -285,6 +288,15 @@
   the client emitted both `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS` and
   `QUICKSTACKNEARBY_SMOKE_TEST_PASS`.
 - Passed after updating the `0.3.2` project-page source copy for the keybind:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
+  images, two description images, required client/server metadata, LGPL
+  license, source/issues URLs, and the root icon without Modrinth API writes.
+- Passed after bumping the active release prep version to `0.4.0`:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
+  verified all seven supported release jars from `1.20-1.20.4` through
+  `26.1-26.3-snapshot-1`, including
+  `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.4.0.jar`.
+- Passed after bumping the active release prep version to `0.4.0`:
   `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
   images, two description images, required client/server metadata, LGPL
   license, source/issues URLs, and the root icon without Modrinth API writes.

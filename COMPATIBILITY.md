@@ -1,13 +1,13 @@
 # Compatibility
 
-Scope: Quick Stack Nearby `0.3.2` patch release compatibility. Version `0.3.2`
+Scope: Quick Stack Nearby `0.4.0` release compatibility. Version `0.4.0`
 keeps the `0.3.1` Minecraft `1.20` through `26.3-snapshot-1`
 compatibility matrix and rebuilds the supported compatibility-group jars with
-the corrected right-click rules-button shim.
+the current quick-stack fixes and keybind feature.
 
 ## Candidate Profiles
 
-No active candidate profiles are queued for `0.3.2`; every current
+No active candidate profiles are queued for `0.4.0`; every current
 compatibility-group profile has been promoted after full exact-runtime smoke
 coverage.
 
@@ -15,13 +15,13 @@ coverage.
 
 | Profile | Compile anchor | Runtime versions | Release status |
 | --- | --- | --- | --- |
-| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | Supported for `0.3.2`. |
-| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | Supported for `0.3.2`. |
-| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | Supported for `0.3.2`. |
-| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.3.2`. |
-| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.3.2`. |
-| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.3.2`. |
-| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2`, `26.3-snapshot-1` | Supported for `0.3.2`. |
+| `1.20-1.20.4` | `1.20` | `1.20` through `1.20.4` | Supported for `0.4.0`. |
+| `1.20.5-1.20.6` | `1.20.5` | `1.20.5` through `1.20.6` | Supported for `0.4.0`. |
+| `1.21-1.21.5` | `1.21` | `1.21` through `1.21.5` | Supported for `0.4.0`. |
+| `1.21.6-1.21.8` | `1.21.6` | `1.21.6` through `1.21.8` | Supported for `0.4.0`. |
+| `1.21.9-1.21.10` | `1.21.9` | `1.21.9` through `1.21.10` | Supported for `0.4.0`. |
+| `1.21.11` | `1.21.11` | `1.21.11` | Supported for `0.4.0`. |
+| `26.x` | `26.3-snapshot-1` | `26.1`, `26.1.1`, `26.1.2`, `26.2`, `26.3-snapshot-1` | Supported for `0.4.0`. |
 
 ## Current Evidence
 
@@ -29,6 +29,9 @@ coverage.
   Minecraft `26.2` as a stable release, `26.3-snapshot-1` as the current
   snapshot target, Fabric Loader `0.19.3`, Fabric API `0.153.0+26.2` for
   `26.2`, and Fabric API `0.153.1+26.3` for `26.3-snapshot-1`.
+- `buildAllVersions` passed locally on 2026-06-29 after bumping to `0.4.0`
+  and rebuilt all seven supported release jars, including
+  `26.1-26.3-snapshot-1/quick-stack-nearby-0.4.0.jar`.
 - The `0.3.2` patch keeps the same supported game-version matrix and replaces
   the shared raw mouse-state right-click interception with profile-specific
   click-event shims for the old coordinate API and the newer

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Bumped the active release prep version to `0.4.0` and added the
+  Modrinth-facing `gradle/release-notes/0.4.0.md` changelog.
 - Fixed nearby double-chest handling so quick stack resolves both halves as one
   combined target, allowing matching stacks in either half to fill the full
   double chest instead of only that half.
