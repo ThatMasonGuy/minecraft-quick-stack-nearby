@@ -20,6 +20,8 @@ inventory into nearby containers that already hold those items.
 ## What 0.3.2 Does
 
 - Adds a quick-stack button to the player inventory.
+- Adds a `B`-by-default quick-stack keybind that can be held while moving
+  around the world, and ignores the key while any UI screen is open.
 - Moves matching main-inventory stacks into nearby containers that already hold
   those item types.
 - Lets players right-click the button to lock main-inventory slots or keep a

@@ -24,7 +24,9 @@ The `0.3.2` release supports Minecraft `1.20` through `26.3-snapshot-1`
 using seven smoke-tested compatibility-group jars. The survival inventory
 button sends a server-authoritative request that scans nearby containers and
 moves matching main-inventory stacks into containers that already hold those
-item types.
+item types. The same quick-stack request can also be triggered from a
+`B`-by-default keybind while no UI screen is open; holding the key repeats the
+request.
 
 Right-clicking the quick-stack button opens a player-inventory rule screen.
 Main-inventory slots can be locked from unloading or assigned a keep count that

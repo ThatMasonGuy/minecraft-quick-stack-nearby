@@ -207,6 +207,10 @@
   instead of two half-chest targets. Matching stacks found in either half can
   fill available slots across the full double chest, and the scan skips the
   second half after resolving the pair.
+- The client now registers a `B`-by-default quick-stack keybind. Holding it in
+  the world repeats quick-stack requests on a short cooldown, while any open UI
+  screen drains queued presses and blocks the hotkey so recipe-book or InvSearch
+  text entry cannot dump the player's inventory.
 
 ## Research Conclusions
 
@@ -268,6 +272,22 @@
   `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built and
   verified
   `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.3.2.jar`.
+- Passed after adding the hold-to-repeat quick-stack keybind:
+  `.\gradlew.bat buildAllMods --no-daemon --console=plain`; built and
+  verified
+  `build/release/26.1-26.3-snapshot-1/quick-stack-nearby-0.3.2.jar`.
+- Passed after adding the hold-to-repeat quick-stack keybind:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
+  verified all seven supported release jars from `1.20-1.20.4` through
+  `26.1-26.3-snapshot-1`.
+- Passed focused 26.1.2 client smoke after adding the keybind:
+  `.\gradlew.bat smokeTestSelectedClients "-Pquickstacknearby_smoke_profiles=26.x" "-Pquickstacknearby_smoke_game_versions=26.1.2" "-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-client-only" --no-daemon --console=plain`;
+  the client emitted both `QUICKSTACKNEARBY_SCREEN_COMPAT_PASS` and
+  `QUICKSTACKNEARBY_SMOKE_TEST_PASS`.
+- Passed after updating the `0.3.2` project-page source copy for the keybind:
+  `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`; parsed four gallery
+  images, two description images, required client/server metadata, LGPL
+  license, source/issues URLs, and the root icon without Modrinth API writes.
 - Failed before adding the 26.x screen-opening bridge, while checking whether
   the exact runtime-only `26.1.2` profile could be used as the direct build
   target:
