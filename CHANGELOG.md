@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated the quick-stack inventory button glyph to a compact downward-arrow
+  into tray icon for the `0.4.0` release.
 - Bumped the active release prep version to `0.4.0` and added the
   Modrinth-facing `gradle/release-notes/0.4.0.md` changelog.
 - Fixed nearby double-chest handling so quick stack resolves both halves as one

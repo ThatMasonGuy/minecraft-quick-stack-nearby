@@ -38,16 +38,15 @@ final class QuickStackIconButtonRenderer {
     private static void drawQuickStackIcon(GuiGraphics guiGraphics, int x, int y, boolean hovered) {
         int color = hovered ? ICON_HOVER_COLOR : ICON_COLOR;
 
-        fill(guiGraphics, x + 2, y + 3, x + 7, y + 4, color);
-        fill(guiGraphics, x + 2, y + 8, x + 7, y + 9, color);
-        fill(guiGraphics, x + 2, y + 4, x + 3, y + 8, color);
-        fill(guiGraphics, x + 6, y + 4, x + 7, y + 8, color);
+        // Downward arrow
+        fill(guiGraphics, x + 5, y + 3, x + 7, y + 5, color); // shaft
+        fill(guiGraphics, x + 4, y + 5, x + 8, y + 6, color); // arrowhead, wide
+        fill(guiGraphics, x + 5, y + 6, x + 7, y + 7, color); // arrowhead tip
 
-        fill(guiGraphics, x + 4, y + 5, x + 5, y + 6, color);
-        fill(guiGraphics, x + 6, y + 5, x + 9, y + 6, color);
-        fill(guiGraphics, x + 7, y + 4, x + 10, y + 5, color);
-        fill(guiGraphics, x + 7, y + 6, x + 10, y + 7, color);
-        fill(guiGraphics, x + 8, y + 3, x + 9, y + 8, color);
+        // Open tray (no top edge - items dropping in)
+        fill(guiGraphics, x + 3, y + 7, x + 4, y + 9, color); // left wall
+        fill(guiGraphics, x + 8, y + 7, x + 9, y + 9, color); // right wall
+        fill(guiGraphics, x + 3, y + 8, x + 9, y + 9, color); // bottom
     }
 
     private static void fill(GuiGraphics guiGraphics, int left, int top, int right, int bottom, int color) {

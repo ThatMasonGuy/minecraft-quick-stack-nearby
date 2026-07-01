@@ -211,6 +211,8 @@
   the world repeats quick-stack requests on a short cooldown, while any open UI
   screen drains queued presses and blocks the hotkey so recipe-book or InvSearch
   text entry cannot dump the player's inventory.
+- The quick-stack inventory button now uses a compact downward-arrow into tray
+  icon for the active `0.4.0` release prep.
 - The active release prep version is now `0.4.0`; Gradle metadata, current
   compatibility/docs copy, Modrinth project-page source copy, and
   `gradle/release-notes/0.4.0.md` point at that version.
@@ -243,6 +245,10 @@
 
 ## Verification Log
 
+- Passed after refreshing the quick-stack inventory button icon:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
+  verified all seven supported `0.4.0` release jars from `1.20-1.20.4`
+  through `26.1-26.3-snapshot-1`.
 - Passed: `git diff --check`.
 - Failed while checking whether the 26.x right-click screen opener could simply
   use `Minecraft.setScreen(...)` again:
