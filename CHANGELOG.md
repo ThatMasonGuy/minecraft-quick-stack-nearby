@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Published `0.4.0` through the guarded GitHub Actions Modrinth workflow on
+  release source commit `49dfdcc`, uploaded seven listed Modrinth versions,
+  tagged `v0.4.0` on the exact release source commit, created the asset-free
+  GitHub Release, and synced the Modrinth project page copy for the release.
 - Fixed the double-chest server smoke self-test so it forces cross-half
   placement through a combined container target before guarded publishing.
 - Updated the quick-stack inventory button glyph to a compact downward-arrow

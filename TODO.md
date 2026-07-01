@@ -219,6 +219,23 @@
 - The active release prep version is now `0.4.0`; Gradle metadata, current
   compatibility/docs copy, Modrinth project-page source copy, and
   `gradle/release-notes/0.4.0.md` point at that version.
+- GitHub Actions `modrinth publish` live workflow run `28499947134` passed on
+  commit `49dfdccd6aac4cbc38539a4bcce0d7eef2a9f6e1`, after the earlier
+  failed run `28499165028` proved the compound-container smoke assertion needed
+  tightening before upload.
+- The `0.4.0` live upload created seven listed Modrinth versions:
+  `UKjx6R1w`, `Re7AHjT9`, `iuQy1z5l`, `JC7eZ3Nh`, `eDFaKb5P`, `BT20h7x2`, and
+  `snE5O0Gh`.
+- Live publish logs captured the full supported client/server smoke matrix and
+  artifact `8003418474` with the upload plan, release jars, smoke logs, smoke
+  mod lists, and smoke run directories.
+- Annotated tag `v0.4.0` points to
+  `49dfdccd6aac4cbc38539a4bcce0d7eef2a9f6e1`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.4.0`
+  is published without jar assets.
+- Modrinth project page live sync completed on 2026-07-01 with the `0.4.0`
+  project-page copy, required client/server metadata, LGPL-3.0-or-later
+  license, source/issues URLs, root icon, and four gallery images.
 
 ## Research Conclusions
 
@@ -248,6 +265,25 @@
 
 ## Verification Log
 
+- Passed on GitHub Actions: manual `modrinth publish` live workflow run
+  `28499947134` on `main`, source commit
+  `49dfdccd6aac4cbc38539a4bcce0d7eef2a9f6e1`, completed successfully in the
+  live publish step after skipping the dry-run step.
+- Live publish artifact/log readback: run `28499947134` uploaded seven listed
+  Fabric release entries for project `5Hu4HCfZ`, captured artifact
+  `8003418474`, and uploaded Modrinth versions `UKjx6R1w`, `Re7AHjT9`,
+  `iuQy1z5l`, `JC7eZ3Nh`, `eDFaKb5P`, `BT20h7x2`, and `snE5O0Gh`.
+- Passed release readback: `v0.4.0` targets
+  `49dfdccd6aac4cbc38539a4bcce0d7eef2a9f6e1`, and GitHub Release
+  `https://github.com/ThatMasonGuy/minecraft-quick-stack-nearby/releases/tag/v0.4.0`
+  is published with no jar assets attached.
+- Passed before live page sync: `.\scripts\sync-modrinth-project-pages.ps1 -DryRun`;
+  parsed four gallery images, two description images, required client/server
+  metadata, LGPL license, source/issues URLs, and the root icon without
+  Modrinth API writes.
+- Passed after live page sync: `.\scripts\sync-modrinth-project-pages.ps1`;
+  synced `quick-stack-nearby` with four gallery images, required side metadata,
+  LGPL license, source/issues URLs, and the root icon.
 - Failed live guarded publish workflow run `28499165028` on commit `b9c2028`
   before any Modrinth upload; the first `1.20` dedicated-server smoke row
   failed because the compound-container self-test expected right-half placement
