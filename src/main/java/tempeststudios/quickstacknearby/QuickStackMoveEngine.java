@@ -183,7 +183,9 @@ public final class QuickStackMoveEngine {
         source.setItem(9, new ItemStack(Items.COBBLESTONE, 32));
 
         SimpleContainer leftChest = new SimpleContainer(27);
-        leftChest.setItem(0, new ItemStack(Items.COBBLESTONE, 64));
+        for (int slot = 0; slot < leftChest.getContainerSize(); slot++) {
+            leftChest.setItem(slot, new ItemStack(Items.COBBLESTONE, 64));
+        }
         SimpleContainer rightChest = new SimpleContainer(27);
         CompoundContainer doubleChest = new CompoundContainer(leftChest, rightChest);
 
@@ -198,7 +200,7 @@ public final class QuickStackMoveEngine {
                 && result.sourceStacksTouched() == 1
                 && result.targetContainersTouched() == 1
                 && source.getItem(9).isEmpty()
-                && leftChest.getItem(0).getCount() == 64
+                && leftChest.getItem(leftChest.getContainerSize() - 1).getCount() == 64
                 && rightChest.getItem(0).getCount() == 32;
     }
 

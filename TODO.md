@@ -207,6 +207,9 @@
   instead of two half-chest targets. Matching stacks found in either half can
   fill available slots across the full double chest, and the scan skips the
   second half after resolving the pair.
+- The double-chest server smoke self-test now fills the first half before
+  moving items, proving the combined target can place matching items into the
+  other half instead of depending on left-half empty-slot order.
 - The client now registers a `B`-by-default quick-stack keybind. Holding it in
   the world repeats quick-stack requests on a short cooldown, while any open UI
   screen drains queued presses and blocks the hotkey so recipe-book or InvSearch
@@ -245,6 +248,19 @@
 
 ## Verification Log
 
+- Failed live guarded publish workflow run `28499165028` on commit `b9c2028`
+  before any Modrinth upload; the first `1.20` dedicated-server smoke row
+  failed because the compound-container self-test expected right-half placement
+  without first filling the left half.
+- Passed after forcing the compound-container self-test to move into the second
+  half:
+  `.\gradlew.bat smokeTestSelectedServers "-Pquickstacknearby_smoke_profiles=1.20-1.20.4" "-Pquickstacknearby_smoke_game_versions=1.20" "-Pquickstacknearby_smoke_install_sets=quick-stack-nearby-server-only" --no-daemon --console=plain`;
+  emitted `QUICKSTACKNEARBY_SERVER_SMOKE_TEST_PASS` with
+  `selfTestItemsMoved=48`.
+- Passed after the compound-container self-test correction:
+  `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
+  verified all seven supported `0.4.0` release jars from `1.20-1.20.4`
+  through `26.1-26.3-snapshot-1`.
 - Passed after refreshing the quick-stack inventory button icon:
   `.\gradlew.bat buildAllVersions --no-daemon --console=plain`; rebuilt and
   verified all seven supported `0.4.0` release jars from `1.20-1.20.4`

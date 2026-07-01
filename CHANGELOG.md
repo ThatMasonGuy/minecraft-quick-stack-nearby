@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fixed the double-chest server smoke self-test so it forces cross-half
+  placement through a combined container target before guarded publishing.
 - Updated the quick-stack inventory button glyph to a compact downward-arrow
   into tray icon for the `0.4.0` release.
 - Bumped the active release prep version to `0.4.0` and added the
